@@ -11,9 +11,9 @@ Built with **React** and styled using **Tailwind CSS** for a modern, responsive 
 ---
 
 ## 🛠️ Tech Stack
-- **React (Vite or CRA)** – front-end framework  
+- **React (Vite)** – front-end framework  
 - **Tailwind CSS** – utility-first styling  
-- **Framer Motion** – animations (if applicable)  
+- **Framer Motion** – animations 
 - **Netlify** – hosting and continuous deployment  
 
 ---
