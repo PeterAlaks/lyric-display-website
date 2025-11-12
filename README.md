@@ -23,7 +23,7 @@ Built with **React** and styled using **Tailwind CSS** for a modern, responsive 
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/<your-username>/lyricdisplay-landing.git
+git clone https://github.com/PeterAlaks/lyric-display-website.git
 cd lyricdisplay-landing
 npm install
 npm start
