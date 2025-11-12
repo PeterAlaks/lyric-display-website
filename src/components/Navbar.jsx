@@ -11,11 +11,11 @@ export default function Navbar({ isHomePage = false }) {
     const prefix = isHomePage ? '' : '/';
 
     const navLinks = [
-        { href: '#features', label: 'Features' },
-                { href: '#integration', label: 'Integration' },
+        { href: '#integration', label: 'Integration' },
         { href: '#outputs', label: 'Outputs' },
+        { href: '#advantages', label: 'Advantages' },
+        { href: '#features', label: 'Features' },
         { href: '#use-cases', label: 'Use Cases' },
-        { href: '/download', label: 'Download' },
     ];
 
     return (

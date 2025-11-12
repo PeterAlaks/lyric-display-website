@@ -229,7 +229,7 @@ export default function LyricDisplayLanding() {
             </section>
 
             {/* Why Choose LyricDisplay Section */}
-            <section className="pt-10 pb-24 px-0 bg-white relative overflow-hidden">
+            <section id="advantages" className="pt-10 pb-24 px-0 bg-white relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-16 items-stretch">
                         <motion.div {...fadeInUp} className="py-0">
@@ -497,9 +497,10 @@ export default function LyricDisplayLanding() {
                         <div>
                             <h4 className="text-white font-semibold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Product</h4>
                             <ul className="space-y-2">
-                                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-                                <li><a href="#outputs" className="hover:text-white transition-colors">Outputs</a></li>
                                 <li><a href="#integration" className="hover:text-white transition-colors">Integration</a></li>
+                                <li><a href="#outputs" className="hover:text-white transition-colors">Outputs</a></li>
+                                <li><a href="#advantages" className="hover:text-white transition-colors">Advantages</a></li>
+                                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
                                 <li><a href="#use-cases" className="hover:text-white transition-colors">Use Cases</a></li>
                                 <li><a href="/download" className="hover:text-white transition-colors">Download</a></li>
                             </ul>

@@ -117,9 +117,10 @@ export default function IntegrationGuide() {
                         <div>
                             <h4 className="text-white font-semibold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Product</h4>
                             <ul className="space-y-2">
-                                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-                                <li><a href="#outputs" className="hover:text-white transition-colors">Outputs</a></li>
                                 <li><a href="#integration" className="hover:text-white transition-colors">Integration</a></li>
+                                <li><a href="#outputs" className="hover:text-white transition-colors">Outputs</a></li>
+                                <li><a href="#advantages" className="hover:text-white transition-colors">Advantages</a></li>
+                                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
                                 <li><a href="#use-cases" className="hover:text-white transition-colors">Use Cases</a></li>
                                 <li><a href="/download" className="hover:text-white transition-colors">Download</a></li>
                             </ul>
