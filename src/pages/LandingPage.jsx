@@ -456,8 +456,6 @@ export default function LyricDisplayLanding() {
                         <a
                             href="/download"
                             className="w-full sm:w-auto bg-white text-purple-600 px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
-                            target="_blank"
-                            rel="noopener noreferrer"
                         >
                             <Download className="w-5 h-5" />
                             Download
