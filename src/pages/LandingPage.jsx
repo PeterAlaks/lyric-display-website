@@ -223,7 +223,7 @@ export default function LyricDisplayLanding() {
                             Three outputs, one control
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Run up to three completely independent display outputs simultaneously—all synchronized in perfect real-time from a single control interface. Configure styling, positioning, content and much more.
+                            Run up to three completely independent display outputs simultaneously — all synchronized in perfect real-time from a single control interface. Configure styling, positioning, content and much more.
                         </p>
                     </motion.div>
 
@@ -280,7 +280,7 @@ export default function LyricDisplayLanding() {
                                         <Tv className="w-6 h-6 text-white" />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Crystal-Clear Browser Source</h3>
+                                        <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Crystal-Clear Overlay</h3>
                                         <p className="text-gray-600">No chroma keying, alpha channels, or video capture needed. Browser source integration delivers pixel-perfect clarity without the performance drain of traditional video sources.</p>
                                     </div>
                                 </div>
