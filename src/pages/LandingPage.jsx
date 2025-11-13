@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Download, Github, ExternalLink, Monitor, Zap, Palette, Globe2, Smartphone, RefreshCw, Church, Video, Mic2, Music, Check, Tv, Play, Gauge, BookOpen } from 'lucide-react';
+import { Download, Github, ExternalLink, Monitor, Zap, Palette, FilePen, Globe2, Smartphone, RefreshCw, Church, Video, Mic2, Music, Check, Tv, Play, Gauge, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
+import Footer from '../components/Footer';
 import heroLeft from '../assets/images/hero-img-left.png';
 import heroRight from '../assets/images/hero-img-right.png';
-import logoWhite from '../assets/images/LyricDisplay logo-white.png';
 import streamDisplay from '../assets/images/stream-display.jpg';
 import auditoriumDisplay from '../assets/images/auditorium-display.jpg';
 import stageDisplay from '../assets/images/stage-display.jpg';
@@ -14,9 +14,26 @@ import phoneHandMockup from '../assets/images/phone-hand-display-mockup.png';
 
 export default function LyricDisplayLanding() {
 
-    // Smooth scroll handler
     React.useEffect(() => {
         document.documentElement.style.scrollBehavior = 'smooth';
+
+        const hash = window.location.hash;
+        if (hash) {
+            setTimeout(() => {
+                const element = document.querySelector(hash);
+                if (element) {
+                    const navbarHeight = 80;
+                    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - navbarHeight;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100);
+        }
+
         return () => {
             document.documentElement.style.scrollBehavior = 'auto';
         };
@@ -89,7 +106,7 @@ export default function LyricDisplayLanding() {
                             transition={{ duration: 0.8, delay: 0.2 }}
                             className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto"
                         >
-                            Transform your worship services, concerts, and live streams with crystal-clear, synchronized lyrics across multiple displays. Seamlessly integrates with OBS, vMix, Wirecast, and any browser-source compatible software.
+                            Transform your services, concerts and live streams with crystal-clear, synchronized lyrics overlay across multiple displays. Seamlessly integrates with OBS, vMix, Wirecast and any browser-source compatible software.
                         </motion.p>
 
                         <motion.div
@@ -129,7 +146,7 @@ export default function LyricDisplayLanding() {
                         </motion.div>
                     </div>
 
-                    {/* Left Image - Now after content, and responsive */}
+                    {/* Left Image */}
                     <motion.div
                         initial={{ opacity: 0, x: -150 }}
                         animate={{
@@ -160,10 +177,10 @@ export default function LyricDisplayLanding() {
                 <div className="max-w-7xl mx-auto">
                     <motion.div {...fadeInUp} className="text-center mb-16">
                         <h2 className="text-4xl tracking-tight md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Works with Your Favorite Tools
+                            Works with your favorite tools
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            LyricDisplay seamlessly integrates with industry-leading streaming and production software through browser source compatibility. Set up in minutes and start displaying professional lyrics instantly.
+                            LyricDisplay seamlessly integrates with industry-leading streaming and production software through browser source compatibility.
                         </p>
                     </motion.div>
 
@@ -182,14 +199,14 @@ export default function LyricDisplayLanding() {
 
                     <motion.div {...fadeInUp} className="text-center mb-8">
                         <p className="text-gray-500 text-sm italic">
-                            Plus any browser-source compatible software—LyricDisplay works with any streaming or production software that supports browser sources, giving you ultimate flexibility in your workflow.
+                            Plus any browser-source compatible software — LyricDisplay works with any streaming or production software that supports browser source inputs, giving you ultimate flexibility in your workflow.
                         </p>
                     </motion.div>
 
                     <motion.div {...fadeInUp} className="text-center">
                         <a
                             href="/integration-guide"
-                            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200"
+                            className="inline-flex items-center gap-2 bg-blue-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200"
                         >
                             <BookOpen className="w-5 h-5" />
                             View Integration Guide
@@ -203,18 +220,18 @@ export default function LyricDisplayLanding() {
                 <div className="max-w-7xl mx-auto">
                     <motion.div {...fadeInUp} className="text-center mb-16">
                         <h2 className="text-4xl tracking-tight md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Three Independent Outputs, One Control Panel
+                            Three outputs, one control
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Run up to three completely independent display outputs simultaneously—all synchronized in perfect real-time from a single control interface. Configure unique styling, positioning, and content for streaming overlays, in-house displays, and stage monitors.
+                            Run up to three completely independent display outputs simultaneously—all synchronized in perfect real-time from a single control interface. Configure styling, positioning, content and much more.
                         </p>
                     </motion.div>
 
                     <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" viewport={{ once: true }} className="grid md:grid-cols-3 gap-8">
                         {[
-                            { name: 'Output 1: Stream Display', img: streamDisplay, desc: 'Transparent browser source overlay for OBS, vMix, or Wirecast with custom branding and styling' },
-                            { name: 'Output 2: Auditorium Display', img: auditoriumDisplay, desc: 'Full-screen in-house projection with independent font sizing and positioning for congregation viewing' },
-                            { name: 'Stage Monitor', img: stageDisplay, desc: 'Performer-focused display with high contrast and optimized readability for stage confidence monitoring' }
+                            { name: 'Output 1', img: streamDisplay, desc: 'Can be used as overlay for OBS, vMix, or Wirecast with custom branding and styling' },
+                            { name: 'Output 2', img: auditoriumDisplay, desc: 'Could be configured for in-house projection with independent font sizing and positioning' },
+                            { name: 'Stage Monitor', img: stageDisplay, desc: 'Fully customizable performer-focused display with high contrast and optimized readability for stage confidence monitoring' }
                         ].map((output, i) => (
                             <motion.div key={i} variants={fadeInUp} className="group">
                                 <div className="relative overflow-hidden rounded-2xl shadow-lg mb-4 aspect-video">
@@ -234,12 +251,12 @@ export default function LyricDisplayLanding() {
                     <div className="grid lg:grid-cols-2 gap-16 items-stretch">
                         <motion.div {...fadeInUp} className="py-0">
                             <h2 className="text-4xl tracking-tight leading-tight md:text-5xl font-bold text-gray-900 mb-10" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                                Outperforming Traditional Solutions
+                                Outperforming traditional solutions
                             </h2>
 
                             <div className="space-y-6">
                                 <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
                                         <Zap className="w-6 h-6 text-white" />
                                     </div>
                                     <div>
@@ -249,17 +266,17 @@ export default function LyricDisplayLanding() {
                                 </div>
 
                                 <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
                                         <Gauge className="w-6 h-6 text-white" />
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Incredibly Lightweight</h3>
-                                        <p className="text-gray-600">Minimal CPU and memory footprint means your production PC stays responsive. Run multiple outputs without impacting stream quality or recording performance.</p>
+                                        <p className="text-gray-600">Minimal CPU and memory footprint means your production PC stays responsive and smooth - perfect for setups with mid-range to low tier gear.</p>
                                     </div>
                                 </div>
 
                                 <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
                                         <Tv className="w-6 h-6 text-white" />
                                     </div>
                                     <div>
@@ -269,7 +286,7 @@ export default function LyricDisplayLanding() {
                                 </div>
 
                                 <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                    <div className="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
                                         <Play className="w-6 h-6 text-white" />
                                     </div>
                                     <div>
@@ -280,7 +297,7 @@ export default function LyricDisplayLanding() {
                             </div>
                         </motion.div>
 
-                        {/* Laptop Image - Absolute positioned to fill right half */}
+                        {/* Laptop Image */}
                         <motion.div
                             initial={{ opacity: 0, x: 100 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -294,16 +311,12 @@ export default function LyricDisplayLanding() {
                 </div>
             </section>
 
-
-
-
-
             {/* Features Section */}
             <section id="features" className="py-24 px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     <motion.div {...fadeInUp} className="text-center mb-20">
                         <h2 className="tracking-tight text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Everything You Need for Professional Presentations
+                            Everything you need for pro-grade presentations
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                             Packed with powerful features designed specifically for live production environments, churches, and professional events.
@@ -312,15 +325,15 @@ export default function LyricDisplayLanding() {
 
                     <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
-                            { icon: <Monitor className="w-8 h-8" />, title: 'Dual Independent Outputs', description: 'Run two separate displays with individual styling and positioning—perfect for in-house screens and broadcast overlays.' },
+                            { icon: <Monitor className="w-8 h-8" />, title: 'Dual Independent Outputs', description: 'Run two separate displays with individual styling and positioning — perfect for in-house screens and broadcast overlays.' },
                             { icon: <Zap className="w-8 h-8" />, title: 'Real-Time Synchronization', description: 'Instant updates across all displays powered by Socket.io. Zero lag, zero delays—built for live production.' },
-                            { icon: <Palette className="w-8 h-8" />, title: 'Advanced Styling Engine', description: '13 professional fonts, full typography controls, colors, shadows, borders, and precise positioning.' },
-                            { icon: <Globe2 className="w-8 h-8" />, title: 'Multi-Language Support', description: 'Display translations alongside primary lyrics with intelligent grouping for multilingual services.' },
+                            { icon: <Palette className="w-8 h-8" />, title: 'Advanced Styling Engine', description: '13 professional fonts, full typography controls, colors, shadows, borders, precise positioning and much more.' },
+                            { icon: <FilePen className="w-8 h-8" />, title: 'Rich In-App Editor', description: 'Feature-packed in-app editor for formatting and arranging lyric content for polished pro presentations.' },
                             { icon: <Smartphone className="w-8 h-8" />, title: 'Mobile Controllers', description: 'Authorize devices with 6-digit codes. Remote operators can trigger lines and submit drafts for approval.' },
-                            { icon: <RefreshCw className="w-8 h-8" />, title: 'Seamless Auto-Updates', description: 'Automatic background updates via GitHub. New features and fixes install without disrupting workflow.' }
+                            { icon: <Globe2 className="w-8 h-8" />, title: 'Online Lyrics Fetch', description: 'Enhance your workflow with lyrics provided and instantly loadable from some of the best free libraries online.' }
                         ].map((feature, i) => (
                             <motion.div key={i} variants={fadeInUp} className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-purple-200 hover:shadow-xl transition-all duration-300 group">
-                                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <div className="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform duration-300">
                                     {feature.icon}
                                 </div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{feature.title}</h3>
@@ -336,7 +349,7 @@ export default function LyricDisplayLanding() {
                 <div className="max-w-7xl mx-auto">
                     <motion.div {...fadeInUp} className="text-center mb-20">
                         <h2 className="tracking-tight text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Trusted by Communities Worldwide
+                            Trusted by communities worldwide
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                             From intimate worship gatherings to large-scale productions, LyricDisplay adapts to your unique needs.
@@ -351,7 +364,7 @@ export default function LyricDisplayLanding() {
                             { icon: <Music className="w-12 h-12" />, title: 'Karaoke & Entertainment', description: 'Full LRC support for timed lyrics with easy queue management and crystal-clear display.', benefits: ['LRC file support', 'Timed synchronization', 'Song queue management', 'Crystal-clear display'] }
                         ].map((useCase, i) => (
                             <motion.div key={i} variants={fadeInUp} className="bg-white p-10 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300">
-                                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-white mb-6">
+                                <div className="w-20 h-20 bg-blue-500 rounded-2xl flex items-center justify-center text-white mb-6">
                                     {useCase.icon}
                                 </div>
                                 <h3 className="text-2xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{useCase.title}</h3>
@@ -369,26 +382,23 @@ export default function LyricDisplayLanding() {
 
             {/* Mobile Controllers Section */}
             <section className="py-24 px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white relative overflow-hidden min-h-[600px]">
-                {/* Phone Image - Absolute positioned at bottom left - Hidden on tablets and below */}
+                {/* Phone Image */}
                 <motion.div
                     initial={{ opacity: 0, y: 100 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    // MODIFIED: 'hidden lg:block' changed to 'hidden xl:block' (for large desktops 1280px+)
                     className="hidden xl:block absolute bottom-0 left-0 w-full h-full max-h-[600px]"
                 >
                     <img src={phoneHandMockup} alt="Mobile Controller" className="absolute bottom-0 left-0 h-full w-auto object-contain object-bottom-left" />
                 </motion.div>
 
-                {/* Smaller phone image for medium desktops (1024-1280px) */}
+                {/* Smaller phone image */}
                 <motion.div
                     initial={{ opacity: 0, y: 100 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    // MODIFIED: 'hidden md:block lg:hidden' changed to 'hidden lg:block xl:hidden'
-                    // This hides it on tablet (md) and shows it only on medium desktops (lg)
                     className="hidden lg:block xl:hidden absolute bottom-0 left-0 w-full h-full max-h-[500px]"
                 >
                     <img src={phoneHandMockup} alt="Mobile Controller" className="absolute bottom-0 left-0 h-[80%] w-auto object-contain object-bottom-left" />
@@ -396,12 +406,11 @@ export default function LyricDisplayLanding() {
 
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
-                        {/* Empty space for image on desktop */}
                         <div className="hidden md:block"></div>
 
                         <motion.div {...fadeInUp}>
                             <h2 className="text-4xl tracking-tight md:text-5xl font-bold mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                                Control from Anywhere with Mobile Devices
+                                Control from anywhere with mobile devices
                             </h2>
                             <p className="text-xl text-gray-300 mb-8">
                                 Empower your team with secure mobile and tablet controllers. Authorize any device with a simple 6-digit code and enable distributed control across your production team.
@@ -438,10 +447,10 @@ export default function LyricDisplayLanding() {
             <section id="download" className="py-24 px-6 lg:px-8 bg-gradient-to-br from-blue-500 to-purple-600">
                 <motion.div {...fadeInUp} className="max-w-4xl mx-auto text-center text-white">
                     <h2 className="tracking-tight text-4xl md:text-6xl font-bold mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                        Ready to Transform Your Presentations?
+                        Ready to transform your presentations?
                     </h2>
-                    <p className="text-lg md:text-2xl mb-10 text-blue-100 leading-relaxed">
-                        Join thousands of worship leaders, event producers, and content creators who trust LyricDisplay for their live productions. Download now and experience professional lyric display at its finest—completely free.
+                    <p className="text-md md:text-lg mb-10 text-blue-100 leading-relaxed">
+                        Join thousands of worship leaders, event producers, and content creators who trust LyricDisplay for their live productions. Download now and experience professional lyric display at its finest — completely free.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <a
@@ -470,94 +479,7 @@ export default function LyricDisplayLanding() {
             </section>
 
             {/* Footer */}
-            <footer className="bg-gray-900 text-gray-400 py-16 px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid md:grid-cols-4 gap-12 mb-12">
-                        <div className="md:col-span-2">
-                            <div className="flex items-center gap-3 mb-4">
-                                <a href="/">
-                                    <img src={logoWhite} alt="LyricDisplay" className="h-8" />
-                                </a>
-                            </div>
-                            <p className="text-gray-400 leading-relaxed mb-6 max-w-md">
-                                Professional real-time lyric display application for live events, church services, and multimedia presentations. Built with passion by Peter Alakembi and David Okaliwe.
-                            </p>
-                            <div className="flex gap-4">
-                                <a
-                                    href="https://github.com/PeterAlaks/lyric-display-app"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-gray-400 hover:text-white transition-colors"
-                                >
-                                    <Github className="w-6 h-6" />
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h4 className="text-white font-semibold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Product</h4>
-                            <ul className="space-y-2">
-                                <li><a href="#integration" className="hover:text-white transition-colors">Integration</a></li>
-                                <li><a href="#outputs" className="hover:text-white transition-colors">Outputs</a></li>
-                                <li><a href="#advantages" className="hover:text-white transition-colors">Advantages</a></li>
-                                <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-                                <li><a href="#use-cases" className="hover:text-white transition-colors">Use Cases</a></li>
-                                <li><a href="/download" className="hover:text-white transition-colors">Download</a></li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h4 className="text-white font-semibold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Resources</h4>
-                            <ul className="space-y-2">
-                                <li>
-                                    <a
-                                        href="https://github.com/PeterAlaks/lyric-display-app#readme"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Documentation
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://github.com/PeterAlaks/lyric-display-app/issues"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Support
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://linktr.ee/peteralaks"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Contact
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://paystack.shop/pay/lyricdisplay-support"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Support Development
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div className="border-t border-gray-800 pt-8 text-center text-sm">
-                        <p>© 2025 LyricDisplay. All Rights Reserved. Designed and developed by Peter Alakembi and David Okaliwe.</p>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
             <BackToTopButton />
         </div>
     );
