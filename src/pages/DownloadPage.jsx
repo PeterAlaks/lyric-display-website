@@ -31,14 +31,14 @@ export default function DownloadPage() {
                 <div className="grid md:grid-cols-3 gap-8">
 
                     {/* Windows (Active) */}
-                    <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-blue-500 flex flex-col">
+                    <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
                         <div className="flex-shrink-0 mb-4">
                             <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
                                 Latest Version
                             </span>
                         </div>
                         <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Windows</h2>
-                        <p className="text-gray-600 mb-6">Version 5.7.0 (64-bit)</p>
+                        <p className="text-gray-600 mb-6">Version 5.8.0 (64-bit)</p>
                         <div className="flex-grow space-y-3 mb-8">
                             <div className="flex items-center gap-2 text-sm text-gray-700">
                                 <CheckCircle className="w-4 h-4 text-green-500" />
@@ -54,62 +54,82 @@ export default function DownloadPage() {
                             </div>
                         </div>
                         <a
-                            href="https://mega.nz/file/hyIE0DLa#Br_7L0pJ5TtceaHb7xUCF-7rmDNTNHC5_ZofT_sADKE"
+                            href="https://github.com/PeterAlaks/lyric-display-app/releases/download/v5.8.0/LyricDisplay-5.8.0-Windows-Setup.exe"
                             className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             <Download className="w-5 h-5" />
-                            Download v5.7.0
+                            Download v5.8.0
                         </a>
                     </div>
 
-                    {/* macOS (Coming Soon) */}
-                    <div className="bg-gray-100 p-8 rounded-2xl border border-gray-200 flex flex-col opacity-70">
+                    {/* macOS (Active) */}
+                    <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
                         <div className="flex-shrink-0 mb-4">
-                            <span className="inline-block bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-semibold">
-                                Coming Soon
+                            <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                Latest Version
                             </span>
                         </div>
-                        <h2 className="text-3xl font-bold mb-2 text-gray-700" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>macOS</h2>
-                        <p className="text-gray-500 mb-6">Apple Silicon & Intel</p>
+                        <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>macOS</h2>
+                        <p className="text-gray-600 mb-6">Version 5.8.0 (Universal)</p>
                         <div className="flex-grow space-y-3 mb-8">
-                            <div className="flex items-center gap-2 text-sm text-gray-500">
-                                <Clock className="w-4 h-4" />
-                                <span>In development</span>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                <span>Apple Silicon & Intel</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                <span>Auto-Updates</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                <span>Free & Open Source</span>
                             </div>
                         </div>
-                        <button
-                            disabled
-                            className="w-full bg-gray-300 text-gray-500 px-6 py-3 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 cursor-not-allowed"
+                        <a
+                            href="https://github.com/PeterAlaks/lyric-display-app/releases/download/v5.8.0/LyricDisplay-5.8.0-macOS.dmg"
+                            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                            target="_blank"
+                            rel="noopener noreferrer"
                         >
                             <Download className="w-5 h-5" />
-                            Coming Soon
-                        </button>
+                            Download v5.8.0
+                        </a>
                     </div>
 
-                    {/* Linux (Coming Soon) */}
-                    <div className="bg-gray-100 p-8 rounded-2xl border border-gray-200 flex flex-col opacity-70">
+                    {/* Linux (Active) */}
+                    <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
                         <div className="flex-shrink-0 mb-4">
-                            <span className="inline-block bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-semibold">
-                                Coming Soon
+                            <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
+                                Latest Version
                             </span>
                         </div>
-                        <h2 className="text-3xl font-bold mb-2 text-gray-700" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Linux</h2>
-                        <p className="text-gray-500 mb-6">.deb / .AppImage</p>
+                        <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Linux</h2>
+                        <p className="text-gray-600 mb-6">Version 5.8.0 (AppImage)</p>
                         <div className="flex-grow space-y-3 mb-8">
-                            <div className="flex items-center gap-2 text-sm text-gray-500">
-                                <Clock className="w-4 h-4" />
-                                <span>In development</span>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                <span>Universal AppImage</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                <span>Auto-Updates</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-700">
+                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                <span>Free & Open Source</span>
                             </div>
                         </div>
-                        <button
-                            disabled
-                            className="w-full bg-gray-300 text-gray-500 px-6 py-3 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 cursor-not-allowed"
+                        <a
+                            href="https://github.com/PeterAlaks/lyric-display-app/releases/download/v5.8.0/LyricDisplay-5.8.0-Linux.AppImage"
+                            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                            target="_blank"
+                            rel="noopener noreferrer"
                         >
                             <Download className="w-5 h-5" />
-                            Coming Soon
-                        </button>
+                            Download v5.8.0
+                        </a>
                     </div>
                 </div>
             </div>
