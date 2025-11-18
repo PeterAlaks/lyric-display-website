@@ -92,7 +92,7 @@ export default function Footer() {
                 </div>
 
                 <div className="border-t border-gray-800 pt-8 text-center text-sm">
-                    <p>© 2025 LyricDisplay. All Rights Reserved. Designed and developed by Peter Alakembi and David Okaliwe.</p>
+                    <p>© 2025 LyricDisplay. All Rights Reserved.</p>
                 </div>
             </div>
         </footer>

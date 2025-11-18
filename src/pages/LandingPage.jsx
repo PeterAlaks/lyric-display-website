@@ -133,7 +133,7 @@ export default function LyricDisplayLanding() {
                         >
                             <div className="flex items-center gap-2">
                                 <Check className="w-4 h-4 text-green-500" />
-                                Windows 10/11
+                                Cross-Platform
                             </div>
                             <div className="flex items-center gap-2">
                                 <Check className="w-4 h-4 text-green-500" />
@@ -471,7 +471,7 @@ export default function LyricDisplayLanding() {
                         </a>
                     </div>
                     <p className="text-sm text-blue-100 mt-8">
-                        Windows 10/11 (64-bit) • Free & Open Source • MIT License
+                        Cross-Platform • Free & Open Source • MIT License
                     </p>
                 </motion.div>
             </section>
