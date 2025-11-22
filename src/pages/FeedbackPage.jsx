@@ -107,7 +107,7 @@ export default function FeedbackPage() {
         <div className="min-h-screen bg-gray-50">
             <Navbar />
 
-            <div className="pt-44 pb-24 px-6 lg:px-8">
+            <div className="pt-52 pb-24 px-6 lg:px-8">
                 <div className="max-w-3xl mx-auto">
                     <motion.div {...fadeInUp} className="text-center mb-12">
                         <h1 className="text-4xl tracking-tight md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
@@ -315,7 +315,7 @@ export default function FeedbackPage() {
                                         Join the discussion on the OBS Forum to share your ideas and connect with other users.
                                     </p>
                                     <a
-                                        href="https://obsproject.com/forum/resources/lyricdisplay-professional-lyrics-overlay-for-production-streaming-software.2239/"
+                                        href="https://obsproject.com/forum/threads/lyricdisplay-professional-lyrics-overlay-for-production-streaming-software.191349/"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors"
@@ -466,7 +466,7 @@ export default function FeedbackPage() {
                                             <ExternalLink className="w-4 h-4" />
                                         </a>
                                         <a
-                                            href="https://obsproject.com/forum/resources/lyricdisplay-professional-lyrics-overlay-for-production-streaming-software.2239/"
+                                            href="https://obsproject.com/forum/threads/lyricdisplay-professional-lyrics-overlay-for-production-streaming-software.191349/"
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors"

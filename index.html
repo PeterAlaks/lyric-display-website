@@ -102,6 +102,24 @@
 
 <body>
   <div id="root"></div>
+  
+  <form name="reviews" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name" />
+    <input type="text" name="organization" />
+    <input type="email" name="email" />
+    <input type="text" name="platform" />
+    <input type="text" name="rating" />
+    <textarea name="description"></textarea>
+  </form>
+
+  <form name="issues" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <input type="text" name="platform" />
+    <input type="text" name="issueType" />
+    <textarea name="description"></textarea>
+  </form>
+
   <script type="module" src="/src/main.jsx"></script>
 </body>
 
