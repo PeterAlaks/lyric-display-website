@@ -76,12 +76,12 @@ export default function DownloadPage() {
     const downloadLinks = releaseData?.downloads || fallbackData.downloads;
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-20">
+        <div className="min-h-screen bg-gray-50">
             {/* Navbar */}
             <Navbar isHomePage={false} />
 
             {/* Header */}
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white pt-32">
                 <div className="max-w-5xl mx-auto px-6 py-12">
                     <a href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
                         <ArrowLeft className="w-4 h-4" />

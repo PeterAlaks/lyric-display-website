@@ -15,11 +15,11 @@ export default function IntegrationGuide() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-20">
+        <div className="min-h-screen bg-gray-50">
             <Navbar isHomePage={false} />
 
             {/* Header */}
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white pt-32">
                 <div className="max-w-5xl mx-auto px-6 py-12">
                     <a href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
                         <ArrowLeft className="w-4 h-4" />
@@ -35,7 +35,7 @@ export default function IntegrationGuide() {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="bg-white border-b border-gray-200 sticky top-20 z-10 shadow-sm">
+            <div className="bg-white border-b border-gray-200 sticky top-[124px] z-10 shadow-sm">
                 <div className="max-w-5xl mx-auto px-6">
                     <div className="flex gap-8 overflow-x-auto">
                         <TabButton
@@ -269,6 +269,56 @@ function OBSGuide({ copyToClipboard, copied }) {
                         <strong>Performance:</strong> Enable "Shutdown source when not visible" to save resources when lyrics aren't showing
                     </Tip>
                 </TipsList>
+            </Section>
+
+            <Section title="Troubleshooting">
+                <div className="space-y-8">
+                    <TroubleshootingItem title="Browser Source is Black/Empty">
+                        <TroubleshootingSolution>Confirm LyricDisplay is running</TroubleshootingSolution>
+                        <TroubleshootingSolution>
+                            Verify URL of browser source is set to exactly: <code className="bg-gray-100 px-2 py-1 rounded text-sm">http://localhost:4000/#/output1</code> or <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output2</code>
+                        </TroubleshootingSolution>
+                        <TroubleshootingSolution>Click on the browser source from your sources tab on OBS then click on Refresh on the properties pane</TroubleshootingSolution>
+                        <TroubleshootingSolution>Restart both LyricDisplay and OBS</TroubleshootingSolution>
+                        <TroubleshootingSolution>Check Windows Firewall isn't blocking port 4000</TroubleshootingSolution>
+                    </TroubleshootingItem>
+
+                    <TroubleshootingItem title="Network Connection Not Working">
+                        <TroubleshootingSolution>Verify both PCs on same network</TroubleshootingSolution>
+                        <TroubleshootingSolution>
+                            Confirm that URL of browser source is <code className="bg-gray-100 px-2 py-1 rounded text-sm">http://static-ip-configured:4000/#/output1</code> or <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output2</code>
+                        </TroubleshootingSolution>
+                        <TroubleshootingSolution>Temporarily disable firewall to test</TroubleshootingSolution>
+                        <TroubleshootingSolution>Confirm that you used http:// not https:// in URL</TroubleshootingSolution>
+                        <TroubleshootingSolution>Check router isn't blocking local traffic</TroubleshootingSolution>
+                    </TroubleshootingItem>
+
+                    <TroubleshootingItem title="Lyrics Not Updating in Real-Time">
+                        <TroubleshootingSolution>Click "Sync Outputs" in LyricDisplay settings</TroubleshootingSolution>
+                        <TroubleshootingSolution>Refresh browser source in OBS</TroubleshootingSolution>
+                        <TroubleshootingSolution>Check socket connection (Shield icon in desktop control panel must be green)</TroubleshootingSolution>
+                        <TroubleshootingSolution>Restart LyricDisplay</TroubleshootingSolution>
+                    </TroubleshootingItem>
+
+                    <TroubleshootingItem title="OBS Performance Issues">
+                        <TroubleshootingSolution>Enable "Shutdown source when not visible"</TroubleshootingSolution>
+                        <TroubleshootingSolution>Close unused preview windows in LyricDisplay</TroubleshootingSolution>
+                        <TroubleshootingSolution>Check CPU usage</TroubleshootingSolution>
+                        <TroubleshootingSolution>Move LyricDisplay to dedicated PC</TroubleshootingSolution>
+                    </TroubleshootingItem>
+
+                    <TroubleshootingItem title="Styling Changes Not Applying">
+                        <TroubleshootingSolution>Use "Sync Outputs" button in settings</TroubleshootingSolution>
+                        <TroubleshootingSolution>Refresh browser source in OBS</TroubleshootingSolution>
+                        <TroubleshootingSolution>Check browser console (F12) for errors</TroubleshootingSolution>
+                    </TroubleshootingItem>
+
+                    <TroubleshootingItem title="Text Appears Cut Off or Misaligned">
+                        <TroubleshootingSolution>Verify browser source dimensions match your output resolution</TroubleshootingSolution>
+                        <TroubleshootingSolution>Check text positioning settings in LyricDisplay</TroubleshootingSolution>
+                        <TroubleshootingSolution>Ensure font size is appropriate for your resolution</TroubleshootingSolution>
+                    </TroubleshootingItem>
+                </div>
             </Section>
         </div>
     );
@@ -633,5 +683,29 @@ function Tip({ children }) {
             <span className="text-lg">💡</span>
             <span className="text-sm text-gray-700 leading-relaxed">{children}</span>
         </li>
+    );
+}
+
+function TroubleshootingItem({ title, children }) {
+    return (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+            <h3 className="text-lg font-bold text-red-900 mb-4 flex items-center gap-2">
+                <AlertCircle className="w-5 h-5" />
+                PROBLEM: {title}
+            </h3>
+            <div className="space-y-2">
+                <p className="text-sm font-semibold text-red-800 mb-3">Solutions:</p>
+                {children}
+            </div>
+        </div>
+    );
+}
+
+function TroubleshootingSolution({ children }) {
+    return (
+        <div className="flex items-start gap-2 text-sm text-gray-700 bg-white rounded-lg p-3">
+            <span className="text-red-600 font-bold flex-shrink-0">→</span>
+            <span>{children}</span>
+        </div>
     );
 }

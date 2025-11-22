@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import ReviewSlider from '../components/ReviewSlider';
 import heroLeft from '../assets/images/hero-img-left.png';
 import heroRight from '../assets/images/hero-img-right.png';
 import streamDisplay from '../assets/images/stream-display.jpg';
@@ -11,6 +12,7 @@ import auditoriumDisplay from '../assets/images/auditorium-display.jpg';
 import stageDisplay from '../assets/images/stage-display.jpg';
 import laptopCutout from '../assets/images/laptop-app-display-cutout.jpg';
 import phoneHandMockup from '../assets/images/phone-hand-display-mockup.png';
+import reviewsData from '../data/reviews.json';
 
 export default function LyricDisplayLanding() {
 
@@ -58,11 +60,11 @@ export default function LyricDisplayLanding() {
             <Navbar isHomePage={true} />
 
             {/* Hero Section */}
-            <section className="pt-40 pb-0 relative overflow-hidden">
+            <section className="pt-44 pb-0 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto pb-64 md:pb-120 lg:pb-20 lg:pt-8 px-6 lg:px-8">
                     {/* Right Image - Desktop only */}
                     <motion.div
-                        initial={{ opacity: 0, x: 150 }}
+                        initial={{ opacity: 0, x: '100%' }}
                         animate={{
                             opacity: 1,
                             x: typeof window !== 'undefined' && window.innerWidth >= 1440
@@ -148,7 +150,7 @@ export default function LyricDisplayLanding() {
 
                     {/* Left Image */}
                     <motion.div
-                        initial={{ opacity: 0, x: -150 }}
+                        initial={{ opacity: 0, x: '-100%' }}
                         animate={{
                             opacity: 1,
                             x: typeof window !== 'undefined' && window.innerWidth >= 1440
@@ -442,6 +444,34 @@ export default function LyricDisplayLanding() {
                     </div>
                 </div>
             </section>
+
+            {/* Reviews Section */}
+            {reviewsData.reviews.filter(r => r.approved).length >= 3 && (
+                <section id="reviews" className="py-24 px-6 lg:px-8 bg-white overflow-hidden">
+                    <div className="max-w-7xl mx-auto">
+                        <motion.div {...fadeInUp} className="text-center mb-12 md:mb-16">
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl tracking-tight font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                                Loved by production teams worldwide
+                            </h2>
+                            <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
+                                See what users are saying about their experience with LyricDisplay
+                            </p>
+                        </motion.div>
+
+                        <ReviewSlider reviews={reviewsData.reviews.filter(review => review.approved)} />
+
+                        <motion.div {...fadeInUp} className="text-center mt-12">
+                            <a
+                                href="/feedback"
+                                className="inline-flex items-center gap-2 bg-blue-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200"
+                            >
+                                Share Your Experience
+                                <ExternalLink className="w-5 h-5" />
+                            </a>
+                        </motion.div>
+                    </div>
+                </section>
+            )}
 
             {/* CTA Section */}
             <section id="download" className="py-24 px-6 lg:px-8 bg-gradient-to-br from-blue-500 to-purple-600">

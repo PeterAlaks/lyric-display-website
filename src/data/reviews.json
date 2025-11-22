@@ -1,0 +1,44 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "name": "Sarah Mitchell",
+      "organization": "Grace Community Church",
+      "rating": 5,
+      "description": "LyricDisplay has completely transformed our worship services. The ability to run multiple outputs simultaneously means we can have different displays for our in-house screens and our live stream overlay. Setup was incredibly easy, and the real-time synchronization is flawless. Our production team loves the mobile controller feature!",
+      "platform": "Windows",
+      "date": "2024-01-15",
+      "approved": true
+    },
+    {
+      "id": 2,
+      "name": "Marcus Johnson",
+      "organization": "Elevation Events",
+      "rating": 5,
+      "description": "As an event producer, I've tried countless lyric display solutions, but nothing comes close to LyricDisplay. The performance is outstanding - zero lag even with multiple 4K outputs. The styling options are professional-grade, and the browser source integration with OBS is seamless. This is now an essential tool in our production workflow.",
+      "platform": "macOS",
+      "date": "2024-01-20",
+      "approved": true
+    },
+    {
+      "id": 3,
+      "name": "David Chen",
+      "organization": null,
+      "rating": 5,
+      "description": "I run a small worship team and was looking for an affordable solution that didn't compromise on quality. LyricDisplay exceeded all expectations. It's completely free, incredibly lightweight on my older laptop, and the features rival paid solutions costing hundreds of dollars. The mobile control from my phone is a game-changer during rehearsals.",
+      "platform": "Windows",
+      "date": "2024-01-25",
+      "approved": true
+    },
+    {
+      "id": 4,
+      "name": "Emily Rodriguez",
+      "organization": "Riverside Church",
+      "rating": 5,
+      "description": "We've been using LyricDisplay for three months now, and it's been absolutely perfect. The interface is intuitive, the styling engine gives us complete creative control, and the real-time updates across all displays are instant. Our congregation has noticed the improved presentation quality, and our tech team appreciates how reliable and easy to use it is.",
+      "platform": "macOS",
+      "date": "2024-02-01",
+      "approved": true
+    }
+  ]
+}
