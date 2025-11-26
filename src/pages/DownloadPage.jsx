@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Download, Github, ArrowLeft, CheckCircle, ArrowRight, BookOpen, ExternalLink, GitBranch, Clock, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Download, Github, ArrowLeft, CheckCircle, ArrowRight, BookOpen, ExternalLink, GitBranch, Clock, ChevronDown, AlertTriangle } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 export default function DownloadPage() {
     const [macOSDropdownOpen, setMacOSDropdownOpen] = useState(false);
     const [releaseData, setReleaseData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navbarHeight = useNavbarHeight();
+    const dropdownRef = useRef(null);
 
     const fallbackData = {
         version: '5.8.0',
@@ -72,6 +75,22 @@ export default function DownloadPage() {
         fetchLatestRelease();
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setMacOSDropdownOpen(false);
+            }
+        };
+
+        if (macOSDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [macOSDropdownOpen]);
+
     const currentVersion = releaseData?.version || fallbackData.version;
     const downloadLinks = releaseData?.downloads || fallbackData.downloads;
 
@@ -81,7 +100,7 @@ export default function DownloadPage() {
             <Navbar isHomePage={false} />
 
             {/* Header */}
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white pt-32">
+            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white" style={{ paddingTop: `${navbarHeight + 32}px` }}>
                 <div className="max-w-5xl mx-auto px-6 py-12">
                     <a href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
                         <ArrowLeft className="w-4 h-4" />
@@ -102,11 +121,6 @@ export default function DownloadPage() {
 
                     {/* Windows (Active) */}
                     <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-                        <div className="flex-shrink-0 mb-4">
-                            <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
-                                Latest Version
-                            </span>
-                        </div>
                         <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Windows</h2>
                         <p className="text-gray-600 mb-6">Version {currentVersion} (64-bit)</p>
                         <div className="flex-grow space-y-3 mb-8">
@@ -136,11 +150,6 @@ export default function DownloadPage() {
 
                     {/* macOS (Active) */}
                     <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-                        <div className="flex-shrink-0 mb-4">
-                            <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
-                                Latest Version
-                            </span>
-                        </div>
                         <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>macOS</h2>
                         <p className="text-gray-600 mb-6">Version {currentVersion}</p>
                         <div className="flex-grow space-y-3 mb-8">
@@ -157,7 +166,7 @@ export default function DownloadPage() {
                                 <span>Free & Open Source</span>
                             </div>
                         </div>
-                        <div className="relative">
+                        <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setMacOSDropdownOpen(!macOSDropdownOpen)}
                                 className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
@@ -199,11 +208,6 @@ export default function DownloadPage() {
 
                     {/* Linux (Active) */}
                     <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
-                        <div className="flex-shrink-0 mb-4">
-                            <span className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
-                                Latest Version
-                            </span>
-                        </div>
                         <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Linux</h2>
                         <p className="text-gray-600 mb-6">Version {currentVersion} (AppImage)</p>
                         <div className="flex-grow space-y-3 mb-8">
@@ -229,6 +233,30 @@ export default function DownloadPage() {
                             <Download className="w-5 h-5" />
                             Download v{currentVersion}
                         </a>
+                    </div>
+                </div>
+
+                {/* Security Warning Disclaimer */}
+                <div className="mt-8">
+                    <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-lg">
+                        <div className="flex items-start gap-3">
+                            <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                            <div className="flex-1">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-3">Security Warning Notice</h3>
+                                <p className="text-gray-700 mb-3">
+                                    The installers are not yet code-signed with official certificates. You will see security warnings when downloading and installing on all platforms. This is expected and safe to proceed.
+                                </p>
+                                <ul className="space-y-2 text-sm text-gray-700 mb-3">
+                                    <li><strong>Windows:</strong> Click "More info" then "Run anyway" when Windows Defender SmartScreen appears.</li>
+                                    <li><strong>macOS:</strong> Right-click the app and select "Open", then click "Open" again in the dialog. You may need to allow it in System Settings → Privacy & Security.</li>
+                                    <li><strong>Linux:</strong> Make the AppImage executable with <code className="bg-gray-200 px-1 py-0.5 rounded text-xs">chmod +x</code> before running.</li>
+                                    <li><strong>Browsers:</strong> Chrome, Edge, or Firefox may warn about uncommon downloads. Click "Keep" or "Keep anyway" to proceed.</li>
+                                </ul>
+                                <p className="text-sm text-gray-600">
+                                    LyricDisplay is open source and safe. You can help by <a href="https://paystack.shop/pay/lyricdisplay-support" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline">supporting development</a> to hasten the purchase of code signing certificates and eliminate these warnings.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

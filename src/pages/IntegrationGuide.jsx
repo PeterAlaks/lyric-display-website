@@ -3,10 +3,12 @@ import { ArrowLeft, Monitor, Github, Video, Cast, Check, Copy, AlertCircle, Book
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 export default function IntegrationGuide() {
     const [activeTab, setActiveTab] = useState('obs');
     const [copied, setCopied] = useState('');
+    const navbarHeight = useNavbarHeight();
 
     const copyToClipboard = (text, id) => {
         navigator.clipboard.writeText(text);
@@ -19,7 +21,7 @@ export default function IntegrationGuide() {
             <Navbar isHomePage={false} />
 
             {/* Header */}
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white pt-32">
+            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white" style={{ paddingTop: `${navbarHeight + 32}px` }}>
                 <div className="max-w-5xl mx-auto px-6 py-12">
                     <a href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
                         <ArrowLeft className="w-4 h-4" />
@@ -35,7 +37,7 @@ export default function IntegrationGuide() {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="bg-white border-b border-gray-200 sticky top-[124px] z-10 shadow-sm">
+            <div className="bg-white border-b border-gray-200 sticky z-10 shadow-sm" style={{ top: `${navbarHeight}px` }}>
                 <div className="max-w-5xl mx-auto px-6">
                     <div className="flex gap-8 overflow-x-auto">
                         <TabButton

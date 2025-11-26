@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTopButton from '../components/BackToTopButton';
+import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 export default function FeedbackPage() {
     const [activeTab, setActiveTab] = useState('review');
     const [rating, setRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
+    const navbarHeight = useNavbarHeight();
     const [formData, setFormData] = useState({
         name: '',
         organization: '',
@@ -107,7 +109,7 @@ export default function FeedbackPage() {
         <div className="min-h-screen bg-gray-50">
             <Navbar />
 
-            <div className="pt-52 pb-24 px-6 lg:px-8">
+            <div className="pb-24 px-6 lg:px-8" style={{ paddingTop: `${navbarHeight + 90}px` }}>
                 <div className="max-w-3xl mx-auto">
                     <motion.div {...fadeInUp} className="text-center mb-12">
                         <h1 className="text-4xl tracking-tight md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>

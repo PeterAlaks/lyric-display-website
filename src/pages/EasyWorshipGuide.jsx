@@ -3,14 +3,16 @@ import { ArrowLeft, Database, FolderOpen, CheckCircle, AlertCircle, FileText, Bo
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 export default function EasyWorshipGuide() {
+    const navbarHeight = useNavbarHeight();
     return (
         <div className="min-h-screen bg-gray-50">
             <Navbar isHomePage={false} />
 
             {/* Header */}
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white pt-32">
+            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white" style={{ paddingTop: `${navbarHeight + 32}px` }}>
                 <div className="max-w-5xl mx-auto px-6 py-12">
                     <a href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
                         <ArrowLeft className="w-4 h-4" />

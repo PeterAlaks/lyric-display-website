@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
 import ReviewSlider from '../components/ReviewSlider';
+import { useNavbarHeight } from '../hooks/useNavbarHeight';
 import heroLeft from '../assets/images/hero-img-left.png';
 import heroRight from '../assets/images/hero-img-right.png';
 import streamDisplay from '../assets/images/stream-display.jpg';
@@ -15,6 +16,7 @@ import phoneHandMockup from '../assets/images/phone-hand-display-mockup.png';
 import reviewsData from '../data/reviews.json';
 
 export default function LyricDisplayLanding() {
+    const navbarHeight = useNavbarHeight();
 
     React.useEffect(() => {
         document.documentElement.style.scrollBehavior = 'smooth';
@@ -60,7 +62,7 @@ export default function LyricDisplayLanding() {
             <Navbar isHomePage={true} />
 
             {/* Hero Section */}
-            <section className="pt-44 pb-0 relative overflow-hidden">
+            <section className="pb-0 relative overflow-hidden" style={{ paddingTop: `${navbarHeight + 32}px` }}>
                 <div className="max-w-7xl mx-auto pb-64 md:pb-120 lg:pb-20 lg:pt-8 px-6 lg:px-8">
                     {/* Right Image - Desktop only */}
                     <motion.div

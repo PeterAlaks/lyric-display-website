@@ -52,6 +52,14 @@ export default function Footer() {
                             <ul className="space-y-2">
                                 <li>
                                     <a
+                                        href="/blog"
+                                        className="hover:text-white transition-colors"
+                                    >
+                                        Blog
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
                                         href="https://github.com/PeterAlaks/lyric-display-app#readme"
                                         target="_blank"
                                         rel="noopener noreferrer"

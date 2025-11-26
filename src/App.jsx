@@ -5,6 +5,8 @@ import IntegrationGuide from './pages/IntegrationGuide';
 import DownloadPage from './pages/DownloadPage';
 import FeedbackPage from './pages/FeedbackPage';
 import EasyWorshipGuide from './pages/EasyWorshipGuide';
+import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
 
 export default function App() {
   return (
@@ -15,6 +17,8 @@ export default function App() {
         <Route path="/download" element={<DownloadPage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/easyworship-import" element={<EasyWorshipGuide />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
       </Routes>
     </Router>
   );

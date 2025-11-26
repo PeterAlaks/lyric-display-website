@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+Disallow: /src/
+Disallow: /src/content/
+Disallow: /src/content/blog/
+Disallow: *.md
+
+Disallow: /admin/
+Disallow: /.netlify/
+
 Sitemap: https://lyricdisplay.app/sitemap.xml
