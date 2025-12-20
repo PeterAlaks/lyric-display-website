@@ -189,10 +189,16 @@ export default function BlogPage() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
                         <input
-                            type="email"
-                            placeholder="Enter your email"
-                            className="flex-1 px-6 py-4 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
-                        />
+    type="email"
+    placeholder="Enter your email"
+    className="flex-1 px-6 py-4 rounded-xl
+               bg-white/20 border border-white/50
+               text-gray-900 placeholder-white/70
+               focus:bg-white focus:text-gray-900
+               focus:border-white focus:outline-none
+               focus:ring-2 focus:ring-white
+               transition-all duration-200"
+/>
                         <button className="bg-white text-purple-600 px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all duration-200">
                             Subscribe
                         </button>
