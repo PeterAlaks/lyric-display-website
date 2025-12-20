@@ -1,6 +1,6 @@
 ---
-title: "Multi-Output Architecture: Transforming Lyrics Presentation in Modern Churches"
-date: "2025-01-18"
+title: "Multi-output architecture: transforming lyrics presentation in the modern church"
+date: "2025-10-18"
 category: "Setup Guides"
 readTime: "10 min read"
 excerpt: "Discover how multi-output lyric display systems are revolutionizing worship presentation, and learn practical setup strategies for churches of all sizes."

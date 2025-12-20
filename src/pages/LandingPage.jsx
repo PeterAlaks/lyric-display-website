@@ -62,7 +62,7 @@ export default function LyricDisplayLanding() {
             <Navbar isHomePage={true} />
 
             {/* Hero Section */}
-            <section className="pb-0 relative overflow-hidden" style={{ paddingTop: `${navbarHeight + 32}px` }}>
+            <section className="pb-0 relative overflow-hidden" style={{ paddingTop: `${navbarHeight + 40}px` }}>
                 <div className="max-w-7xl mx-auto pb-64 md:pb-120 lg:pb-20 lg:pt-8 px-6 lg:px-8">
                     {/* Right Image - Desktop only */}
                     <motion.div
