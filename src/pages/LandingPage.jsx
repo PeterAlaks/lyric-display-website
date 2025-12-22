@@ -438,10 +438,6 @@ export default function LyricDisplayLanding() {
                                     <p className="text-gray-300">Secure authentication with rotating join codes</p>
                                 </div>
                             </div>
-
-                            <p className="text-gray-400 text-sm">
-                                Perfect for worship teams, stage managers, and production crews who need flexible, reliable remote control without complex network configuration.
-                            </p>
                         </motion.div>
                     </div>
                 </div>
