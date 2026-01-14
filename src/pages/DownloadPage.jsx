@@ -9,18 +9,11 @@ export default function DownloadPage() {
     const [macOSDropdownOpen, setMacOSDropdownOpen] = useState(false);
     const [releaseData, setReleaseData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isFallback, setIsFallback] = useState(false);
     const navbarHeight = useNavbarHeight();
     const dropdownRef = useRef(null);
 
-    const fallbackData = {
-        version: '5.8.0',
-        downloads: {
-            windows: 'https://github.com/PeterAlaks/lyric-display-app/releases/download/v5.8.0/LyricDisplay-5.8.0-Windows-Setup.exe',
-            macosArm: 'https://github.com/PeterAlaks/lyric-display-app/releases/download/v5.8.0/LyricDisplay-5.8.0-macOS-arm64.dmg',
-            macosIntel: 'https://github.com/PeterAlaks/lyric-display-app/releases/download/v5.8.0/LyricDisplay-5.8.0-macOS-x64.dmg',
-            linux: 'https://github.com/PeterAlaks/lyric-display-app/releases/download/v5.8.0/LyricDisplay-5.8.0-Linux.AppImage'
-        }
-    };
+    const RELEASES_PAGE = 'https://github.com/PeterAlaks/lyric-display-app/releases/latest';
 
     useEffect(() => {
         const CACHE_KEY = 'lyricDisplayReleaseData';
@@ -49,11 +42,20 @@ export default function DownloadPage() {
                 const version = apiData.tag_name.replace('v', '');
 
                 const assets = apiData.assets;
+                const windowsAsset = assets.find(a => a.name.includes('Windows') && a.name.endsWith('.exe'));
+                const macosArmAsset = assets.find(a => a.name.includes('macOS') && a.name.includes('arm64'));
+                const macosIntelAsset = assets.find(a => a.name.includes('macOS') && a.name.includes('x64'));
+                const linuxAsset = assets.find(a => a.name.includes('Linux') && a.name.endsWith('.AppImage'));
+
+                if (!windowsAsset || !macosArmAsset || !macosIntelAsset || !linuxAsset) {
+                    throw new Error('Some release assets not found');
+                }
+
                 const downloads = {
-                    windows: assets.find(a => a.name.includes('Windows') && a.name.endsWith('.exe'))?.browser_download_url || fallbackData.downloads.windows,
-                    macosArm: assets.find(a => a.name.includes('macOS') && a.name.includes('arm64'))?.browser_download_url || fallbackData.downloads.macosArm,
-                    macosIntel: assets.find(a => a.name.includes('macOS') && a.name.includes('x64'))?.browser_download_url || fallbackData.downloads.macosIntel,
-                    linux: assets.find(a => a.name.includes('Linux') && a.name.endsWith('.AppImage'))?.browser_download_url || fallbackData.downloads.linux
+                    windows: windowsAsset.browser_download_url,
+                    macosArm: macosArmAsset.browser_download_url,
+                    macosIntel: macosIntelAsset.browser_download_url,
+                    linux: linuxAsset.browser_download_url
                 };
 
                 const releaseInfo = { version, downloads };
@@ -66,7 +68,7 @@ export default function DownloadPage() {
                 setReleaseData(releaseInfo);
             } catch (error) {
                 console.error('Error fetching release data:', error);
-                setReleaseData(fallbackData);
+                setIsFallback(true);
             } finally {
                 setLoading(false);
             }
@@ -91,8 +93,28 @@ export default function DownloadPage() {
         };
     }, [macOSDropdownOpen]);
 
-    const currentVersion = releaseData?.version || fallbackData.version;
-    const downloadLinks = releaseData?.downloads || fallbackData.downloads;
+    const currentVersion = releaseData?.version || null;
+    const downloadLinks = releaseData?.downloads || null;
+
+    const SkeletonText = ({ width = 'w-20', height = 'h-5' }) => (
+        <span className={`inline-block ${width} ${height} bg-gray-200 rounded animate-pulse`}></span>
+    );
+
+    const SkeletonButton = () => (
+        <div className="w-full bg-gray-200 px-6 py-3 rounded-xl animate-pulse h-[52px]"></div>
+    );
+
+    const FallbackButton = () => (
+        <a
+            href={RELEASES_PAGE}
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <Download className="w-5 h-5" />
+            Download Latest
+        </a>
+    );
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -122,7 +144,15 @@ export default function DownloadPage() {
                     {/* Windows (Active) */}
                     <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
                         <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Windows</h2>
-                        <p className="text-gray-600 mb-6">Version {currentVersion} (64-bit)</p>
+                        <p className="text-gray-600 mb-6">
+                            {loading ? (
+                                <>Version <SkeletonText width="w-12" height="h-4" /> (64-bit)</>
+                            ) : isFallback ? (
+                                'Latest stable release (64-bit)'
+                            ) : (
+                                `Version ${currentVersion} (64-bit)`
+                            )}
+                        </p>
                         <div className="flex-grow space-y-3 mb-8">
                             <div className="flex items-center gap-2 text-sm text-gray-700">
                                 <CheckCircle className="w-4 h-4 text-green-500" />
@@ -137,21 +167,35 @@ export default function DownloadPage() {
                                 <span>Free & Open Source</span>
                             </div>
                         </div>
-                        <a
-                            href={downloadLinks.windows}
-                            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <Download className="w-5 h-5" />
-                            Download v{currentVersion}
-                        </a>
+                        {loading ? (
+                            <SkeletonButton />
+                        ) : isFallback ? (
+                            <FallbackButton />
+                        ) : (
+                            <a
+                                href={downloadLinks.windows}
+                                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Download className="w-5 h-5" />
+                                Download v{currentVersion}
+                            </a>
+                        )}
                     </div>
 
                     {/* macOS (Active) */}
                     <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
                         <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>macOS</h2>
-                        <p className="text-gray-600 mb-6">Version {currentVersion}</p>
+                        <p className="text-gray-600 mb-6">
+                            {loading ? (
+                                <>Version <SkeletonText width="w-12" height="h-4" /></>
+                            ) : isFallback ? (
+                                'Latest stable release'
+                            ) : (
+                                `Version ${currentVersion}`
+                            )}
+                        </p>
                         <div className="flex-grow space-y-3 mb-8">
                             <div className="flex items-center gap-2 text-sm text-gray-700">
                                 <CheckCircle className="w-4 h-4 text-green-500" />
@@ -166,50 +210,64 @@ export default function DownloadPage() {
                                 <span>Free & Open Source</span>
                             </div>
                         </div>
-                        <div className="relative" ref={dropdownRef}>
-                            <button
-                                onClick={() => setMacOSDropdownOpen(!macOSDropdownOpen)}
-                                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
-                            >
-                                Download v{currentVersion}
-                                <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${macOSDropdownOpen ? 'rotate-180' : ''}`} />
-                            </button>
-                            <div className={`absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden transition-all duration-300 origin-top ${macOSDropdownOpen
-                                ? 'opacity-100 scale-y-100 translate-y-0 pointer-events-auto'
-                                : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'
-                                }`}>
-                                <a
-                                    href={downloadLinks.macosArm}
-                                    className="flex items-center gap-3 px-6 py-4 hover:bg-gray-50 transition-colors border-b border-gray-100"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                        {loading ? (
+                            <SkeletonButton />
+                        ) : isFallback ? (
+                            <FallbackButton />
+                        ) : (
+                            <div className="relative" ref={dropdownRef}>
+                                <button
+                                    onClick={() => setMacOSDropdownOpen(!macOSDropdownOpen)}
+                                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
                                 >
-                                    <Download className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                                    <div>
-                                        <div className="font-semibold text-gray-900">Apple Silicon (M1/M2/M3)</div>
-                                        <div className="text-sm text-gray-600">For newer Macs with Apple chips</div>
-                                    </div>
-                                </a>
-                                <a
-                                    href={downloadLinks.macosIntel}
-                                    className="flex items-center gap-3 px-6 py-4 hover:bg-gray-50 transition-colors"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <Download className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                                    <div>
-                                        <div className="font-semibold text-gray-900">Intel Mac</div>
-                                        <div className="text-sm text-gray-600">For older Macs with Intel processors</div>
-                                    </div>
-                                </a>
+                                    Download v{currentVersion}
+                                    <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${macOSDropdownOpen ? 'rotate-180' : ''}`} />
+                                </button>
+                                <div className={`absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden transition-all duration-300 origin-top ${macOSDropdownOpen
+                                    ? 'opacity-100 scale-y-100 translate-y-0 pointer-events-auto'
+                                    : 'opacity-0 scale-y-95 -translate-y-2 pointer-events-none'
+                                    }`}>
+                                    <a
+                                        href={downloadLinks.macosArm}
+                                        className="flex items-center gap-3 px-6 py-4 hover:bg-gray-50 transition-colors border-b border-gray-100"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Download className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                                        <div>
+                                            <div className="font-semibold text-gray-900">Apple Silicon (M1/M2/M3)</div>
+                                            <div className="text-sm text-gray-600">For newer Macs with Apple chips</div>
+                                        </div>
+                                    </a>
+                                    <a
+                                        href={downloadLinks.macosIntel}
+                                        className="flex items-center gap-3 px-6 py-4 hover:bg-gray-50 transition-colors"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Download className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                                        <div>
+                                            <div className="font-semibold text-gray-900">Intel Mac</div>
+                                            <div className="text-sm text-gray-600">For older Macs with Intel processors</div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
 
                     {/* Linux (Active) */}
                     <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 flex flex-col">
                         <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Linux</h2>
-                        <p className="text-gray-600 mb-6">Version {currentVersion} (AppImage)</p>
+                        <p className="text-gray-600 mb-6">
+                            {loading ? (
+                                <>Version <SkeletonText width="w-12" height="h-4" /> (AppImage)</>
+                            ) : isFallback ? (
+                                'Latest stable release (AppImage)'
+                            ) : (
+                                `Version ${currentVersion} (AppImage)`
+                            )}
+                        </p>
                         <div className="flex-grow space-y-3 mb-8">
                             <div className="flex items-center gap-2 text-sm text-gray-700">
                                 <CheckCircle className="w-4 h-4 text-green-500" />
@@ -224,15 +282,21 @@ export default function DownloadPage() {
                                 <span>Free & Open Source</span>
                             </div>
                         </div>
-                        <a
-                            href={downloadLinks.linux}
-                            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <Download className="w-5 h-5" />
-                            Download v{currentVersion}
-                        </a>
+                        {loading ? (
+                            <SkeletonButton />
+                        ) : isFallback ? (
+                            <FallbackButton />
+                        ) : (
+                            <a
+                                href={downloadLinks.linux}
+                                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Download className="w-5 h-5" />
+                                Download v{currentVersion}
+                            </a>
+                        )}
                     </div>
                 </div>
 
