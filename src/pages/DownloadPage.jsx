@@ -235,7 +235,7 @@ export default function DownloadPage() {
                                     >
                                         <Download className="w-5 h-5 text-blue-600 flex-shrink-0" />
                                         <div>
-                                            <div className="font-semibold text-gray-900">Apple Silicon (M1/M2/M3)</div>
+                                            <div className="font-semibold text-gray-900">Apple Silicon (M1/M2/M3, etc.)</div>
                                             <div className="text-sm text-gray-600">For newer Macs with Apple chips</div>
                                         </div>
                                     </a>
