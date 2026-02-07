@@ -312,7 +312,7 @@ export default function DownloadPage() {
                                 </p>
                                 <ul className="space-y-2 text-sm text-gray-700 mb-3">
                                     <li><strong>Windows:</strong> Click "More info" then "Run anyway" when Windows Defender SmartScreen appears.</li>
-                                    <li><strong>macOS:</strong> Right-click the app and select "Open", then click "Open" again in the dialog. You may need to allow it in System Settings → Privacy & Security.</li>
+                                    <li><strong>macOS:</strong> If macOS says the app is "damaged" or "can't be opened", open Terminal and run: <code className="bg-gray-200 px-1 py-0.5 rounded text-xs">xattr -cr /Applications/LyricDisplay.app</code> then try opening again. You may also need to allow it in System Settings → Privacy & Security → Click "Open Anyway".</li>
                                     <li><strong>Linux:</strong> Make the AppImage executable with <code className="bg-gray-200 px-1 py-0.5 rounded text-xs">chmod +x</code> before running.</li>
                                     <li><strong>Browsers:</strong> Chrome, Edge, or Firefox may warn about uncommon downloads. Click "Keep" or "Keep anyway" to proceed.</li>
                                 </ul>

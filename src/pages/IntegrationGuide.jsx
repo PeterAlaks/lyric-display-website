@@ -320,6 +320,25 @@ function OBSGuide({ copyToClipboard, copied }) {
                         <TroubleshootingSolution>Check text positioning settings in LyricDisplay</TroubleshootingSolution>
                         <TroubleshootingSolution>Ensure font size is appropriate for your resolution</TroubleshootingSolution>
                     </TroubleshootingItem>
+
+                    <TroubleshootingItem title="macOS says app is 'damaged' or 'can't be opened'">
+                        <TroubleshootingSolution>
+                            This happens because the app is not code-signed with an Apple Developer certificate. macOS blocks unsigned apps downloaded from the internet by default.
+                        </TroubleshootingSolution>
+                        <TroubleshootingSolution>
+                            Open Terminal (Applications → Utilities → Terminal) and run: <code className="bg-gray-100 px-2 py-1 rounded text-sm">xattr -cr /Applications/LyricDisplay.app</code>
+                        </TroubleshootingSolution>
+                        <TroubleshootingSolution>Then try opening the app again from your Applications folder</TroubleshootingSolution>
+                        <TroubleshootingSolution>If still blocked, go to System Preferences → Security & Privacy → General → Click "Open Anyway"</TroubleshootingSolution>
+                        <TroubleshootingSolution>Alternatively, right-click the app and select "Open" instead of double-clicking</TroubleshootingSolution>
+                    </TroubleshootingItem>
+
+                    <TroubleshootingItem title="macOS shows 'unidentified developer' warning">
+                        <TroubleshootingSolution>Right-click (or Control-click) on LyricDisplay.app</TroubleshootingSolution>
+                        <TroubleshootingSolution>Select "Open" from the context menu</TroubleshootingSolution>
+                        <TroubleshootingSolution>Click "Open" in the dialog that appears</TroubleshootingSolution>
+                        <TroubleshootingSolution>This only needs to be done once — macOS will remember your choice</TroubleshootingSolution>
+                    </TroubleshootingItem>
                 </div>
             </Section>
         </div>
