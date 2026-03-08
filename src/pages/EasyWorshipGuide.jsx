@@ -60,6 +60,9 @@ export default function EasyWorshipGuide() {
 
                     {/* Step 1 */}
                     <Section title="Step 1: Locate Your EasyWorship Database" badge="Database Path">
+                        <AlertBox type="info" className="mb-6">
+                            <strong>Note:</strong> EasyWorship is a Windows-only application, so the database paths below are Windows paths. If you're on macOS or Linux, you'll need to copy the EasyWorship database folder from a Windows machine to your computer, then browse to it manually in Step 4.
+                        </AlertBox>
                         <Steps>
                             <Step number={1}>
                                 Open the EasyWorship Import wizard from the <strong>File</strong> menu

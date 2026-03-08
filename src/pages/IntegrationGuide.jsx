@@ -175,7 +175,7 @@ function OBSGuide({ copyToClipboard, copied }) {
                 </Steps>
 
                 <AlertBox type="success" className="mt-6">
-                    <strong>Testing:</strong> Load lyrics in LyricDisplay (Ctrl+O), click any line, and it appears in OBS!
+                    <strong>Testing:</strong> Load lyrics in LyricDisplay (<kbd>Ctrl+O</kbd> on Windows/Linux, <kbd>⌘+O</kbd> on macOS), click any line, and it appears in OBS!
                 </AlertBox>
             </Section>
 
@@ -188,36 +188,97 @@ function OBSGuide({ copyToClipboard, copied }) {
                     <Steps>
                         <Step number={1}>
                             Find your computer's network address:
-                            <ul className="mt-3 space-y-2 text-sm">
-                                <li>• Press <kbd>Win + R</kbd>, type <code className="bg-gray-100 px-2 py-1 rounded">cmd</code>, press Enter</li>
-                                <li>• Type <code className="bg-gray-100 px-2 py-1 rounded">ipconfig</code> and press Enter</li>
-                                <li>• Look for "IPv4 Address" (usually looks like 192.168.1.100)</li>
-                            </ul>
+                            <div className="mt-3 space-y-4">
+                                <PlatformBlock platform="Windows">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• Press <kbd>Win + R</kbd>, type <code className="bg-gray-100 px-2 py-1 rounded">cmd</code>, press Enter</li>
+                                        <li>• Type <code className="bg-gray-100 px-2 py-1 rounded">ipconfig</code> and press Enter</li>
+                                        <li>• Look for "IPv4 Address" (usually looks like 192.168.1.100)</li>
+                                    </ul>
+                                </PlatformBlock>
+                                <PlatformBlock platform="macOS">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• Open System Settings → Network</li>
+                                        <li>• Click your active connection (Wi-Fi or Ethernet) and look for the IP address</li>
+                                        <li>• Or open Terminal and type: <code className="bg-gray-100 px-2 py-1 rounded">ipconfig getifaddr en0</code> (Wi-Fi) or <code className="bg-gray-100 px-2 py-1 rounded">ipconfig getifaddr en1</code> (Ethernet)</li>
+                                    </ul>
+                                </PlatformBlock>
+                                <PlatformBlock platform="Linux">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• Open a terminal and type: <code className="bg-gray-100 px-2 py-1 rounded">hostname -I</code> or <code className="bg-gray-100 px-2 py-1 rounded">ip addr show</code></li>
+                                        <li>• Look for the address on your active interface (usually starts with 192.168.x.x)</li>
+                                    </ul>
+                                </PlatformBlock>
+                            </div>
                         </Step>
                         <Step number={2}>
                             Make this address permanent (Set Static IP):
-                            <ul className="mt-3 space-y-2 text-sm">
-                                <li>• Open Windows Settings → Network & Internet</li>
-                                <li>• Click your connection (Ethernet or Wi-Fi)</li>
-                                <li>• Click "Edit" next to IP assignment</li>
-                                <li>• Choose "Manual" and enable IPv4</li>
-                                <li>• IP address: Your address from Step 1 (e.g., 192.168.1.100)</li>
-                                <li>• Subnet mask: <code className="bg-gray-100 px-2 py-1 rounded">255.255.255.0</code></li>
-                                <li>• Gateway: Usually <code className="bg-gray-100 px-2 py-1 rounded">192.168.1.1</code> or <code className="bg-gray-100 px-2 py-1 rounded">192.168.0.1</code></li>
-                                <li>• DNS: <code className="bg-gray-100 px-2 py-1 rounded">8.8.8.8</code></li>
-                                <li>• Click Save</li>
-                            </ul>
+                            <div className="mt-3 space-y-4">
+                                <PlatformBlock platform="Windows">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• Open Windows Settings → Network & Internet</li>
+                                        <li>• Click your connection (Ethernet or Wi-Fi)</li>
+                                        <li>• Click "Edit" next to IP assignment</li>
+                                        <li>• Choose "Manual" and enable IPv4</li>
+                                        <li>• IP address: Your address from Step 1 (e.g., 192.168.1.100)</li>
+                                        <li>• Subnet mask: <code className="bg-gray-100 px-2 py-1 rounded">255.255.255.0</code></li>
+                                        <li>• Gateway: Usually <code className="bg-gray-100 px-2 py-1 rounded">192.168.1.1</code> or <code className="bg-gray-100 px-2 py-1 rounded">192.168.0.1</code></li>
+                                        <li>• DNS: <code className="bg-gray-100 px-2 py-1 rounded">8.8.8.8</code></li>
+                                        <li>• Click Save</li>
+                                    </ul>
+                                </PlatformBlock>
+                                <PlatformBlock platform="macOS">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• Open System Settings → Network</li>
+                                        <li>• Select your connection (Wi-Fi or Ethernet) and click "Details..."</li>
+                                        <li>• Go to the TCP/IP tab</li>
+                                        <li>• Change "Configure IPv4" to "Manually"</li>
+                                        <li>• IP Address: Your address from Step 1 (e.g., 192.168.1.100)</li>
+                                        <li>• Subnet Mask: <code className="bg-gray-100 px-2 py-1 rounded">255.255.255.0</code></li>
+                                        <li>• Router: Usually <code className="bg-gray-100 px-2 py-1 rounded">192.168.1.1</code> or <code className="bg-gray-100 px-2 py-1 rounded">192.168.0.1</code></li>
+                                        <li>• Go to the DNS tab and add <code className="bg-gray-100 px-2 py-1 rounded">8.8.8.8</code></li>
+                                        <li>• Click OK</li>
+                                    </ul>
+                                </PlatformBlock>
+                                <PlatformBlock platform="Linux">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• <strong>GUI (NetworkManager):</strong> Open Settings → Network → click the gear icon on your connection → IPv4 tab → set Method to "Manual" and enter your IP, Netmask (<code className="bg-gray-100 px-2 py-1 rounded">255.255.255.0</code>), Gateway, and DNS (<code className="bg-gray-100 px-2 py-1 rounded">8.8.8.8</code>)</li>
+                                        <li>• <strong>Terminal (nmcli):</strong> <code className="bg-gray-100 px-2 py-1 rounded text-xs">sudo nmcli con mod "Your Connection" ipv4.addresses 192.168.1.100/24 ipv4.gateway 192.168.1.1 ipv4.dns 8.8.8.8 ipv4.method manual</code></li>
+                                        <li>• Then restart the connection: <code className="bg-gray-100 px-2 py-1 rounded text-xs">sudo nmcli con up "Your Connection"</code></li>
+                                    </ul>
+                                </PlatformBlock>
+                            </div>
                         </Step>
                         <Step number={3}>
-                            Allow LyricDisplay through Windows Firewall:
-                            <ul className="mt-3 space-y-2 text-sm">
-                                <li>• Search "Windows Defender Firewall" in Start menu</li>
-                                <li>• Click "Allow an app through firewall"</li>
-                                <li>• Click "Change settings" then "Allow another app"</li>
-                                <li>• Browse to: <code className="bg-gray-100 px-2 py-1 rounded text-xs">C:\Program Files\LyricDisplay\LyricDisplay.exe</code></li>
-                                <li>• Check both "Private" and "Public" boxes</li>
-                                <li>• Click Add</li>
-                            </ul>
+                            Allow LyricDisplay through your firewall:
+                            <div className="mt-3 space-y-4">
+                                <PlatformBlock platform="Windows">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• Search "Windows Defender Firewall" in Start menu</li>
+                                        <li>• Click "Allow an app through firewall"</li>
+                                        <li>• Click "Change settings" then "Allow another app"</li>
+                                        <li>• Browse to: <code className="bg-gray-100 px-2 py-1 rounded text-xs">C:\Program Files\LyricDisplay\LyricDisplay.exe</code></li>
+                                        <li>• Check both "Private" and "Public" boxes</li>
+                                        <li>• Click Add</li>
+                                    </ul>
+                                </PlatformBlock>
+                                <PlatformBlock platform="macOS">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• Open System Settings → Network → Firewall</li>
+                                        <li>• If the firewall is on, click "Options..."</li>
+                                        <li>• Click the <strong>+</strong> button and add LyricDisplay from your Applications folder</li>
+                                        <li>• Set it to "Allow incoming connections"</li>
+                                        <li>• macOS may also prompt you automatically when LyricDisplay first tries to accept connections — click "Allow"</li>
+                                    </ul>
+                                </PlatformBlock>
+                                <PlatformBlock platform="Linux">
+                                    <ul className="space-y-2 text-sm">
+                                        <li>• <strong>UFW (Ubuntu/Debian):</strong> <code className="bg-gray-100 px-2 py-1 rounded">sudo ufw allow 4000/tcp</code></li>
+                                        <li>• <strong>firewalld (Fedora/RHEL):</strong> <code className="bg-gray-100 px-2 py-1 rounded">sudo firewall-cmd --add-port=4000/tcp --permanent && sudo firewall-cmd --reload</code></li>
+                                        <li>• Verify with: <code className="bg-gray-100 px-2 py-1 rounded">sudo ufw status</code> or <code className="bg-gray-100 px-2 py-1 rounded">sudo firewall-cmd --list-ports</code></li>
+                                    </ul>
+                                </PlatformBlock>
+                            </div>
                         </Step>
                     </Steps>
                 </SubSection>
@@ -282,7 +343,7 @@ function OBSGuide({ copyToClipboard, copied }) {
                         </TroubleshootingSolution>
                         <TroubleshootingSolution>Click on the browser source from your sources tab on OBS then click on Refresh on the properties pane</TroubleshootingSolution>
                         <TroubleshootingSolution>Restart both LyricDisplay and OBS</TroubleshootingSolution>
-                        <TroubleshootingSolution>Check Windows Firewall isn't blocking port 4000</TroubleshootingSolution>
+                        <TroubleshootingSolution>Check that your firewall isn't blocking port 4000 (Windows Firewall, macOS Firewall, or Linux ufw/firewalld)</TroubleshootingSolution>
                     </TroubleshootingItem>
 
                     <TroubleshootingItem title="Network Connection Not Working">
@@ -338,6 +399,19 @@ function OBSGuide({ copyToClipboard, copied }) {
                         <TroubleshootingSolution>Select "Open" from the context menu</TroubleshootingSolution>
                         <TroubleshootingSolution>Click "Open" in the dialog that appears</TroubleshootingSolution>
                         <TroubleshootingSolution>This only needs to be done once — macOS will remember your choice</TroubleshootingSolution>
+                    </TroubleshootingItem>
+
+                    <TroubleshootingItem title="Linux AppImage won't launch">
+                        <TroubleshootingSolution>
+                            Make the file executable: open a terminal and run <code className="bg-gray-100 px-2 py-1 rounded text-sm">chmod +x LyricDisplay-*.AppImage</code>
+                        </TroubleshootingSolution>
+                        <TroubleshootingSolution>
+                            If you get a FUSE error, install FUSE: <code className="bg-gray-100 px-2 py-1 rounded text-sm">sudo apt install libfuse2</code> (Ubuntu/Debian) or <code className="bg-gray-100 px-2 py-1 rounded text-sm">sudo dnf install fuse</code> (Fedora)
+                        </TroubleshootingSolution>
+                        <TroubleshootingSolution>
+                            Alternatively, extract and run directly: <code className="bg-gray-100 px-2 py-1 rounded text-sm">./LyricDisplay-*.AppImage --appimage-extract && ./squashfs-root/AppRun</code>
+                        </TroubleshootingSolution>
+                        <TroubleshootingSolution>Ensure you have the required dependencies installed (libgtk-3, libnotify, libnss3, libxss1)</TroubleshootingSolution>
                     </TroubleshootingItem>
                 </div>
             </Section>
@@ -412,7 +486,7 @@ function VmixGuide({ copyToClipboard, copied }) {
                             Find and set a static IP address (see OBS guide above for detailed steps)
                         </Step>
                         <Step number={2}>
-                            Allow LyricDisplay through Windows Firewall (see OBS guide above for detailed steps)
+                            Allow LyricDisplay through your firewall (see OBS guide above for detailed steps per platform)
                         </Step>
                     </Steps>
                 </SubSection>
@@ -546,7 +620,7 @@ function WirecastGuide({ copyToClipboard, copied }) {
                             Find and set a static IP address (see OBS guide for detailed steps)
                         </Step>
                         <Step number={2}>
-                            Configure Windows Firewall to allow LyricDisplay (see OBS guide for detailed steps)
+                            Allow LyricDisplay through your firewall (see OBS guide for detailed steps per platform)
                         </Step>
                     </Steps>
                 </SubSection>
@@ -718,6 +792,27 @@ function TroubleshootingItem({ title, children }) {
                 <p className="text-sm font-semibold text-red-800 mb-3">Solutions:</p>
                 {children}
             </div>
+        </div>
+    );
+}
+
+function PlatformBlock({ platform, children }) {
+    const platformStyles = {
+        Windows: { bg: 'bg-blue-50', border: 'border-blue-200', label: 'bg-blue-600', icon: '🪟' },
+        macOS: { bg: 'bg-gray-50', border: 'border-gray-200', label: 'bg-gray-700', icon: '🍎' },
+        Linux: { bg: 'bg-orange-50', border: 'border-orange-200', label: 'bg-orange-600', icon: '🐧' }
+    };
+
+    const style = platformStyles[platform] || platformStyles.Windows;
+
+    return (
+        <div className={`${style.bg} border ${style.border} rounded-lg p-4`}>
+            <div className="flex items-center gap-2 mb-3">
+                <span className={`${style.label} text-white text-xs font-bold px-2 py-1 rounded`}>
+                    {style.icon} {platform}
+                </span>
+            </div>
+            {children}
         </div>
     );
 }
