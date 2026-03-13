@@ -12,6 +12,16 @@
     },
     {
       "id": 2,
+      "name": "Kleva",
+      "organization": "Victory City Yenagoa",
+      "rating": 5,
+      "description": "The download of this software has been one of my best projection decisions as a media person in my church. Very easy integration with our existing structure, beautiful workflow, and overall, the ability to project lyrics to three independent screens with each having their own autonomy for distinctive formatting — basically projecting lyrics in real time to my FOH screens, my online streams and even stage screens.",
+      "platform": "Windows",
+      "date": "2025-06-20",
+      "approved": true
+    },
+    {
+      "id": 3,
       "name": "Sarah Mitchell",
       "organization": "Grace Community Church",
       "rating": 5,
@@ -21,7 +31,7 @@
       "approved": true
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "Marcus Johnson",
       "organization": "Elevation Events",
       "rating": 5,
@@ -31,7 +41,7 @@
       "approved": true
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "David Chen",
       "organization": null,
       "rating": 5,
