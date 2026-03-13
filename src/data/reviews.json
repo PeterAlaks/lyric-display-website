@@ -2,6 +2,16 @@
   "reviews": [
     {
       "id": 1,
+      "name": "Manas Khuman",
+      "organization": "ELM Ministries",
+      "rating": 5,
+      "description": "The most useful tool needed for church! Love everything you've built. Everything comes from the pain of not finding the right tool, creating your own, and being generous enough to share it with all. Love you Team — BIG GOD BLESS YOU ALL!",
+      "platform": "Windows",
+      "date": "2025-06-20",
+      "approved": true
+    },
+    {
+      "id": 2,
       "name": "Sarah Mitchell",
       "organization": "Grace Community Church",
       "rating": 5,
@@ -11,7 +21,7 @@
       "approved": true
     },
     {
-      "id": 2,
+      "id": 3,
       "name": "Marcus Johnson",
       "organization": "Elevation Events",
       "rating": 5,
@@ -21,23 +31,13 @@
       "approved": true
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "David Chen",
       "organization": null,
       "rating": 5,
       "description": "I run a small worship team and was looking for an affordable solution that didn't compromise on quality. LyricDisplay exceeded all expectations. It's completely free, incredibly lightweight on my older laptop, and the features rival paid solutions costing hundreds of dollars. The mobile control from my phone is a game-changer during rehearsals.",
       "platform": "Windows",
       "date": "2024-01-25",
-      "approved": true
-    },
-    {
-      "id": 4,
-      "name": "Emily Rodriguez",
-      "organization": "Riverside Church",
-      "rating": 5,
-      "description": "We've been using LyricDisplay for three months now, and it's been absolutely perfect. The interface is intuitive, the styling engine gives us complete creative control, and the real-time updates across all displays are instant. Our congregation has noticed the improved presentation quality, and our tech team appreciates how reliable and easy to use it is.",
-      "platform": "macOS",
-      "date": "2024-02-01",
       "approved": true
     }
   ]
