@@ -1,0 +1,222 @@
+# LyricDisplay
+
+> Professional real-time lyric presentation software for live events, church services, concerts and multimedia applications. Free and open-source, cross-platform desktop app built with Electron.
+
+LyricDisplay lets operators load lyric files and instantly push selected lines to one or more transparent display outputs — designed for seamless integration with OBS Studio, vMix, Wirecast and any broadcast software that accepts browser sources. It runs a local Express/Socket.io backend that outputs are consumed from as browser URLs, enabling true transparent overlays with no additional capture hardware.
+
+- Website: https://lyricdisplay.app
+- GitHub: https://github.com/PeterAlaks/lyric-display-app
+- Latest release: https://github.com/PeterAlaks/lyric-display-app/releases/latest
+- Video tutorial: https://drive.google.com/file/d/1fP4fSSWSNvSocI8fK7hktdJ7dY6xnCM-/view
+- Support the developers: https://paystack.shop/pay/lyricdisplay-support
+- Developer contact: https://linktr.ee/peteralaks
+- License: GPL-2.0-only
+- Authors: Peter Alakembi (Lead), David Okaliwe (Co-Developer)
+
+
+## Core Concepts
+
+**Control Panel** — The main desktop window where operators load lyric files, click lines to display them live, adjust styling, and manage outputs.
+
+**Outputs** — Independent display outputs (Output 1, Output 2, etc.) plus a Stage output. Each is a browser-accessible URL (`http://localhost:4000/#/output1`, `/output2`, `/stage`) that renders lyrics with a fully transparent background. These URLs are added as Browser Sources in OBS or Web Browser inputs in vMix.
+
+**NDI Output** — Lyrics can also be broadcast over NDI® for direct integration into production software that supports NDI without needing a browser source.
+
+**Secondary Controllers** — Mobile or web devices on the same network can pair with the desktop app using a 6-digit join code. Paired controllers can trigger lyric lines, toggle outputs, sync displays and submit lyric drafts for desktop approval.
+
+
+## Key Features
+
+### Multi-Output Display
+- Multiple independent styled outputs plus a stage display output
+- Fully transparent backgrounds — perfect for browser source capture in OBS/vMix
+- Real-time Socket.io synchronization across all connected displays
+- NDI® output support with per-output resolution control
+
+### Lyric Management
+- Load `.txt` or `.lrc` (timestamped) lyric files
+- Drag-and-drop file loading
+- Built-in lyric editor (New Song Canvas) with formatting tools
+- Online lyrics search from integrated providers (LRCLIB, ChartLyrics, Lyrics.ovh, Vagalume, Hymnary.org, Open Hymnal Project)
+- EasyWorship song import and conversion
+- Translation line support — lines wrapped in brackets `[]`, `()`, `{}` display as subtitle translations beneath the main line
+- Smart auto-cleanup: removes stray punctuation, capitalizes special words (God, Jesus, etc.)
+
+### Styling Engine
+- 10 professional featured Google Fonts plus locally installed system fonts
+- Typography controls: bold, italic, underline, all-caps
+- Independent font color and drop shadow color/opacity
+- Adjustable background color and opacity
+- X/Y padding margin controls
+- Position presets (e.g., Lower Third, Center)
+- Full-screen mode with solid color or media background fill
+- Per-output independent styling
+
+### Workflow & Operation
+- Click any lyric line to push it live to all outputs instantly
+- Search bar with match highlighting and keyboard navigation (Shift+Up/Down)
+- Autoplay mode for timed lyric progression
+- Spacebar toggles output display on/off
+- Sync Outputs button forces a manual refresh of all connected displays
+- Setlist management for organizing multiple songs
+
+### Secondary Controllers (Mobile/Web)
+- Authorize devices via QR code scan or 6-digit join code
+- Paired devices can: trigger lyric lines, toggle output display, run manual sync, submit lyric drafts
+- Desktop app retains full approval control over submitted drafts
+- Join code resets on every app restart for security
+
+### Desktop Integration
+- Auto-updates via GitHub Releases (background, seamless)
+- Dark mode with system theme sync
+- Full keyboard shortcut support
+- Single-instance enforcement
+- Native file associations for `.lrc`, `.txt`, and `.ldset` (setlist) files
+- macOS open-file event handling; Windows file-launch-from-args handling
+- Close confirmation dialog to prevent accidental data loss
+
+
+## Supported Platforms
+
+| Platform | Format | Notes |
+|----------|--------|-------|
+| Windows 10/11 (64-bit) | NSIS installer (.exe) | Run as Administrator; allow SmartScreen if prompted |
+| macOS (Apple Silicon) | DMG (arm64) | Run `xattr -cr /Applications/LyricDisplay.app` before opening |
+| macOS (Intel) | DMG (x64) | Same Gatekeeper workaround as above |
+| Linux (x64) | AppImage | `chmod +x` then run directly |
+
+**Minimum system requirements:** 8 GB RAM, dual-display capable GPU, 500 MB disk space, Windows 10/11 64-bit (or equivalent macOS/Linux).
+**Recommended:** 16 GB RAM, dedicated GPU, dual monitors.
+
+
+## Installation
+
+### Windows
+1. Download `LyricDisplay-6.3.1-Windows-Setup.exe` from the releases page.
+2. Right-click → Run as Administrator.
+3. If Windows SmartScreen appears, click "More info" → "Run anyway".
+4. Follow the installer wizard and create a desktop shortcut.
+
+### macOS
+1. Download the appropriate `.dmg` for your chip (arm64 for Apple Silicon, x64 for Intel).
+2. Open the DMG and drag LyricDisplay to Applications.
+3. In Terminal, run: `xattr -cr /Applications/LyricDisplay.app`
+4. Open LyricDisplay from Applications. If still blocked, go to System Preferences → Security & Privacy → General → "Open Anyway".
+
+### Linux
+1. Download `LyricDisplay-6.3.1-Linux.AppImage`.
+2. Make it executable: `chmod +x LyricDisplay-*.AppImage`
+3. Run it: `./LyricDisplay-*.AppImage`
+
+
+## OBS Studio Integration
+
+### Same-machine setup
+1. In OBS, add a **Browser Source** to your scene.
+2. Set the URL to `http://localhost:4000/#/output1` (or `/output2` for a second output).
+3. Set Width and Height to match your broadcast canvas (e.g., 1920×1080).
+4. Enable "Shutdown source when not visible" and "Refresh browser when scene becomes active".
+5. In LyricDisplay's settings panel, configure Output 1 styling (position, font, size, color).
+6. Load a lyric file, click a line — it should appear in OBS instantly.
+
+### Network setup (LyricDisplay on a separate PC)
+1. On the LyricDisplay PC, set a static IP (e.g., `192.168.1.100`).
+2. On the OBS PC, use `http://192.168.1.100:4000/#/output1` as the browser source URL.
+3. If the connection fails, allow LyricDisplay through Windows Firewall on port 4000.
+
+### vMix Integration
+Same approach as OBS: Add Input → Web Browser, use `http://localhost:4000/#/output1` (or the static IP for network setups), set resolution to match broadcast canvas, drag to an overlay channel.
+
+
+## File Formats
+
+| Extension | Description |
+|-----------|-------------|
+| `.txt` | Plain text lyric file, one line per lyric line |
+| `.lrc` | Timestamped lyric file for autoplay sync |
+| `.ldset` | LyricDisplay setlist file (multiple songs) |
+
+**Translation line syntax:** Wrap a line in `[]`, `()`, `{}`, or `<>` to mark it as a translation/subtitle line. It will display grouped beneath the preceding lyric line.
+
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| Ctrl/Cmd + O | Load lyrics file |
+| Ctrl/Cmd + N | New song canvas (editor) |
+| Ctrl/Cmd + P | Toggle autoplay |
+| Ctrl/Cmd + 1 | Preview Output 1 |
+| Ctrl/Cmd + 2 | Preview Output 2 |
+| Ctrl/Cmd + F | Jump to search bar |
+| ↑ / Numpad ↑ | Previous lyric line |
+| ↓ / Numpad ↓ | Next lyric line |
+| Spacebar | Toggle output display on/off |
+| Shift + ↑/↓ | Navigate search results |
+| Ctrl/Cmd + T | Add translation line (in editor) |
+| Ctrl/Cmd + D | Duplicate line (in editor) |
+| Ctrl/Cmd + L | Select line (in editor) |
+
+
+## Technical Architecture
+
+**Frontend:** React 19 with Hash Router, Tailwind CSS, Radix UI / ShadCN components, Zustand state management (with persistence), Framer Motion, Lucide React icons, Vite build tooling.
+
+**Backend:** Express.js static file server + Socket.io WebSocket server, running on port 4000 as a Node.js child process managed by the Electron main process.
+
+**Desktop:** Electron (cross-platform shell), electron-updater for auto-updates via GitHub Releases, electron-store for native preference persistence, Keytar for secure credential storage, native menu bridge, single-instance lock, IPC handler registration.
+
+**Real-time communication:** Socket.io (client + server) for instant lyric line updates across all connected outputs and secondary controllers.
+
+**Storage:** Zustand persistence for session state, SQLite (better-sqlite3) for structured data, electron-store for native app preferences.
+
+**MIDI/OSC:** External control support via `@julusian/midi` for MIDI input integration.
+
+**NDI:** Output via the `grandi` npm module (open-source NDI SDK wrapper). NDI® is a registered trademark of Vizrt NDI AB; LyricDisplay is not affiliated with Vizrt.
+
+
+## Integrated Online Lyrics Providers
+
+LyricDisplay does not store or redistribute lyrics. All content is fetched on-demand from public APIs for personal, church, and non-commercial use only.
+
+- **LRCLIB** — Free synced lyrics database (~3 million songs). No API key required. Returns plain and timestamped (LRC) lyrics.
+- **ChartLyrics** — Free public lyrics API. No API key required.
+- **Lyrics.ovh** — Free lyrics API for educational and non-commercial use.
+- **Vagalume** — Official Vagalume API (© Vagalume Media Group).
+- **Hymnary.org** — Hymn texts from Hymnary.org / Christian Classics Ethereal Library (CCEL), for educational and liturgical use.
+- **Open Hymnal Project** — Public domain hymn texts.
+
+
+## Troubleshooting
+
+**Browser source is black or empty:** Confirm LyricDisplay is running. Verify the URL is exactly `http://localhost:4000/#/output1`. Click Refresh on the browser source properties. Check Windows Firewall isn't blocking port 4000.
+
+**Network connection not working:** Confirm both PCs are on the same network. Use `http://` not `https://`. Verify the static IP is correct. Temporarily disable the firewall to isolate the issue.
+
+**Lyrics not updating in real-time:** Click "Sync Outputs" in the settings panel. Refresh the browser source in OBS. Check that the Socket.io connection indicator (shield icon) is green in the control panel.
+
+**macOS "damaged" or "can't be opened" error:** Run `xattr -cr /Applications/LyricDisplay.app` in Terminal before opening the app. This is expected behavior for apps without an Apple Developer code signature.
+
+**Styling changes not applying:** Use the "Sync Outputs" button, then refresh the browser source in OBS. Check the browser console (F12) for errors.
+
+
+## Development Setup
+
+```bash
+git clone https://github.com/PeterAlaks/lyric-display-app.git
+cd lyric-display-app
+
+# Install client dependencies
+npm install
+
+# Install server dependencies
+cd server && npm install && cd ..
+
+# Run in development mode (Vite + Electron)
+npm run electron-dev
+
+# Build and package
+npm run electron-pack
+```
+
+Available scripts: `npm run dev` (Vite only), `npm run server` (backend only), `npm run electron-dev` (full dev), `npm run build` (production build), `npm run electron-pack` (package installer).
