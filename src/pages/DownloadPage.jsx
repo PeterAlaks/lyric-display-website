@@ -317,7 +317,7 @@ export default function DownloadPage() {
                                     <li><strong>Browsers:</strong> Chrome, Edge, or Firefox may warn about uncommon downloads. Click "Keep" or "Keep anyway" to proceed.</li>
                                 </ul>
                                 <p className="text-sm text-gray-600">
-                                    LyricDisplay is open source and safe. You can help by <a href="https://paystack.shop/pay/lyricdisplay-support" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline">supporting development</a> to hasten the purchase of code signing certificates and eliminate these warnings.
+                                    LyricDisplay is open source and safe. You can help by <a href="https://buymeacoffee.com/lyricdisplay" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 underline">supporting development</a> to hasten the purchase of code signing certificates and eliminate these warnings.
                                 </p>
                             </div>
                         </div>

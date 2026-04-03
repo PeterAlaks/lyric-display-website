@@ -122,7 +122,7 @@ export default function Footer() {
                                 </li>
                                 <li>
                                     <a
-                                        href="https://paystack.shop/pay/lyricdisplay-support"
+                                        href="https://buymeacoffee.com/lyricdisplay"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="hover:text-white transition-colors"
