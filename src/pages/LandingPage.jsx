@@ -219,15 +219,15 @@ export default function LyricDisplayLanding() {
                 </div>
             </section>
 
-            {/* Three Outputs Section */}
+            {/* Multi-Output Section */}
             <section id="outputs" className="py-24 px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
                 <div className="max-w-7xl mx-auto">
                     <motion.div {...fadeInUp} className="text-center mb-16">
                         <h2 className="text-4xl tracking-tight md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Three outputs, one control
+                            Multi-output control, fully scalable
                         </h2>
                         <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Run up to three completely independent display outputs simultaneously — all synchronized in perfect real-time from a single control interface. Configure styling, positioning, content and much more.
+                            Run up to six completely independent display outputs simultaneously - all synchronized in perfect real-time from a single control interface. Configure styling, positioning, content and much more.
                         </p>
                     </motion.div>
 
@@ -329,7 +329,7 @@ export default function LyricDisplayLanding() {
 
                     <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
-                            { icon: <Monitor className="w-8 h-8" />, title: 'Dual Independent Outputs', description: 'Run two separate displays with individual styling and positioning — perfect for in-house screens and broadcast overlays.' },
+                            { icon: <Monitor className="w-8 h-8" />, title: 'Scalable Multi-Output System', description: 'Run Output 1, Output 2, Stage, and custom outputs (3-6) with independent styling and positioning for every screen context.' },
                             { icon: <Zap className="w-8 h-8" />, title: 'Real-Time Synchronization', description: 'Instant updates across all displays powered by Socket.io. Zero lag, zero delays—built for live production.' },
                             { icon: <Palette className="w-8 h-8" />, title: 'Advanced Styling Engine', description: '13 professional fonts, full typography controls, colors, shadows, borders, precise positioning and much more.' },
                             { icon: <FilePen className="w-8 h-8" />, title: 'Rich In-App Editor', description: 'Feature-packed in-app editor for formatting and arranging lyric content for polished pro presentations.' },

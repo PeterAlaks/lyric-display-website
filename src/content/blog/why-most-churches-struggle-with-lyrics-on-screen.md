@@ -102,7 +102,7 @@ This simplicity matters enormously for churches with volunteer technical teams. 
 
 ### Built for Worship, Not Presentations
 
-LyricDisplay was built specifically around these principles. Rather than adapting presentation software to handle worship lyrics, it was designed from the ground up for the unique demands of live worship environments. The application provides dual independent outputs plus dedicated stage displays, all synchronized in real time while maintaining visual appropriateness for each context.
+LyricDisplay was built specifically around these principles. Rather than adapting presentation software to handle worship lyrics, it was designed from the ground up for the unique demands of live worship environments. The application provides default outputs (1 and 2), a dedicated stage display, and user-created custom outputs (3-6), all synchronized in real time while maintaining visual appropriateness for each context.
 
 Every feature reflects this worship-first philosophy. The interface prioritizes quick access to songs and instant navigation over elaborate slide transitions. Styling controls focus on readability and visibility rather than decorative effects. The sync engine prioritizes reliability and consistency over flashy animations that might introduce lag.
 
@@ -151,7 +151,7 @@ The transition to purpose-built lyric display systems isn't about chasing the la
 LyricDisplay is available as a free, professional-grade application for Windows, macOS, and Linux. Whether you're running a small church service or a large multi-campus production, the platform scales to meet your needs without compromising simplicity.
 
 **Key capabilities include:**
-- Dual independent outputs with dedicated stage displays
+- Default outputs (1 and 2), dedicated stage display, and custom outputs (3-6)
 - Real-time synchronization across all screens
 - Direct integration with OBS, vMix, and Wirecast
 - Built-in lyrics editor and online search

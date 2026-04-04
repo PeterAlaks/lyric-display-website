@@ -18,7 +18,7 @@ LyricDisplay lets operators load lyric files and instantly push selected lines t
 
 **Control Panel** — The main desktop window where operators load lyric files, click lines to display them live, adjust styling, and manage outputs.
 
-**Outputs** — Independent display outputs (Output 1, Output 2, etc.) plus a Stage output. Each is a browser-accessible URL (`http://localhost:4000/#/output1`, `/output2`, `/stage`) that renders lyrics with a fully transparent background. These URLs are added as Browser Sources in OBS or Web Browser inputs in vMix.
+**Outputs** — Independent display outputs include defaults (Output 1 and Output 2), user-created custom outputs (Output 3 through Output 6), plus a Stage output. Each is a browser-accessible URL (`http://localhost:4000/#/output1`, `/output2` ... `/output6`, `/stage`) that renders lyrics with a fully transparent background. These URLs are added as Browser Sources in OBS or Web Browser inputs in vMix.
 
 **NDI Output** — Lyrics can also be broadcast over NDI® for direct integration into production software that supports NDI without needing a browser source.
 
@@ -28,7 +28,7 @@ LyricDisplay lets operators load lyric files and instantly push selected lines t
 ## Key Features
 
 ### Multi-Output Display
-- Multiple independent styled outputs plus a stage display output
+- Multiple independent styled outputs (defaults + custom outputs) plus a stage display output
 - Fully transparent backgrounds — perfect for browser source capture in OBS/vMix
 - Real-time Socket.io synchronization across all connected displays
 - NDI® output support with per-output resolution control
@@ -113,7 +113,7 @@ LyricDisplay lets operators load lyric files and instantly push selected lines t
 
 ### Same-machine setup
 1. In OBS, add a **Browser Source** to your scene.
-2. Set the URL to `http://localhost:4000/#/output1` (or `/output2` for a second output).
+2. Set the URL to `http://localhost:4000/#/output1` (or use `/output2` through `/output6` for additional outputs).
 3. Set Width and Height to match your broadcast canvas (e.g., 1920×1080).
 4. Enable "Shutdown source when not visible" and "Refresh browser when scene becomes active".
 5. In LyricDisplay's settings panel, configure Output 1 styling (position, font, size, color).
@@ -121,11 +121,11 @@ LyricDisplay lets operators load lyric files and instantly push selected lines t
 
 ### Network setup (LyricDisplay on a separate PC)
 1. On the LyricDisplay PC, set a static IP (e.g., `192.168.1.100`).
-2. On the OBS PC, use `http://192.168.1.100:4000/#/output1` as the browser source URL.
+2. On the OBS PC, use `http://192.168.1.100:4000/#/output1` as the browser source URL (or `/output2` through `/output6` as needed).
 3. If the connection fails, allow LyricDisplay through Windows Firewall on port 4000.
 
 ### vMix Integration
-Same approach as OBS: Add Input → Web Browser, use `http://localhost:4000/#/output1` (or the static IP for network setups), set resolution to match broadcast canvas, drag to an overlay channel.
+Same approach as OBS: Add Input -> Web Browser, use `http://localhost:4000/#/output1` (or `/output2` through `/output6`, and use the static IP for network setups), set resolution to match broadcast canvas, drag to an overlay channel.
 
 
 ## File Formats
@@ -189,7 +189,7 @@ LyricDisplay does not store or redistribute lyrics. All content is fetched on-de
 
 ## Troubleshooting
 
-**Browser source is black or empty:** Confirm LyricDisplay is running. Verify the URL is exactly `http://localhost:4000/#/output1`. Click Refresh on the browser source properties. Check Windows Firewall isn't blocking port 4000.
+**Browser source is black or empty:** Confirm LyricDisplay is running. Verify the URL is a valid output route such as `http://localhost:4000/#/output1` (or `/output2` through `/output6`). Click Refresh on the browser source properties. Check Windows Firewall isn't blocking port 4000.
 
 **Network connection not working:** Confirm both PCs are on the same network. Use `http://` not `https://`. Verify the static IP is correct. Temporarily disable the firewall to isolate the issue.
 

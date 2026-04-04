@@ -174,11 +174,11 @@ These observations informed every design decision. The application assumes worsh
 
 The result is a system that feels natural to use because it matches mental models worship teams already have. There's no fighting the software to make it do what worship requires. The technology aligns with the ministry rather than constraining it.
 
-### Three Independent Outputs, Perfectly Synchronized
+### Scalable Independent Outputs, Perfectly Synchronized
 
-LyricDisplay provides two fully customizable outputs plus a dedicated stage display, each with complete styling independence. Output 1 might serve the main sanctuary screens with elegant typography and subtle backgrounds. Output 2 might be configured as a transparent overlay for streaming, positioned in the lower third with bold text and heavy shadow for maximum readability. The stage display shows large, high-contrast text optimized for performers who need to glance quickly between their instruments and the monitor.
+LyricDisplay provides default outputs (Output 1, Output 2, and Stage) plus user-created custom outputs (Output 3 through Output 6), each with complete styling independence. Output 1 might serve the main sanctuary screens with elegant typography and subtle backgrounds. Output 2 or Output 3 might be configured as a transparent overlay for streaming, positioned in the lower third with bold text and heavy shadow for maximum readability. The stage display shows large, high-contrast text optimized for performers who need to glance quickly between their instruments and the monitor.
 
-All three update simultaneously with zero lag. When the operator advances lyrics, every display reflects the change within milliseconds. No synchronization issues, no timing delays, no mismatched content. The congregation, worship team, and online viewers all see the same content at the same moment, each formatted optimally for their context.
+All outputs update simultaneously with zero lag. When the operator advances lyrics, every display reflects the change within milliseconds. No synchronization issues, no timing delays, no mismatched content. The congregation, worship team, overflow rooms, and online viewers all see the same content at the same moment, each formatted optimally for their context.
 
 Styling adjustments happen independently. Changing the font size for the stage display doesn't affect the congregation's view. Adding a background to the main output doesn't impact the transparent overlay for streaming. Each output serves its purpose without compromise.
 
@@ -301,7 +301,7 @@ Intelligent lyric systems like LyricDisplay represent where worship presentation
 LyricDisplay brings together everything modern worship presentation requires: multi-output architecture, browser-based display technology, intelligent navigation, online lyrics search, mobile controller support, and professional styling—all in a free, cross-platform application.
 
 **Key features include:**
-- Dual independent outputs plus dedicated stage display
+- Default outputs (1 and 2), dedicated stage display, plus custom outputs (3-6)
 - Real-time synchronization across all screens
 - Native OBS, vMix, and Wirecast integration
 - Built-in lyrics editor with online search

@@ -103,13 +103,13 @@ Now that we understand the challenges and use cases, let's explore how LyricDisp
 
 LyricDisplay was built from the ground up with multi-output in mind. Instead of bolting on multiple display support as an afterthought, the entire application architecture revolves around independent, synchronized outputs.
 
-The core architecture consists of a control panel that provides a single interface for managing all content. The output engine generates up to three independent display feeds. A sync server ensures zero-lag updates across all outputs. Browser-based outputs mean displays render in any modern browser. And network distribution makes outputs accessible anywhere on your network.
+The core architecture consists of a control panel that provides a single interface for managing all content. The output engine serves default outputs (Output 1, Output 2, and Stage) plus user-created custom outputs (Output 3 through Output 6). A sync server ensures zero-lag updates across all outputs. Browser-based outputs mean displays render in any modern browser. And network distribution makes outputs accessible anywhere on your network.
 
-### Three Independent Outputs
+### Scalable Independent Outputs
 
-LyricDisplay provides three fully independent outputs, each with custom resolution and aspect ratio, independent styling for fonts, colors, shadows, and positioning, separate show/hide controls, individual transparency settings, and unique positioning and margins.
+LyricDisplay provides default and custom independent outputs, each with custom resolution and aspect ratio, independent styling for fonts, colors, shadows, and positioning, separate show/hide controls, individual transparency settings, and unique positioning and margins.
 
-Outputs 1 and 2 are full-featured displays with complete customization. The stage monitor is a specialized output optimized for performer visibility with settings tailored to the unique needs of musicians and vocalists.
+Outputs 1 through 6 are full-featured displays with complete customization. The stage monitor is a specialized output optimized for performer visibility with settings tailored to the unique needs of musicians and vocalists.
 
 ### Real-Time Synchronization
 
@@ -119,7 +119,7 @@ This happens over standard network connections—no special hardware required. Y
 
 ### Browser-Based Display Technology
 
-Each output is accessed via a simple URL in any modern browser. Your main display might be at `http://localhost:4000/#/output1`, your second output at `http://localhost:4000/#/output2`, and your stage monitor at `http://localhost:4000/#/stage`.
+Each output is accessed via a simple URL in any modern browser. Your main display might be at `http://localhost:4000/#/output1`, additional displays at `http://localhost:4000/#/output2` through `/output6`, and your stage monitor at `http://localhost:4000/#/stage`.
 
 Why browser-based? It works seamlessly with OBS, vMix, and Wirecast through their browser source features, you don't need additional software on display computers, transparent backgrounds (alpha channels) are natively supported without chroma keying and it's easy to preview and troubleshoot—just open the URL in any browser. And it offers true cross-platform compatibility across Windows, Mac, and Linux.
 
@@ -131,7 +131,7 @@ Why browser-based? It works seamlessly with OBS, vMix, and Wirecast through thei
 
 For a basic setup, you'll need one computer running LyricDisplay, displays connected via HDMI or DisplayPort (or network-connected devices with browsers).
 
-Start by installing LyricDisplay on your control computer. When you start the application, the server launches automatically. Open your outputs in browsers—navigate to `http://localhost:4000/#/output1` for your main display and `http://localhost:4000/#/stage` for your stage monitor.
+Start by installing LyricDisplay on your control computer. When you start the application, the server launches automatically. Open your outputs in browsers and navigate to `http://localhost:4000/#/output1` for your main display, add any needed custom outputs (`/output2` through `/output6`), and use `http://localhost:4000/#/stage` for your stage monitor.
 
 Configure each output by setting the resolution in browser source settings, customizing fonts, colors, and positioning, and saving presets for different service types. Finally, test synchronization by advancing lyrics and verifying all displays update together.
 
@@ -141,15 +141,15 @@ For network distribution, you'll need a control computer running LyricDisplay, a
 
 Begin by configuring your network. Ensure all devices are on the same network and note your control computer's IP address (something like 192.168.1.100). Verify your firewall allows connections on the required port.
 
-Access outputs from network devices using the control computer's IP address. Your main display computer would navigate to `http://192.168.1.100:4000/#/output1`, your overflow room to `http://192.168.1.100:4000/#/output2`, and your stage monitor to `http://192.168.1.100:4000/#/stage`.
+Access outputs from network devices using the control computer's IP address. Your main display computer would navigate to `http://192.168.1.100:4000/#/output1`, overflow rooms can use `http://192.168.1.100:4000/#/output2` through `/output6`, and your stage monitor uses `http://192.168.1.100:4000/#/stage`.
 
 Configure each display by setting the browser to fullscreen mode (press F11), adjusting output settings from the control panel, and testing from each location. Optimize for reliability by using wired connections when possible, setting a static IP for your control computer, and creating a backup plan for network issues.
 
 ### OBS/vMix Integration
 
-For livestream overlays, add a browser source in OBS or vMix and set the URL to `http://localhost:4000/#/output2`. Configure the settings with width 1920 and height 1080, FPS at 30 or 60, and optionally enable "Shutdown source when not visible" and "Refresh browser when scene becomes active."
+For livestream overlays, add a browser source in OBS or vMix and set the URL to a standard or custom output such as `http://localhost:4000/#/output2` (or `/output3` to `/output6`). Configure the settings with width 1920 and height 1080, FPS at 30 or 60, and optionally enable "Shutdown source when not visible" and "Refresh browser when scene becomes active."
 
-In LyricDisplay, configure Output 2 by enabling transparent background, positioning text in the lower third, adding drop shadow for readability, and using colors that contrast well with your video content.
+In LyricDisplay, configure your selected overlay output (for example, Output 2 or Output 3) by enabling transparent background, positioning text in the lower third, adding drop shadow for readability, and using colors that contrast well with your video content.
 
 Test the overlay thoroughly. Verify transparency works correctly, check that text is readable over video, and confirm synchronization with other outputs. Nothing is more embarrassing than lyrics that lag behind the audio during a livestream.
 

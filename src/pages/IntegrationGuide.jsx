@@ -326,7 +326,7 @@ function OBSGuide({ copyToClipboard, copied }) {
                         <strong>Layering:</strong> Drag the browser source above your camera/video layers in OBS for proper overlay
                     </Tip>
                     <Tip>
-                        <strong>Second Output:</strong> Add another browser source with URL ending in <code className="bg-gray-100 px-2 py-1 rounded">#/output2</code> for different styling
+                        <strong>Additional Outputs:</strong> Add more browser sources using <code className="bg-gray-100 px-2 py-1 rounded">#/output2</code>, <code className="bg-gray-100 px-2 py-1 rounded">#/output3</code>, up to <code className="bg-gray-100 px-2 py-1 rounded">#/output6</code> for independent styling
                     </Tip>
                     <Tip>
                         <strong>Performance:</strong> Enable "Shutdown source when not visible" to save resources when lyrics aren't showing
@@ -339,7 +339,7 @@ function OBSGuide({ copyToClipboard, copied }) {
                     <TroubleshootingItem title="Browser Source is Black/Empty">
                         <TroubleshootingSolution>Confirm LyricDisplay is running</TroubleshootingSolution>
                         <TroubleshootingSolution>
-                            Verify URL of browser source is set to exactly: <code className="bg-gray-100 px-2 py-1 rounded text-sm">http://localhost:4000/#/output1</code> or <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output2</code>
+                            Verify URL of browser source is set to a valid output route: <code className="bg-gray-100 px-2 py-1 rounded text-sm">http://localhost:4000/#/output1</code>, <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output2</code>, <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output3</code> ... <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output6</code>
                         </TroubleshootingSolution>
                         <TroubleshootingSolution>Click on the browser source from your sources tab on OBS then click on Refresh on the properties pane</TroubleshootingSolution>
                         <TroubleshootingSolution>Restart both LyricDisplay and OBS</TroubleshootingSolution>
@@ -349,7 +349,7 @@ function OBSGuide({ copyToClipboard, copied }) {
                     <TroubleshootingItem title="Network Connection Not Working">
                         <TroubleshootingSolution>Verify both PCs on same network</TroubleshootingSolution>
                         <TroubleshootingSolution>
-                            Confirm that URL of browser source is <code className="bg-gray-100 px-2 py-1 rounded text-sm">http://static-ip-configured:4000/#/output1</code> or <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output2</code>
+                            Confirm that URL of browser source is <code className="bg-gray-100 px-2 py-1 rounded text-sm">http://static-ip-configured:4000/#/output1</code>, <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output2</code>, <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output3</code> ... <code className="bg-gray-100 px-2 py-1 rounded text-sm">/output6</code>
                         </TroubleshootingSolution>
                         <TroubleshootingSolution>Temporarily disable firewall to test</TroubleshootingSolution>
                         <TroubleshootingSolution>Confirm that you used http:// not https:// in URL</TroubleshootingSolution>
@@ -533,7 +533,7 @@ function VmixGuide({ copyToClipboard, copied }) {
                         <strong>Quick Test:</strong> Open a browser on the vMix computer and visit your network URL. If you see a page, your connection is ready!
                     </Tip>
                     <Tip>
-                        <strong>Multiple Outputs:</strong> Use output1 for broadcast and output2 for in-house display with different styling
+                        <strong>Multiple Outputs:</strong> Use output1 for broadcast, output2 for in-house display, and output3-output6 for overflow rooms or alternate layouts
                     </Tip>
                 </TipsList>
             </Section>
