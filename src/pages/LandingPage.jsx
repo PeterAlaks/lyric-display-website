@@ -9,6 +9,7 @@ import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
 import ReviewSlider from '../components/ReviewSlider';
+import SEO from '../components/SEO';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
 import heroLeft from '../assets/images/hero-img-left.png';
 import heroRight from '../assets/images/hero-img-right.png';
@@ -55,6 +56,7 @@ export default function LyricDisplayLanding() {
 
     return (
         <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
+            <SEO />
             <Navbar isHomePage />
 
             {/* ── HERO ──────────────────────────────────────────── */}

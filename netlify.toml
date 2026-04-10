@@ -2,7 +2,44 @@
   publish = "dist"
   command = "npm run build"
 
-# Redirect all routes to index.html for SPA routing
+# Serve pre-rendered pages directly
+# This must come BEFORE the SPA catch-all redirect
+[[redirects]]
+  from = "/blog/:slug"
+  to = "/blog/:slug.html"
+  status = 200
+
+[[redirects]]
+  from = "/integration-guide"
+  to = "/integration-guide.html"
+  status = 200
+
+[[redirects]]
+  from = "/download"
+  to = "/download.html"
+  status = 200
+
+[[redirects]]
+  from = "/documentation"
+  to = "/documentation.html"
+  status = 200
+
+[[redirects]]
+  from = "/feedback"
+  to = "/feedback.html"
+  status = 200
+
+[[redirects]]
+  from = "/easyworship-import"
+  to = "/easyworship-import.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog"
+  to = "/blog.html"
+  status = 200
+
+# Redirect all other routes to index.html for SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTopButton from '../components/BackToTopButton';
+import SEO from '../components/SEO';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 const inputStyle = {
@@ -97,6 +98,11 @@ export default function FeedbackPage() {
 
     return (
         <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
+            <SEO
+                title="Feedback - Share Your Experience with LyricDisplay"
+                description="Leave a review or report an issue with LyricDisplay. We'd love to hear your feedback to improve our free lyric display software."
+                keywords="feedback, reviews, bug reports, support, contact"
+            />
             <Navbar />
 
             {/* Header */}

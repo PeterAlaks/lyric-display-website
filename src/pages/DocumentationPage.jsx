@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 const NAV_ITEMS = [
@@ -171,6 +172,11 @@ export default function DocumentationPage() {
 
     return (
         <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
+            <SEO
+                title="Documentation - Complete Guide to LyricDisplay Features"
+                description="Comprehensive documentation covering installation, setup, quick start, file formats, browser sources, network configuration, and troubleshooting guide."
+                keywords="LyricDisplay documentation, setup guide, installation, configuration, troubleshooting"
+            />
             <Navbar />
 
             {/* Page Header */}

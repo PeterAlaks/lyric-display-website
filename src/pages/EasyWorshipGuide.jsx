@@ -3,12 +3,18 @@ import { ArrowLeft, Database, FolderOpen, CheckCircle, AlertCircle, FileText, Bo
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 export default function EasyWorshipGuide() {
     const navbarHeight = useNavbarHeight();
     return (
         <div style={{ background: "var(--ink)", minHeight: "100vh" }}>
+            <SEO
+                title="EasyWorship Import Guide - Import Songs to LyricDisplay"
+                description="Step-by-step guide to import your song library from EasyWorship into LyricDisplay. Compatible with EasyWorship 2009 and later versions."
+                keywords="EasyWorship import, song import, LyricDisplay import, worship software migration"
+            />
             <Navbar />
 
             {/* Header */}

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 export default function IntegrationGuide() {
@@ -24,6 +25,11 @@ export default function IntegrationGuide() {
 
     return (
         <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
+            <SEO
+                title="Integration Guide - Connect LyricDisplay with OBS, vMix & More"
+                description="Step-by-step instructions to integrate LyricDisplay with OBS Studio, vMix, Wirecast, Streamlabs, and other production software."
+                keywords="LyricDisplay integration, OBS lyrics, vMix lyrics, browser source, production software setup"
+            />
             <Navbar />
 
             {/* Header */}

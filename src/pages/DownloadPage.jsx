@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
 const fadeUp = {
@@ -90,6 +91,11 @@ export default function DownloadPage() {
 
     return (
         <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
+            <SEO
+                title="Download LyricDisplay - Free Lyric Presentation Software"
+                description="Download LyricDisplay for Windows, macOS, and Linux. Free, open-source professional lyric presentation software for live production and worship."
+                keywords="LyricDisplay download, free lyric software, OBS lyrics display, church projection software"
+            />
             <Navbar />
 
             {/* Header */}
