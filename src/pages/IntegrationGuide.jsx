@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Monitor, Github, Video, Cast, Check, Copy, AlertCircle, BookOpen, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Monitor, Video, Cast, Check, Copy, AlertCircle, BookOpen, ExternalLink } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
@@ -10,6 +11,11 @@ export default function IntegrationGuide() {
     const [copied, setCopied] = useState('');
     const navbarHeight = useNavbarHeight();
 
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+        window.scrollTo(0, 0);
+    };
+
     const copyToClipboard = (text, id) => {
         navigator.clipboard.writeText(text);
         setCopied(id);
@@ -17,44 +23,48 @@ export default function IntegrationGuide() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <Navbar isHomePage={false} />
+        <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
+            <Navbar />
 
             {/* Header */}
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white" style={{ paddingTop: `${navbarHeight + 32}px` }}>
-                <div className="max-w-5xl mx-auto px-6 py-12">
-                    <a href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Home
+            <section style={{ paddingTop: navbarHeight + 48, paddingBottom: 56, background: 'var(--surface)', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '70%', height: 280, background: 'radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.06), transparent 70%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.3), transparent)' }} />
+                <div className="max-w-5xl mx-auto px-6 lg:px-8" style={{ position: 'relative', zIndex: 1 }}>
+                    <a href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase', textDecoration: 'none', marginBottom: '2rem', transition: 'color 0.2s' }}
+                        onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
+                        <ArrowLeft size={14} /> Back to Home
                     </a>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                        Integration Instructions
+                    <span className="section-label">Integration Guide</span>
+                    <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '0.75rem' }}>
+                        Integration Instructions.
                     </h1>
-                    <p className="text-md text-blue-100">
-                        Step-by-step guide to connect LyricDisplay with your production software
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
+                        Step-by-step guide to connect LyricDisplay with your production software.
                     </p>
                 </div>
-            </div>
+            </section>
 
             {/* Navigation Tabs */}
-            <div className="bg-white border-b border-gray-200 sticky z-10 shadow-sm" style={{ top: `${navbarHeight}px` }}>
+            <div style={{ background: 'var(--surface)', borderBottom: '1px solid var(--border)', position: 'sticky', top: navbarHeight, zIndex: 40 }}>
                 <div className="max-w-5xl mx-auto px-6">
-                    <div className="flex gap-8 overflow-x-auto">
+                    <div style={{ display: 'flex', gap: '2rem', overflowX: 'auto' }}>
                         <TabButton
                             active={activeTab === 'obs'}
-                            onClick={() => setActiveTab('obs')}
+                            onClick={() => handleTabChange('obs')}
                             icon={<Monitor className="w-5 h-5" />}
                             label="OBS Studio"
                         />
                         <TabButton
                             active={activeTab === 'vmix'}
-                            onClick={() => setActiveTab('vmix')}
+                            onClick={() => handleTabChange('vmix')}
                             icon={<Video className="w-5 h-5" />}
                             label="vMix"
                         />
                         <TabButton
                             active={activeTab === 'wirecast'}
-                            onClick={() => setActiveTab('wirecast')}
+                            onClick={() => handleTabChange('wirecast')}
                             icon={<Cast className="w-5 h-5" />}
                             label="Wirecast"
                         />
@@ -63,33 +73,33 @@ export default function IntegrationGuide() {
             </div>
 
             {/* Content */}
-            <div className="max-w-5xl mx-auto px-6 py-12">
+            <div className="max-w-5xl mx-auto px-6 py-12" style={{ color: 'var(--text-secondary)' }}>
                 {activeTab === 'obs' && <OBSGuide copyToClipboard={copyToClipboard} copied={copied} />}
                 {activeTab === 'vmix' && <VmixGuide copyToClipboard={copyToClipboard} copied={copied} />}
                 {activeTab === 'wirecast' && <WirecastGuide copyToClipboard={copyToClipboard} copied={copied} />}
             </div>
 
             {/* Footer CTA */}
-            <div className="bg-gray-900 text-white py-16 px-6">
-                <div className="max-w-5xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                        Need More Help?
+            <section style={{ background: 'var(--ink)', padding: '80px 0', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '60%', height: 280, background: 'radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.05), transparent 70%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.25), transparent)' }} />
+                <div className="max-w-5xl mx-auto px-6 text-center" style={{ position: 'relative', zIndex: 1 }}>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.2rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.75rem', letterSpacing: '-0.02em' }}>
+                        Need more help?
                     </h2>
-                    <p className="text-gray-400 mb-8">
-                        Check out our video tutorial or reach out for technical support
+                    <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
+                        Check out our video tutorial or reach out for technical support.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href="https://drive.google.com/file/d/1fP4fSSWSNvSocI8fK7hktdJ7dY6xnCM-/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
-                            <BookOpen className="w-5 h-5" />
-                            Watch Video Tutorial
+                    <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <a href="https://drive.google.com/file/d/1fP4fSSWSNvSocI8fK7hktdJ7dY6xnCM-/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="btn-primary">
+                            <BookOpen size={15} /> Watch Video Tutorial
                         </a>
-                        <a href="https://linktr.ee/peteralaks" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-6 py-3 rounded-xl font-semibold border-2 border-white/30 hover:bg-white/20 transition-all">
-                            <ExternalLink className="w-5 h-5" />
-                            Contact Support
+                        <a href="https://linktr.ee/peteralaks" target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                            <ExternalLink size={15} /> Contact Support
                         </a>
                     </div>
                 </div>
-            </div>
+            </section>
 
             {/* Footer */}
             <Footer />
@@ -100,15 +110,16 @@ export default function IntegrationGuide() {
 
 function TabButton({ active, onClick, icon, label }) {
     return (
-        <button
-            onClick={onClick}
-            className={`flex items-center gap-2 py-4 border-b-2 font-medium transition-colors whitespace-nowrap ${active
-                ? 'border-blue-600 text-blue-600'
-                : 'border-transparent text-gray-600 hover:text-gray-900'
-                }`}
-        >
-            {icon}
-            {label}
+        <button onClick={onClick} style={{
+            display: 'flex', alignItems: 'center', gap: 8,
+            padding: '1rem 0', borderBottom: `2px solid ${active ? 'var(--primary)' : 'transparent'}`,
+            fontFamily: 'var(--font-mono)', fontSize: '0.76rem', letterSpacing: '0.07em',
+            textTransform: 'uppercase', fontWeight: 500, whiteSpace: 'nowrap',
+            color: active ? 'var(--primary-bright)' : 'var(--text-muted)',
+            background: 'none', border: 'none',
+            cursor: 'pointer', transition: 'color 0.2s',
+        }}>
+            {icon} {label}
         </button>
     );
 }
@@ -678,16 +689,12 @@ function WirecastGuide({ copyToClipboard, copied }) {
 // Helper Components
 function Section({ title, badge, children }) {
     return (
-        <section>
-            <div className="flex items-center gap-3 mb-6">
-                <h2 className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+        <section style={{ marginBottom: '3.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: '1.5rem' }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                     {title}
                 </h2>
-                {badge && (
-                    <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
-                        {badge}
-                    </span>
-                )}
+                {badge && <span className="pill pill-primary">{badge}</span>}
             </div>
             {children}
         </section>
@@ -696,100 +703,86 @@ function Section({ title, badge, children }) {
 
 function SubSection({ title, children }) {
     return (
-        <div className="mt-8">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">{title}</h3>
+        <div style={{ marginTop: '2rem' }}>
+            <h3 style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '1rem' }}>{title}</h3>
             {children}
         </div>
     );
 }
 
 function Steps({ children }) {
-    return <div className="space-y-6">{children}</div>;
+    return <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>{children}</div>;
 }
 
 function Step({ number, children }) {
     return (
-        <div className="flex gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+        <div style={{ display: 'flex', gap: '1rem' }}>
+            <div style={{ flexShrink: 0, width: 30, height: 30, background: 'var(--primary-dim)', border: '1px solid rgba(168,85,247,0.3)', color: 'var(--primary-bright)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', fontWeight: 600 }}>
                 {number}
             </div>
-            <div className="flex-1 pt-1 text-gray-700">{children}</div>
+            <div style={{ flex: 1, paddingTop: 4, color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.7 }}>{children}</div>
         </div>
     );
 }
 
 function CodeBlock({ code, note, onCopy, copied }) {
     return (
-        <div className="mt-3">
-            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm flex items-center justify-between gap-4">
-                {/* MODIFIED: Added 'break-all' to prevent overflow on mobile */}
-                <code className="flex-1 break-all">{code}</code>
-                <button
-                    onClick={onCopy}
-                    className={`flex-shrink-0 p-2 rounded transition-colors ${copied ? 'bg-green-600 text-white' : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
-                        }`}
-                    title={copied ? 'Copied!' : 'Copy to clipboard'}
-                >
-                    {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+        <div style={{ marginTop: '0.75rem' }}>
+            <div style={{ background: 'var(--surface-up)', border: '1px solid var(--border)', borderRadius: 10, padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', gap: 12 }}>
+                <code style={{ flex: 1, fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'var(--text-secondary)', wordBreak: 'break-all' }}>{code}</code>
+                <button onClick={onCopy} title={copied ? 'Copied!' : 'Copy to clipboard'}
+                    style={{ flexShrink: 0, padding: 8, borderRadius: 6, border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+                        background: copied ? 'rgba(94,234,212,0.15)' : 'var(--surface)',
+                        color: copied ? 'var(--teal)' : 'var(--text-muted)' }}>
+                    {copied ? <Check size={14} /> : <Copy size={14} />}
                 </button>
             </div>
-            {note && <p className="text-sm text-gray-500 mt-2 italic">{note}</p>}
+            {note && <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 6, fontStyle: 'italic' }}>{note}</p>}
         </div>
     );
 }
 
 function SettingBox({ label, value }) {
     return (
-        <div className="bg-gray-100 p-3 rounded-lg text-center">
-            <div className="text-xs font-semibold text-gray-600 mb-1">{label}</div>
-            <div className="text-sm font-mono font-bold text-gray-900">{value}</div>
+        <div style={{ background: 'var(--surface-up)', border: '1px solid var(--border)', borderRadius: 8, padding: '0.75rem', textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 4 }}>{label}</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--primary-bright)', fontSize: '0.95rem' }}>{value}</div>
         </div>
     );
 }
 
 function AlertBox({ type = 'info', children, className = '' }) {
-    const styles = {
-        info: 'bg-blue-50 border-blue-200 text-blue-800',
-        success: 'bg-green-50 border-green-200 text-green-800',
-        warning: 'bg-amber-50 border-amber-200 text-amber-800'
-    };
-
-    const icons = {
-        info: <AlertCircle className="w-5 h-5 flex-shrink-0" />,
-        success: <Check className="w-5 h-5 flex-shrink-0" />,
-        warning: <AlertCircle className="w-5 h-5 flex-shrink-0" />
-    };
-
+    const clsMap = { info: 'alert-info', success: 'alert-success', warning: 'alert-warning' };
+    const colorMap = { info: 'var(--primary-bright)', success: 'var(--teal)', warning: '#f59e0b' };
     return (
-        <div className={`border rounded-lg p-4 flex gap-3 ${styles[type]} ${className}`}>
-            {icons[type]}
-            <div className="text-sm leading-relaxed">{children}</div>
+        <div className={`alert-box ${clsMap[type] || 'alert-info'} ${className}`} style={{ marginTop: className.includes('mt') ? undefined : '1rem' }}>
+            <AlertCircle size={15} style={{ color: colorMap[type] || colorMap.info, flexShrink: 0, marginTop: 2 }} />
+            <div style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>{children}</div>
         </div>
     );
 }
 
 function TipsList({ children }) {
-    return <ul className="space-y-3">{children}</ul>;
+    return <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>{children}</ul>;
 }
 
 function Tip({ children }) {
     return (
-        <li className="flex gap-3 bg-purple-50 border border-purple-200 rounded-lg p-4">
-            <span className="text-lg">💡</span>
-            <span className="text-sm text-gray-700 leading-relaxed">{children}</span>
+        <li style={{ display: "flex", gap: 12, background: "var(--primary-dim)", border: "1px solid rgba(168,85,247,0.2)", borderRadius: 10, padding: "1rem 1.25rem" }}>
+            <span style={{ fontSize: "1.1rem", flexShrink: 0 }}>💡</span>
+            <span style={{ fontSize: "0.88rem", color: "var(--text-secondary)", lineHeight: 1.7 }}>{children}</span>
         </li>
     );
 }
 
 function TroubleshootingItem({ title, children }) {
     return (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-6">
-            <h3 className="text-lg font-bold text-red-900 mb-4 flex items-center gap-2">
-                <AlertCircle className="w-5 h-5" />
-                PROBLEM: {title}
+        <div className="alert-box alert-error" style={{ display: "block", marginBottom: "1rem" }}>
+            <h3 style={{ fontWeight: 700, fontSize: "0.95rem", color: "#fca5a5", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: 8 }}>
+                <AlertCircle size={16} /> PROBLEM: {title}
             </h3>
-            <div className="space-y-2">
-                <p className="text-sm font-semibold text-red-800 mb-3">Solutions:</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", marginBottom: "0.5rem", fontFamily: "var(--font-mono)", letterSpacing: "0.06em", textTransform: "uppercase" }}>Solutions:</p>
                 {children}
             </div>
         </div>
@@ -797,30 +790,21 @@ function TroubleshootingItem({ title, children }) {
 }
 
 function PlatformBlock({ platform, children }) {
-    const platformStyles = {
-        Windows: { bg: 'bg-blue-50', border: 'border-blue-200', label: 'bg-blue-600', icon: '🪟' },
-        macOS: { bg: 'bg-gray-50', border: 'border-gray-200', label: 'bg-gray-700', icon: '🍎' },
-        Linux: { bg: 'bg-orange-50', border: 'border-orange-200', label: 'bg-orange-600', icon: '🐧' }
-    };
-
-    const style = platformStyles[platform] || platformStyles.Windows;
-
+    const icons = { Windows: '🪟', macOS: '🍎', Linux: '🐧' };
     return (
-        <div className={`${style.bg} border ${style.border} rounded-lg p-4`}>
-            <div className="flex items-center gap-2 mb-3">
-                <span className={`${style.label} text-white text-xs font-bold px-2 py-1 rounded`}>
-                    {style.icon} {platform}
-                </span>
+        <div style={{ background: "var(--surface-up)", border: "1px solid var(--border)", borderRadius: 10, padding: "1rem 1.25rem", marginTop: "0.75rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: "0.75rem" }}>
+                <span className="pill pill-dim">{icons[platform] || '💻'} {platform}</span>
             </div>
-            {children}
+            <div style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>{children}</div>
         </div>
     );
 }
 
 function TroubleshootingSolution({ children }) {
     return (
-        <div className="flex items-start gap-2 text-sm text-gray-700 bg-white rounded-lg p-3">
-            <span className="text-red-600 font-bold flex-shrink-0">→</span>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: "0.88rem", color: "var(--text-secondary)", background: "rgba(0,0,0,0.2)", borderRadius: 8, padding: "0.6rem 0.8rem" }}>
+            <span style={{ color: "#fca5a5", fontWeight: 700, flexShrink: 0 }}>→</span>
             <span>{children}</span>
         </div>
     );

@@ -1,488 +1,277 @@
 import React, { useState } from 'react';
 import { Star, Send, ExternalLink, AlertCircle, MessageSquare, Bug } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTopButton from '../components/BackToTopButton';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
+
+const inputStyle = {
+    width: '100%', padding: '13px 16px',
+    background: 'var(--ink)', border: '1px solid var(--border)',
+    borderRadius: 10, color: 'var(--text-primary)',
+    fontFamily: 'var(--font-body)', fontSize: '0.92rem',
+    outline: 'none', transition: 'border-color 0.2s, box-shadow 0.2s',
+};
+
+function DarkInput({ id, name, type = 'text', value, onChange, required, placeholder }) {
+    return (
+        <input id={id} name={name} type={type} value={value} onChange={onChange}
+            required={required} placeholder={placeholder}
+            style={inputStyle}
+            onFocus={e => { e.target.style.borderColor = 'rgba(168,85,247,0.5)'; e.target.style.boxShadow = '0 0 0 3px rgba(168,85,247,0.08)'; }}
+            onBlur={e => { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none'; }}
+        />
+    );
+}
+function DarkSelect({ id, name, value, onChange, required, children }) {
+    return (
+        <select id={id} name={name} value={value} onChange={onChange} required={required}
+            style={{ ...inputStyle, appearance: 'none', WebkitAppearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239d98b3' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 14px center', paddingRight: 40 }}
+            onFocus={e => { e.target.style.borderColor = 'rgba(168,85,247,0.5)'; e.target.style.boxShadow = '0 0 0 3px rgba(168,85,247,0.08)'; }}
+            onBlur={e => { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none'; }}>
+            {children}
+        </select>
+    );
+}
+function DarkTextarea({ id, name, value, onChange, required, placeholder, rows = 6 }) {
+    return (
+        <textarea id={id} name={name} value={value} onChange={onChange} required={required}
+            placeholder={placeholder} rows={rows}
+            style={{ ...inputStyle, resize: 'none', lineHeight: 1.65 }}
+            onFocus={e => { e.target.style.borderColor = 'rgba(168,85,247,0.5)'; e.target.style.boxShadow = '0 0 0 3px rgba(168,85,247,0.08)'; }}
+            onBlur={e => { e.target.style.borderColor = 'var(--border)'; e.target.style.boxShadow = 'none'; }}
+        />
+    );
+}
+
+function Field({ label, optional, children }) {
+    return (
+        <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+                {label} {optional && <span style={{ color: 'var(--text-muted)', fontStyle: 'normal' }}>(optional)</span>}
+            </label>
+            {children}
+        </div>
+    );
+}
 
 export default function FeedbackPage() {
     const [activeTab, setActiveTab] = useState('review');
     const [rating, setRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
     const navbarHeight = useNavbarHeight();
-    const [formData, setFormData] = useState({
-        name: '',
-        organization: '',
-        email: '',
-        platform: '',
-        description: ''
-    });
-    const [issueData, setIssueData] = useState({
-        name: '',
-        email: '',
-        platform: '',
-        issueType: '',
-        description: ''
-    });
+    const [formData, setFormData] = useState({ name: '', organization: '', email: '', platform: '', description: '' });
+    const [issueData, setIssueData] = useState({ name: '', email: '', platform: '', issueType: '', description: '' });
     const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
-    const handleInputChange = (e) => {
+    const handleTabChange = (tabId) => {
+        setActiveTab(tabId);
+        setSubmitStatus({ type: '', message: '' });
+        window.scrollTo(0, 0);
+    };
+
+    const handleChange = e => {
         const { name, value } = e.target;
-        if (activeTab === 'review') {
-            setFormData(prev => ({ ...prev, [name]: value }));
-        } else {
-            setIssueData(prev => ({ ...prev, [name]: value }));
-        }
+        if (activeTab === 'review') setFormData(p => ({ ...p, [name]: value }));
+        else setIssueData(p => ({ ...p, [name]: value }));
     };
 
-    const handleReviewSubmit = async (e) => {
+    const handleSubmit = async (e, formName) => {
         e.preventDefault();
-        setSubmitStatus({ type: 'loading', message: 'Submitting...' });
-
+        setSubmitStatus({ type: 'loading', message: 'Submitting…' });
         try {
-            const formElement = e.target;
-            const formDataToSend = new FormData(formElement);
-
-            const response = await fetch('/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(formDataToSend).toString()
-            });
-
-            if (response.ok) {
-                setSubmitStatus({
-                    type: 'success',
-                    message: 'Thank you for your review! We\'ll review it and publish it soon.'
-                });
-                setFormData({ name: '', organization: '', email: '', platform: '', description: '' });
-                setRating(0);
-            } else {
-                throw new Error('Submission failed');
-            }
-        } catch (error) {
-            setSubmitStatus({
-                type: 'error',
-                message: 'Something went wrong. Please try again or contact us directly.'
-            });
-        }
+            const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(e.target)).toString() });
+            if (res.ok) {
+                setSubmitStatus({ type: 'success', message: formName === 'reviews' ? 'Thank you for your review! We\'ll review it and publish it soon.' : 'Thank you for reporting this issue! We\'ll look into it as soon as possible.' });
+                if (formName === 'reviews') { setFormData({ name: '', organization: '', email: '', platform: '', description: '' }); setRating(0); }
+                else setIssueData({ name: '', email: '', platform: '', issueType: '', description: '' });
+            } else throw new Error();
+        } catch { setSubmitStatus({ type: 'error', message: 'Something went wrong. Please try again.' }); }
     };
 
-    const handleIssueSubmit = async (e) => {
-        e.preventDefault();
-        setSubmitStatus({ type: 'loading', message: 'Submitting...' });
-
-        try {
-            const formElement = e.target;
-            const formDataToSend = new FormData(formElement);
-
-            const response = await fetch('/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(formDataToSend).toString()
-            });
-
-            if (response.ok) {
-                setSubmitStatus({
-                    type: 'success',
-                    message: 'Thank you for reporting this issue! We\'ll look into it as soon as possible.'
-                });
-                setIssueData({ name: '', email: '', platform: '', issueType: '', description: '' });
-            } else {
-                throw new Error('Submission failed');
-            }
-        } catch (error) {
-            setSubmitStatus({
-                type: 'error',
-                message: 'Something went wrong. Please try again or contact us directly.'
-            });
-        }
-    };
-
-    const fadeInUp = {
-        initial: { opacity: 0, y: 30 },
-        animate: { opacity: 1, y: 0 },
-        transition: { duration: 0.6, ease: "easeOut" }
-    };
+    const tabs = [
+        { id: 'review', icon: <MessageSquare size={16} />, label: 'Leave a Review' },
+        { id: 'issues', icon: <Bug size={16} />, label: 'Report an Issue' },
+    ];
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
             <Navbar />
 
-            <div className="pb-24 px-6 lg:px-8" style={{ paddingTop: `${navbarHeight + 90}px` }}>
-                <div className="max-w-3xl mx-auto">
-                    <motion.div {...fadeInUp} className="text-center mb-12">
-                        <h1 className="text-4xl tracking-tight md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            We'd love to hear from you
-                        </h1>
-                        <p className="text-lg text-gray-600">
-                            Share your experience or report any issues you've encountered
-                        </p>
-                    </motion.div>
+            {/* Header */}
+            <section style={{ paddingTop: navbarHeight + 64, paddingBottom: 64, background: 'var(--surface)', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '70%', height: 300, background: 'radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.06), transparent 70%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.3), transparent)' }} />
+                <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
+                    style={{ maxWidth: 640, margin: '0 auto', padding: '0 24px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+                    <span className="section-label">Feedback</span>
+                    <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '1rem' }}>
+                        We'd love to hear<br /><em style={{ fontStyle: 'italic', color: 'var(--primary-bright)' }}>from you.</em>
+                    </h1>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7 }}>
+                        Share your experience or report any issues you've encountered.
+                    </p>
+                </motion.div>
+            </section>
 
-                    {/* Tab Switcher */}
-                    <motion.div {...fadeInUp} className="bg-white rounded-2xl shadow-sm border border-gray-200 p-2 mb-8">
-                        <div className="grid grid-cols-2 gap-2">
-                            <button
-                                onClick={() => {
-                                    setActiveTab('review');
-                                    setSubmitStatus({ type: '', message: '' });
-                                }}
-                                className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold transition-all ${activeTab === 'review'
-                                    ? 'bg-blue-500 text-white shadow-md'
-                                    : 'text-gray-600 hover:bg-gray-50'
-                                    }`}
-                            >
-                                <MessageSquare className="w-5 h-5" />
-                                Leave a Review
+            <section style={{ padding: '56px 0 96px', background: 'var(--ink)' }}>
+                <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 24px' }}>
+                    {/* Tab switcher */}
+                    <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 12, padding: 6, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: '2rem' }}>
+                        {tabs.map(tab => (
+                            <button key={tab.id} onClick={() => handleTabChange(tab.id)}
+                                style={{
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                                    padding: '12px 16px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                                    fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.88rem',
+                                    transition: 'all 0.2s',
+                                    background: activeTab === tab.id ? 'var(--primary-gradient)' : 'transparent',
+                                    color: activeTab === tab.id ? '#fff' : 'var(--text-secondary)',
+                                }}>
+                                {tab.icon} {tab.label}
                             </button>
-                            <button
-                                onClick={() => {
-                                    setActiveTab('issues');
-                                    setSubmitStatus({ type: '', message: '' });
-                                }}
-                                className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold transition-all ${activeTab === 'issues'
-                                    ? 'bg-blue-500 text-white shadow-md'
-                                    : 'text-gray-600 hover:bg-gray-50'
-                                    }`}
-                            >
-                                <Bug className="w-5 h-5" />
-                                Report an Issue
-                            </button>
-                        </div>
-                    </motion.div>
+                        ))}
+                    </div>
 
-                    {/* Status Message */}
-                    {submitStatus.message && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className={`mb-6 p-4 rounded-xl ${submitStatus.type === 'success'
-                                ? 'bg-green-50 text-green-800 border border-green-200'
-                                : submitStatus.type === 'error'
-                                    ? 'bg-red-50 text-red-800 border border-red-200'
-                                    : 'bg-blue-50 text-blue-800 border border-blue-200'
-                                }`}
-                        >
-                            {submitStatus.message}
-                        </motion.div>
-                    )}
+                    {/* Status */}
+                    <AnimatePresence>
+                        {submitStatus.message && (
+                            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                                className={`alert-box ${submitStatus.type === 'success' ? 'alert-success' : submitStatus.type === 'error' ? 'alert-error' : 'alert-info'}`}
+                                style={{ marginBottom: '1.5rem' }}>
+                                <AlertCircle size={16} style={{ flexShrink: 0, marginTop: 2 }} />
+                                <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{submitStatus.message}</span>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
-                    {/* Review Form */}
-                    {activeTab === 'review' && (
-                        <motion.div
-                            key="review"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8"
-                        >
-                            <form onSubmit={handleReviewSubmit} name="reviews" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-                                <input type="hidden" name="form-name" value="reviews" />
-                                <input type="hidden" name="bot-field" />
-                                <input type="hidden" name="rating" value={rating} />
+                    <AnimatePresence mode="wait">
+                        {activeTab === 'review' && (
+                            <motion.div key="review" initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}
+                                className="card-dark" style={{ padding: '2rem' }}>
+                                <form onSubmit={e => handleSubmit(e, 'reviews')} name="reviews" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                                    <input type="hidden" name="form-name" value="reviews" />
+                                    <input type="hidden" name="bot-field" />
+                                    <input type="hidden" name="rating" value={rating} />
 
-                                {/* Star Rating */}
-                                <div className="mb-8">
-                                    <label className="block text-sm font-semibold text-gray-900 mb-3">
-                                        Rate your experience *
-                                    </label>
-                                    <div className="flex gap-2">
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                            <button
-                                                key={star}
-                                                type="button"
-                                                onClick={() => setRating(star)}
-                                                onMouseEnter={() => setHoveredRating(star)}
-                                                onMouseLeave={() => setHoveredRating(0)}
-                                                className="transition-transform hover:scale-110"
-                                            >
-                                                <Star
-                                                    className={`w-10 h-10 ${star <= (hoveredRating || rating)
-                                                        ? 'fill-yellow-400 text-yellow-400'
-                                                        : 'text-gray-300'
-                                                        }`}
-                                                />
-                                            </button>
-                                        ))}
+                                    {/* Stars */}
+                                    <Field label="Rate your experience">
+                                        <div style={{ display: 'flex', gap: 8 }}>
+                                            {[1,2,3,4,5].map(star => (
+                                                <button key={star} type="button"
+                                                    onClick={() => setRating(star)}
+                                                    onMouseEnter={() => setHoveredRating(star)}
+                                                    onMouseLeave={() => setHoveredRating(0)}
+                                                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, transition: 'transform 0.15s' }}
+                                                    onMouseDown={e => e.currentTarget.style.transform = 'scale(0.9)'}
+                                                    onMouseUp={e => e.currentTarget.style.transform = 'scale(1.1)'}
+                                                >
+                                                    <Star size={36} style={{ color: star <= (hoveredRating || rating) ? '#a855f7' : 'var(--border)', fill: star <= (hoveredRating || rating) ? '#a855f7' : 'none', transition: 'all 0.15s' }} />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </Field>
+
+                                    <Field label="Your Name"><DarkInput id="name" name="name" value={formData.name} onChange={handleChange} required placeholder="John Doe" /></Field>
+                                    <Field label="Organization" optional><DarkInput id="organization" name="organization" value={formData.organization} onChange={handleChange} placeholder="Your Church or Organization" /></Field>
+                                    <Field label="Email Address"><DarkInput id="email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="john@example.com" /></Field>
+                                    <Field label="Platform">
+                                        <DarkSelect id="platform" name="platform" value={formData.platform} onChange={handleChange} required>
+                                            <option value="">Select your platform</option>
+                                            <option value="Windows">Windows</option>
+                                            <option value="macOS">macOS</option>
+                                            <option value="Linux">Linux</option>
+                                        </DarkSelect>
+                                    </Field>
+                                    <Field label="Your Review">
+                                        <DarkTextarea id="description" name="description" value={formData.description} onChange={handleChange} required placeholder="Tell us about your experience with LyricDisplay…" />
+                                    </Field>
+
+                                    <button type="submit" disabled={rating === 0 || submitStatus.type === 'loading'}
+                                        className="btn-primary" style={{ width: '100%', justifyContent: 'center', opacity: (rating === 0 || submitStatus.type === 'loading') ? 0.5 : 1, cursor: rating === 0 ? 'not-allowed' : 'pointer' }}>
+                                        <Send size={15} /> Submit Review
+                                    </button>
+                                </form>
+
+                                <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
+                                    <div className="alert-box alert-info">
+                                        <AlertCircle size={16} style={{ color: 'var(--primary-bright)', flexShrink: 0, marginTop: 2 }} />
+                                        <div>
+                                            <p style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.9rem', marginBottom: '0.4rem' }}>Have feature suggestions?</p>
+                                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '0.75rem' }}>
+                                                Join the discussion on the OBS Forum to share ideas and connect with other users.
+                                            </p>
+                                            <a href="https://obsproject.com/forum/threads/lyricdisplay-professional-lyrics-overlay-for-production-streaming-software.191349/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '9px 18px', fontSize: '0.82rem' }}>
+                                                Join Discussion <ExternalLink size={13} />
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
+                            </motion.div>
+                        )}
 
-                                {/* Name */}
-                                <div className="mb-6">
-                                    <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Your Name *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                                        placeholder="John Doe"
-                                    />
-                                </div>
+                        {activeTab === 'issues' && (
+                            <motion.div key="issues" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 16 }} transition={{ duration: 0.25 }}
+                                className="card-dark" style={{ padding: '2rem' }}>
+                                <form onSubmit={e => handleSubmit(e, 'issues')} name="issues" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                                    <input type="hidden" name="form-name" value="issues" />
+                                    <input type="hidden" name="bot-field" />
 
-                                {/* Organization */}
-                                <div className="mb-6">
-                                    <label htmlFor="organization" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Organization Name <span className="text-gray-500 font-normal">(Optional)</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="organization"
-                                        name="organization"
-                                        value={formData.organization}
-                                        onChange={handleInputChange}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                                        placeholder="Your Church or Organization"
-                                    />
-                                </div>
+                                    <Field label="Your Name"><DarkInput id="issue-name" name="name" value={issueData.name} onChange={handleChange} required placeholder="John Doe" /></Field>
+                                    <Field label="Email Address"><DarkInput id="issue-email" name="email" type="email" value={issueData.email} onChange={handleChange} required placeholder="john@example.com" /></Field>
+                                    <Field label="Platform">
+                                        <DarkSelect id="issue-platform" name="platform" value={issueData.platform} onChange={handleChange} required>
+                                            <option value="">Select your platform</option>
+                                            <option value="Windows">Windows</option>
+                                            <option value="macOS">macOS</option>
+                                            <option value="Linux">Linux</option>
+                                        </DarkSelect>
+                                    </Field>
+                                    <Field label="Issue Type">
+                                        <DarkSelect id="issueType" name="issueType" value={issueData.issueType} onChange={handleChange} required>
+                                            <option value="">Select issue type</option>
+                                            <option value="Bug">Bug / Error</option>
+                                            <option value="Performance">Performance Issue</option>
+                                            <option value="UI/UX">UI/UX Problem</option>
+                                            <option value="Compatibility">Compatibility Issue</option>
+                                            <option value="Other">Other</option>
+                                        </DarkSelect>
+                                    </Field>
+                                    <Field label="Describe the Issue">
+                                        <DarkTextarea id="issue-description" name="description" value={issueData.description} onChange={handleChange} required placeholder="Please provide as much detail as possible, including steps to reproduce the issue…" />
+                                    </Field>
 
-                                {/* Email */}
-                                <div className="mb-6">
-                                    <label htmlFor="email" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Email Address *
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                                        placeholder="john@example.com"
-                                    />
-                                </div>
+                                    <button type="submit" disabled={submitStatus.type === 'loading'}
+                                        className="btn-primary" style={{ width: '100%', justifyContent: 'center', opacity: submitStatus.type === 'loading' ? 0.5 : 1 }}>
+                                        <Send size={15} /> Submit Issue Report
+                                    </button>
+                                </form>
 
-                                {/* Platform */}
-                                <div className="mb-6">
-                                    <label htmlFor="platform" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Platform *
-                                    </label>
-                                    <select
-                                        id="platform"
-                                        name="platform"
-                                        value={formData.platform}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white"
-                                    >
-                                        <option value="">Select your platform</option>
-                                        <option value="Windows">Windows</option>
-                                        <option value="macOS">macOS</option>
-                                        <option value="Linux">Linux</option>
-                                    </select>
-                                </div>
-
-                                {/* Review Description */}
-                                <div className="mb-6">
-                                    <label htmlFor="description" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Your Review *
-                                    </label>
-                                    <textarea
-                                        id="description"
-                                        name="description"
-                                        value={formData.description}
-                                        onChange={handleInputChange}
-                                        required
-                                        rows="6"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
-                                        placeholder="Tell us about your experience with LyricDisplay..."
-                                    />
-                                </div>
-
-                                {/* Submit Button */}
-                                <button
-                                    type="submit"
-                                    disabled={rating === 0 || submitStatus.type === 'loading'}
-                                    className="w-full bg-blue-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
-                                >
-                                    <Send className="w-5 h-5" />
-                                    Submit Review
-                                </button>
-                            </form>
-
-                            {/* CTA Section */}
-                            <div className="mt-8 pt-8 border-t border-gray-200">
-                                <div className="bg-blue-50 rounded-xl p-6">
-                                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                                        <AlertCircle className="w-5 h-5 text-blue-500" />
-                                        Have feature suggestions?
-                                    </h3>
-                                    <p className="text-sm text-gray-600 mb-4">
-                                        Join the discussion on the OBS Forum to share your ideas and connect with other users.
-                                    </p>
-                                    <a
-                                        href="https://obsproject.com/forum/threads/lyricdisplay-professional-lyrics-overlay-for-production-streaming-software.191349/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors"
-                                    >
-                                        Join Discussion
-                                        <ExternalLink className="w-4 h-4" />
-                                    </a>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {/* Issue Report Form */}
-                    {activeTab === 'issues' && (
-                        <motion.div
-                            key="issues"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8"
-                        >
-                            <form onSubmit={handleIssueSubmit} name="issues" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-                                <input type="hidden" name="form-name" value="issues" />
-                                <input type="hidden" name="bot-field" />
-
-                                {/* Name */}
-                                <div className="mb-6">
-                                    <label htmlFor="issue-name" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Your Name *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="issue-name"
-                                        name="name"
-                                        value={issueData.name}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                                        placeholder="John Doe"
-                                    />
-                                </div>
-
-                                {/* Email */}
-                                <div className="mb-6">
-                                    <label htmlFor="issue-email" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Email Address *
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="issue-email"
-                                        name="email"
-                                        value={issueData.email}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                                        placeholder="john@example.com"
-                                    />
-                                </div>
-
-                                {/* Platform */}
-                                <div className="mb-6">
-                                    <label htmlFor="issue-platform" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Platform *
-                                    </label>
-                                    <select
-                                        id="issue-platform"
-                                        name="platform"
-                                        value={issueData.platform}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white"
-                                    >
-                                        <option value="">Select your platform</option>
-                                        <option value="Windows">Windows</option>
-                                        <option value="macOS">macOS</option>
-                                        <option value="Linux">Linux</option>
-                                    </select>
-                                </div>
-
-                                {/* Issue Type */}
-                                <div className="mb-6">
-                                    <label htmlFor="issueType" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Issue Type *
-                                    </label>
-                                    <select
-                                        id="issueType"
-                                        name="issueType"
-                                        value={issueData.issueType}
-                                        onChange={handleInputChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all bg-white"
-                                    >
-                                        <option value="">Select issue type</option>
-                                        <option value="Bug">Bug / Error</option>
-                                        <option value="Performance">Performance Issue</option>
-                                        <option value="UI/UX">UI/UX Problem</option>
-                                        <option value="Compatibility">Compatibility Issue</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-
-                                {/* Issue Description */}
-                                <div className="mb-6">
-                                    <label htmlFor="issue-description" className="block text-sm font-semibold text-gray-900 mb-2">
-                                        Describe the Issue *
-                                    </label>
-                                    <textarea
-                                        id="issue-description"
-                                        name="description"
-                                        value={issueData.description}
-                                        onChange={handleInputChange}
-                                        required
-                                        rows="6"
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
-                                        placeholder="Please provide as much detail as possible, including steps to reproduce the issue..."
-                                    />
-                                </div>
-
-                                {/* Submit Button */}
-                                <button
-                                    type="submit"
-                                    disabled={submitStatus.type === 'loading'}
-                                    className="w-full bg-blue-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
-                                >
-                                    <Send className="w-5 h-5" />
-                                    Submit Issue Report
-                                </button>
-                            </form>
-
-                            {/* CTA Section */}
-                            <div className="mt-8 pt-8 border-t border-gray-200">
-                                <div className="bg-orange-50 rounded-xl p-6">
-                                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                                        <AlertCircle className="w-5 h-5 text-orange-500" />
-                                        Need immediate help?
-                                    </h3>
-                                    <p className="text-sm text-gray-600 mb-4">
-                                        You can also submit issues directly on GitHub or get help from the community on the OBS Forum.
-                                    </p>
-                                    <div className="flex flex-wrap gap-3">
-                                        <a
-                                            href="https://github.com/PeterAlaks/lyric-display-app/issues"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-800 transition-colors"
-                                        >
-                                            GitHub Issues
-                                            <ExternalLink className="w-4 h-4" />
-                                        </a>
-                                        <a
-                                            href="https://obsproject.com/forum/threads/lyricdisplay-professional-lyrics-overlay-for-production-streaming-software.191349/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-600 transition-colors"
-                                        >
-                                            OBS Forum
-                                            <ExternalLink className="w-4 h-4" />
-                                        </a>
+                                <div style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid var(--border)' }}>
+                                    <div className="alert-box alert-warning">
+                                        <AlertCircle size={16} style={{ color: '#f59e0b', flexShrink: 0, marginTop: 2 }} />
+                                        <div>
+                                            <p style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.9rem', marginBottom: '0.4rem' }}>Need immediate help?</p>
+                                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '0.75rem' }}>
+                                                Submit issues directly on GitHub or get help from the community on the OBS Forum.
+                                            </p>
+                                            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                                                <a href="https://github.com/PeterAlaks/lyric-display-app/issues" target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ padding: '8px 16px', fontSize: '0.82rem' }}>
+                                                    GitHub Issues <ExternalLink size={13} />
+                                                </a>
+                                                <a href="https://obsproject.com/forum/threads/lyricdisplay-professional-lyrics-overlay-for-production-streaming-software.191349/" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ padding: '8px 16px', fontSize: '0.82rem' }}>
+                                                    OBS Forum <ExternalLink size={13} />
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </motion.div>
-                    )}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
-            </div>
+            </section>
 
             <Footer />
             <BackToTopButton />

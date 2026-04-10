@@ -1,142 +1,96 @@
 import React from 'react';
-import { Github } from 'lucide-react';
+import { Github, Heart } from 'lucide-react';
 import logoWhite from '../assets/images/LyricDisplay logo-white.png';
 
 export default function Footer() {
+    const year = new Date().getFullYear();
+    const links = {
+        Product:   [
+            { label: 'Integration',  href: '/#integration' },
+            { label: 'Outputs',      href: '/#outputs' },
+            { label: 'Advantages',   href: '/#advantages' },
+            { label: 'Features',     href: '/#features' },
+            { label: 'Use Cases',    href: '/#use-cases' },
+            { label: 'Download',     href: '/download' },
+        ],
+        Resources: [
+            { label: 'Blog',               href: '/blog' },
+            { label: 'Documentation',      href: "/documentation" },
+            { label: 'Integration Guide',  href: '/integration-guide' },
+            { label: 'EasyWorship Import', href: '/easyworship-import' },
+        ],
+        Help: [
+            { label: 'Create Issue',        href: 'https://github.com/PeterAlaks/lyric-display-app/issues', ext: true },
+            { label: 'Feedback',            href: '/feedback' },
+            { label: 'Contact',             href: 'https://linktr.ee/peteralaks', ext: true },
+            { label: 'Support Development', href: 'https://buymeacoffee.com/lyricdisplay', ext: true },
+        ],
+    };
+
+    const linkStyle = { color: 'var(--text-muted)', fontSize: '0.88rem', textDecoration: 'none', transition: 'color 0.2s' };
+
     return (
-        <footer className="bg-gray-900 text-gray-400 py-16 px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col lg:flex-row lg:justify-between gap-12 mb-12">
-                    {/* Left Column */}
-                    <div className="lg:max-w-md">
-                        <div className="flex items-center gap-3 mb-4">
-                            <a href="/">
-                                <img src={logoWhite} alt="LyricDisplay" className="h-8" />
-                            </a>
+        <footer style={{ background: 'var(--ink-soft)', borderTop: '1px solid var(--border)' }}>
+            {/* Top strip */}
+            <div style={{ background: 'var(--surface)', borderBottom: '1px solid var(--border)' }}>
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                    <div>
+                        <div style={{ marginBottom: 12 }}>
+                            <img src={logoWhite} alt="LyricDisplay" style={{ height: 28 }} />
                         </div>
-                        <p className="text-gray-400 leading-relaxed mb-6">
-                            Professional real-time lyric display application for live events, church services, and multimedia presentations. Built with passion by Peter Alakembi and David Okaliwe.
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', maxWidth: 340, lineHeight: 1.7 }}>
+                            Professional real-time lyric display for live events, church services, and multimedia productions. Built with passion by Peter Alakembi and David Okaliwe.
                         </p>
-                        <div className="flex gap-4">
-                            <a
-                                href="https://github.com/PeterAlaks/lyric-display-app"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-400 hover:text-white transition-colors"
-                            >
-                                <Github className="w-6 h-6" />
-                            </a>
-                        </div>
                     </div>
-
-                    {/* Right Column */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-12">
-                        <div>
-                            <h4 className="text-white font-semibold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                                Product
-                            </h4>
-                            <ul className="space-y-2">
-                                <li><a href="/#integration" className="hover:text-white transition-colors">Integration</a></li>
-                                <li><a href="/#outputs" className="hover:text-white transition-colors">Outputs</a></li>
-                                <li><a href="/#advantages" className="hover:text-white transition-colors">Advantages</a></li>
-                                <li><a href="/#features" className="hover:text-white transition-colors">Features</a></li>
-                                <li><a href="/#use-cases" className="hover:text-white transition-colors">Use Cases</a></li>
-                                <li><a href="/download" className="hover:text-white transition-colors">Download</a></li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h4 className="text-white font-semibold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                                Resources
-                            </h4>
-                            <ul className="space-y-2">
-                                <li>
-                                    <a
-                                        href="/blog"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Blog
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://github.com/PeterAlaks/lyric-display-app#readme"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Documentation
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="/integration-guide"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Integration Guide
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="/easyworship-import"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        EasyWorship Import
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h4 className="text-white font-semibold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                                Help
-                            </h4>
-                            <ul className="space-y-2">
-                                <li>
-                                    <a
-                                        href="https://github.com/PeterAlaks/lyric-display-app/issues"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Create Issue
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="/feedback"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Feedback
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://linktr.ee/peteralaks"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Contact
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://buymeacoffee.com/lyricdisplay"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Support Development
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                        <a href="https://github.com/PeterAlaks/lyric-display-app" target="_blank" rel="noopener noreferrer"
+                            style={{ color: 'var(--text-muted)', transition: 'color 0.2s' }}
+                            onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
+                            <Github size={20} />
+                        </a>
+                        <a href="https://buymeacoffee.com/lyricdisplay" target="_blank" rel="noopener noreferrer" className="btn-donate" style={{ padding: '10px 16px', fontSize: '0.78rem' }}>
+                            <Heart size={13} /> Donate
+                        </a>
+                        <a href="/download" className="btn-primary" style={{ padding: '10px 22px', fontSize: '0.82rem' }}>
+                            Download Free
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <div className="border-t border-gray-800 pt-8 text-center text-sm">
-                    <p>© {new Date().getFullYear()} LyricDisplay. All Rights Reserved.</p>
+            {/* Links */}
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 grid grid-cols-2 md:grid-cols-3 gap-10">
+                {Object.entries(links).map(([section, items]) => (
+                    <div key={section}>
+                        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--primary-bright)', marginBottom: '1rem' }}>
+                            {section}
+                        </p>
+                        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+                            {items.map(item => (
+                                <li key={item.label}>
+                                    <a href={item.href} target={item.ext ? '_blank' : undefined} rel={item.ext ? 'noopener noreferrer' : undefined}
+                                        style={linkStyle}
+                                        onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
+                                        {item.label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
+
+            {/* Bottom bar */}
+            <div style={{ borderTop: '1px solid var(--border)', padding: '1.25rem 0' }}>
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
+                        © {year} LyricDisplay · All Rights Reserved
+                    </p>
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
+                        GPL-2.0 License · Built by Peter Alakembi &amp; David Okaliwe
+                    </p>
                 </div>
             </div>
         </footer>

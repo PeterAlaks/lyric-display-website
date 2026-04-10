@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { Download, Github, ExternalLink, Monitor, Zap, Palette, FilePen, Globe2, Smartphone, RefreshCw, Church, Video, Mic2, Music, Check, Tv, Play, Gauge, BookOpen } from 'lucide-react';
+import React from 'react';
+import {
+    Download, Github, ExternalLink, Monitor, Zap, Palette, FilePen,
+    Globe2, Smartphone, Check, Tv, Play, Gauge, BookOpen,
+    Church, Video, Mic2, Music, ArrowRight, CheckCircle
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
@@ -15,367 +19,508 @@ import laptopCutout from '../assets/images/laptop-app-display-cutout.jpg';
 import phoneHandMockup from '../assets/images/phone-hand-display-mockup.png';
 import reviewsData from '../data/reviews.json';
 
+const fadeUp = {
+    initial: { opacity: 0, y: 28 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-80px' },
+    transition: { duration: 0.65, ease: 'easeOut' },
+};
+
+const stagger = {
+    initial: {},
+    whileInView: { transition: { staggerChildren: 0.1 } },
+    viewport: { once: true, margin: '-80px' },
+};
+
+const integrations = ['OBS Studio', 'vMix', 'Wirecast', 'Streamlabs', 'XSplit', 'ProPresenter'];
+
 export default function LyricDisplayLanding() {
     const navbarHeight = useNavbarHeight();
 
     React.useEffect(() => {
         document.documentElement.style.scrollBehavior = 'smooth';
-
         const hash = window.location.hash;
         if (hash) {
             setTimeout(() => {
-                const element = document.querySelector(hash);
-                if (element) {
-                    const navbarHeight = 80;
-                    const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = elementPosition - navbarHeight;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
+                const el = document.querySelector(hash);
+                if (el) {
+                    window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' });
                 }
             }, 100);
         }
-
-        return () => {
-            document.documentElement.style.scrollBehavior = 'auto';
-        };
+        return () => { document.documentElement.style.scrollBehavior = 'auto'; };
     }, []);
 
-    const fadeInUp = {
-        initial: { opacity: 0, y: 30 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-100px" },
-        transition: { duration: 0.6, ease: "easeOut" }
-    };
-
-    const staggerContainer = {
-        initial: {},
-        whileInView: { transition: { staggerChildren: 0.1 } },
-        viewport: { once: true, margin: "-100px" }
-    };
+    const approvedReviews = reviewsData.reviews.filter(r => r.approved);
 
     return (
-        <div className="min-h-screen bg-white scroll-smooth">
-            {/* Navigation */}
-            <Navbar isHomePage={true} />
+        <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
+            <Navbar isHomePage />
 
-            {/* Hero Section */}
-            <section className="pb-0 relative overflow-hidden" style={{ paddingTop: `${navbarHeight + 40}px` }}>
-                <div className="max-w-7xl mx-auto pb-64 md:pb-120 lg:pb-20 lg:pt-8 px-6 lg:px-8">
-                    {/* Right Image - Desktop only */}
-                    <motion.div
-                        initial={{ opacity: 0, x: '100%' }}
-                        animate={{
-                            opacity: 1,
-                            x: typeof window !== 'undefined' && window.innerWidth >= 1440
-                                ? '40%'
-                                : typeof window !== 'undefined' && window.innerWidth >= 1280
-                                    ? '55%'
-                                    : typeof window !== 'undefined' && window.innerWidth >= 1024
-                                        ? '75%'
-                                        : 0
-                        }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                        className="hidden lg:block absolute right-0 bottom-0 h-[320px] w-auto"
-                    >
-                        <img
-                            src={heroRight}
-                            alt="Live performance"
-                            className="w-full h-full object-cover rounded-t-3xl shadow-2xl"
-                            style={{ objectPosition: 'center' }}
-                        />
-                    </motion.div>
+            {/* ── HERO ──────────────────────────────────────────── */}
+            <section
+                className="relative overflow-hidden"
+                style={{
+                    paddingTop: navbarHeight + 64,
+                    paddingBottom: 0,
+                    background: 'var(--ink)',
+                }}
+            >
+                {/* Ambient spotlight */}
+                <div style={{
+                    position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+                    width: '80%', height: 480,
+                    background: 'radial-gradient(ellipse 80% 100% at 50% 0%, rgba(168,85,247,0.06) 0%, transparent 70%)',
+                    pointerEvents: 'none',
+                }} />
 
-                    {/* Center Content */}
-                    <div className="text-center max-w-5xl mx-auto relative z-10">
-                        <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
+                {/* Top accent line */}
+                <div style={{ position: 'absolute', top: navbarHeight, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent)' }} />
+
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="text-center max-w-4xl mx-auto relative z-10" style={{ paddingBottom: 0 }}>
+                        {/* Label */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 12 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                            className="tracking-tighter leading-tight text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
-                            style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                            transition={{ duration: 0.6 }}
+                            style={{ marginBottom: '1.5rem' }}
                         >
-                            Professional lyric display
-                            <br />
-                            <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                                for live productions
-                            </span>
+                            <span className="pill pill-primary">Free & Open Source · GPL-2.0</span>
+                        </motion.div>
+
+                        {/* Headline */}
+                        <motion.h1
+                            initial={{ opacity: 0, y: 24 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.75, delay: 0.1 }}
+                            style={{
+                                fontFamily: 'var(--font-display)',
+                                fontSize: 'clamp(3rem, 7vw, 5.5rem)',
+                                fontWeight: 600,
+                                lineHeight: 1.05,
+                                letterSpacing: '-0.025em',
+                                color: 'var(--text-primary)',
+                                marginBottom: '1.5rem',
+                            }}
+                        >
+                            Lyrics that move{' '}
+                            <em style={{ fontStyle: 'italic', color: 'var(--primary-bright)' }}>with</em>
+                            <br />your production.
                         </motion.h1>
 
+                        {/* Sub */}
                         <motion.p
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
-                            className="text-base md:text-lg text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto"
+                            transition={{ duration: 0.7, delay: 0.25 }}
+                            style={{
+                                color: 'var(--text-secondary)',
+                                fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+                                lineHeight: 1.75,
+                                maxWidth: 560,
+                                margin: '0 auto 2.5rem',
+                            }}
                         >
-                            Transform your services, concerts and live streams with crystal-clear, synchronized lyrics overlay across multiple displays. Seamlessly integrates with OBS, vMix, Wirecast and any browser-source compatible software.
+                            Crystal-clear, real-time lyric overlays across unlimited displays.
+                            Seamlessly integrated with OBS, vMix, Wirecast, and any browser-source software.
                         </motion.p>
 
+                        {/* CTA row */}
                         <motion.div
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.4 }}
-                            className="flex flex-row gap-3 sm:gap-4 justify-center items-center mb-8"
+                            transition={{ duration: 0.7, delay: 0.4 }}
+                            style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}
                         >
-                            <a href="/download" className="flex-1 sm:flex-initial bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 sm:px-8 py-4 rounded-xl font-semibold text-sm sm:text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
-                                <Download className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                                <span className="truncate">Download</span>
+                            <a href="/download" className="btn-primary">
+                                <Download size={16} />
+                                Download Free
                             </a>
-                            <a href="https://github.com/PeterAlaks/lyric-display-app" target="_blank" rel="noopener noreferrer" className="flex-1 sm:flex-initial bg-white text-gray-900 px-4 sm:px-8 py-4 rounded-xl font-semibold text-sm sm:text-lg border-2 border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
-                                <Github className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                                <span className="truncate">View on GitHub</span>
+                            <a href="https://github.com/PeterAlaks/lyric-display-app" target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                                <Github size={16} />
+                                View on GitHub
                             </a>
                         </motion.div>
 
+                        {/* Trust badges */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.8, delay: 0.6 }}
-                            className="flex flex-wrap justify-center gap-6 text-sm text-gray-500"
+                            style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}
                         >
-                            <div className="flex items-center gap-2">
-                                <Check className="w-4 h-4 text-green-500" />
-                                Cross-Platform
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Check className="w-4 h-4 text-green-500" />
-                                Auto-Updates
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <Check className="w-4 h-4 text-green-500" />
-                                No Subscription
-                            </div>
+                            {['Cross-Platform', 'Auto-Updates', 'No Subscription'].map(badge => (
+                                <span key={badge} style={{ display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: '0.72rem', letterSpacing: '0.08em', color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                                    <Check size={12} color="var(--teal)" />
+                                    {badge}
+                                </span>
+                            ))}
                         </motion.div>
                     </div>
 
-                    {/* Left Image */}
-                    <motion.div
-                        initial={{ opacity: 0, x: '-100%' }}
-                        animate={{
-                            opacity: 1,
-                            x: typeof window !== 'undefined' && window.innerWidth >= 1440
-                                ? '-40%'
-                                : typeof window !== 'undefined' && window.innerWidth >= 1280
-                                    ? '-55%'
-                                    : typeof window !== 'undefined' && window.innerWidth >= 1024
-                                        ? '-75%'
-                                        : 0
-                        }}
-                        transition={{ duration: 0.8, delay: 0.3 }}
-                        className="absolute bottom-0 left-0 w-full lg:left-0 lg:bottom-0 lg:h-[320px] lg:w-auto"
-                    >
-                        <img
-                            src={heroLeft}
-                            alt="Live worship service"
-                            className="w-full h-full object-cover rounded-t-3xl lg:rounded-t-3xl shadow-2xl"
-                            style={{ objectPosition: 'center' }}
-                        />
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Integration Section */}
-            <section id="integration" className="py-24 px-6 lg:px-8 bg-gray-50">
-                <div className="max-w-7xl mx-auto">
-                    <motion.div {...fadeInUp} className="text-center mb-16">
-                        <h2 className="text-4xl tracking-tight md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Works with your favorite tools
-                        </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            LyricDisplay seamlessly integrates with industry-leading streaming and production software through browser source compatibility.
-                        </p>
-                    </motion.div>
-
-                    <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" className="grid md:grid-cols-3 gap-8 mb-8">
-                        {[
-                            { name: 'OBS Studio', description: 'The world\'s most popular free streaming software. Add LyricDisplay as a browser source with transparent backgrounds for perfect overlay integration.' },
-                            { name: 'vMix', description: 'Professional live production software trusted by broadcasters worldwide. Use LyricDisplay web browser inputs for multi-camera worship productions.' },
-                            { name: 'Wirecast', description: 'Industry-standard live video streaming platform. Integrate LyricDisplay through web display sources for broadcast-quality lyric overlays.' }
-                        ].map((app, i) => (
-                            <motion.div key={i} variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
-                                <h3 className="text-2xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{app.name}</h3>
-                                <p className="text-gray-600 leading-relaxed">{app.description}</p>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-
-                    <motion.div {...fadeInUp} className="text-center mb-8">
-                        <p className="text-gray-500 text-sm italic">
-                            Plus any browser-source compatible software — LyricDisplay works with any streaming or production software that supports browser source inputs, giving you ultimate flexibility in your workflow.
-                        </p>
-                    </motion.div>
-
-                    <motion.div {...fadeInUp} className="text-center">
-                        <a
-                            href="/integration-guide"
-                            className="inline-flex items-center gap-2 bg-blue-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200"
+                    {/* Hero images */}
+                    <div className="relative" style={{ marginTop: '3rem', height: 320, overflow: 'hidden' }}>
+                        {/* Mobile hero image */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.9, delay: 0.5 }}
+                            style={{
+                                position: 'absolute', left: 0, right: 0, bottom: 0,
+                                width: '100%', height: '100%',
+                                borderRadius: '16px 16px 0 0',
+                                overflow: 'hidden',
+                                border: '1px solid var(--border)',
+                                borderBottom: 'none',
+                                boxShadow: '0 -20px 60px rgba(0,0,0,0.5)',
+                            }}
+                            className="md:hidden"
                         >
-                            <BookOpen className="w-5 h-5" />
-                            View Integration Guide
+                            <img src={heroRight} alt="Live performance" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+                            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.3), transparent 60%)' }} />
+                        </motion.div>
+
+                        {/* Desktop left hero image */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.9, delay: 0.5 }}
+                            style={{
+                                position: 'absolute', left: 0, bottom: 0,
+                                width: '48%', height: '100%',
+                                borderRadius: '16px 16px 0 0',
+                                overflow: 'hidden',
+                                border: '1px solid var(--border)',
+                                borderBottom: 'none',
+                                boxShadow: '0 -20px 60px rgba(0,0,0,0.5)',
+                            }}
+                            className="hidden md:block"
+                        >
+                            <img src={heroLeft} alt="Live worship service" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+                            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.3), transparent 60%)' }} />
+                        </motion.div>
+
+                        {/* Desktop right hero image */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.9, delay: 0.65 }}
+                            style={{
+                                position: 'absolute', right: 0, bottom: 0,
+                                width: '48%', height: '100%',
+                                borderRadius: '16px 16px 0 0',
+                                overflow: 'hidden',
+                                border: '1px solid var(--border)',
+                                borderBottom: 'none',
+                                boxShadow: '0 -20px 60px rgba(0,0,0,0.5)',
+                            }}
+                            className="hidden md:block"
+                        >
+                            <img src={heroRight} alt="Live performance" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+                            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.3), transparent 60%)' }} />
+                        </motion.div>
+
+                        {/* Center separator */}
+                        <div className="hidden md:block" style={{ position: 'absolute', left: '50%', top: '10%', bottom: 0, width: 2, background: 'linear-gradient(to bottom, transparent, var(--primary-bright), transparent)', opacity: 0.6, transform: 'translateX(-50%)' }} />
+                    </div>
+                </div>
+
+                {/* Bottom fade into next section */}
+                <div style={{ height: 80, background: 'linear-gradient(to bottom, transparent, var(--surface))' }} />
+            </section>
+
+            {/* ── INTEGRATION MARQUEE ───────────────────────────── */}
+            <section style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '20px 0', overflow: 'hidden' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: 4, justifyContent: 'center' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.66rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                        Integrates with
+                    </span>
+                </div>
+                <div style={{ overflow: 'hidden', maskImage: 'linear-gradient(90deg, transparent, black 15%, black 85%, transparent)' }}>
+                    <div className="marquee-track" style={{ gap: '3rem', padding: '8px 0' }}>
+                        {[...integrations, ...integrations].map((name, i) => (
+                            <span key={i} style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.95rem', color: 'var(--text-secondary)', letterSpacing: '0.02em', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                                {name}
+                                <span style={{ color: 'var(--primary-bright)', margin: '0 1.5rem', fontSize: '0.7rem' }}>✦</span>
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ── INTEGRATION SECTION ───────────────────────────── */}
+            <section id="integration" style={{ background: 'var(--surface)', padding: '96px 0' }}>
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <motion.div {...fadeUp} style={{ marginBottom: '4rem' }}>
+                        <span className="section-label">Integration</span>
+                        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
+                            Plays well with your<br />existing setup.
+                        </h2>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 480, lineHeight: 1.7 }}>
+                            LyricDisplay plugs straight into industry-leading streaming and production software via browser source — no plugins, no capture cards.
+                        </p>
+                    </motion.div>
+
+                    <motion.div variants={stagger} initial="initial" whileInView="whileInView"
+                        className="grid md:grid-cols-3 gap-5" style={{ marginBottom: '2.5rem' }}>
+                        {[
+                            { name: 'OBS Studio', tag: 'Free', desc: 'The world\'s most popular streaming software. Add as a browser source with transparent backgrounds for perfect overlay integration.' },
+                            { name: 'vMix', tag: 'Pro', desc: 'Professional live production trusted by broadcasters. Use LyricDisplay\'s web browser input for multi-camera worship productions.' },
+                            { name: 'Wirecast', tag: 'Broadcast', desc: 'Industry-standard live streaming platform. Integrate through web display sources for broadcast-quality lyric overlays.' },
+                        ].map((app, i) => (
+                            <motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '2rem' }}>
+                                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                                    <h3 style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1.15rem', color: 'var(--text-primary)' }}>{app.name}</h3>
+                                    <span className="pill pill-dim">{app.tag}</span>
+                                </div>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.7 }}>{app.desc}</p>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+
+                    <motion.div {...fadeUp} style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                        <a href="/integration-guide" className="btn-primary">
+                            <BookOpen size={15} />
+                            Integration Guide
                         </a>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic' }}>
+                            + any browser-source compatible software
+                        </p>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Multi-Output Section */}
-            <section id="outputs" className="py-24 px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white">
-                <div className="max-w-7xl mx-auto">
-                    <motion.div {...fadeInUp} className="text-center mb-16">
-                        <h2 className="text-4xl tracking-tight md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Multi-output control, fully scalable
+            {/* ── MULTI-OUTPUT ──────────────────────────────────── */}
+            <section id="outputs" style={{ background: 'var(--ink)', padding: '96px 0', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, var(--border), transparent)' }} />
+
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                        <span className="section-label">Outputs</span>
+                        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
+                            Six independent outputs,<br />one control surface.
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Run up to six completely independent display outputs simultaneously - all synchronized in perfect real-time from a single control interface. Configure styling, positioning, content and much more.
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
+                            Run up to six completely independent display outputs simultaneously — all synchronized in perfect real-time from a single interface.
                         </p>
                     </motion.div>
 
-                    <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" viewport={{ once: true }} className="grid md:grid-cols-3 gap-8">
+                    <motion.div variants={stagger} initial="initial" whileInView="whileInView"
+                        className="grid md:grid-cols-3 gap-5">
                         {[
-                            { name: 'Output 1', img: streamDisplay, desc: 'Can be used as overlay for OBS, vMix, or Wirecast with custom branding and styling' },
-                            { name: 'Output 2', img: auditoriumDisplay, desc: 'Could be configured for in-house projection with independent font sizing and positioning' },
-                            { name: 'Stage Monitor', img: stageDisplay, desc: 'Fully customizable performer-focused display with high contrast and optimized readability for stage confidence monitoring' }
+                            { name: 'Output 1', label: 'Broadcast Overlay', img: streamDisplay, desc: 'Transparent browser source overlay for OBS, vMix, or Wirecast with custom branding.' },
+                            { name: 'Output 2', label: 'In-House Projection', img: auditoriumDisplay, desc: 'Configured for auditorium display with independent font sizing and positioning.' },
+                            { name: 'Stage Monitor', label: 'Performer Display', img: stageDisplay, desc: 'High-contrast, optimized readability for stage confidence monitoring.' },
                         ].map((output, i) => (
-                            <motion.div key={i} variants={fadeInUp} className="group">
-                                <div className="relative overflow-hidden rounded-2xl shadow-lg mb-4 aspect-video">
-                                    <img src={output.img} alt={output.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <motion.div key={i} variants={fadeUp} className="card-dark" style={{ overflow: 'hidden' }}>
+                                <div style={{ height: 180, overflow: 'hidden', position: 'relative' }}>
+                                    <img src={output.img} alt={output.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                                        onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.06)'}
+                                        onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                                    />
+                                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.7), transparent 50%)' }} />
+                                    <div style={{ position: 'absolute', bottom: 12, left: 16 }}>
+                                        <span className="pill pill-primary">{output.label}</span>
+                                    </div>
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{output.name}</h3>
-                                <p className="text-gray-600 text-sm">{output.desc}</p>
+                                <div style={{ padding: '1.5rem' }}>
+                                    <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{output.name}</h3>
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.65 }}>{output.desc}</p>
+                                </div>
                             </motion.div>
                         ))}
                     </motion.div>
                 </div>
             </section>
 
-            {/* Why Choose LyricDisplay Section */}
-            <section id="advantages" className="pt-10 pb-24 px-0 bg-white relative overflow-hidden">
+            {/* ── ADVANTAGES ────────────────────────────────────── */}
+            <section id="advantages" style={{ background: 'var(--surface)', padding: '96px 0', position: 'relative', overflow: 'hidden' }}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="grid lg:grid-cols-2 gap-16 items-stretch">
-                        <motion.div {...fadeInUp} className="py-0">
-                            <h2 className="text-4xl tracking-tight leading-tight md:text-5xl font-bold text-gray-900 mb-10" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                                Outperforming traditional solutions
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        {/* Left: text */}
+                        <motion.div {...fadeUp}>
+                            <span className="section-label">Advantages</span>
+                            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '2rem', lineHeight: 1.15 }}>
+                                Built for the demands<br />of live production.
                             </h2>
 
-                            <div className="space-y-6">
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
-                                        <Zap className="w-6 h-6 text-white" />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                                {[
+                                    { icon: <Gauge size={20} />, title: 'Incredibly Lightweight', desc: 'Minimal CPU and memory footprint keeps your production PC responsive — perfect for mid-range to lower-tier gear.' },
+                                    { icon: <Tv size={20} />, title: 'Crystal-Clear Overlay', desc: 'No chroma keying or video capture needed. Browser source integration delivers pixel-perfect clarity with zero performance drain.' },
+                                    { icon: <Play size={20} />, title: 'True Real-Time Control', desc: 'Socket.io-powered sync ensures every display updates the instant you click. Zero lag, zero delays, zero manual syncing.' },
+                                ].map((item, i) => (
+                                    <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                                        <div className="icon-wrap">{item.icon}</div>
+                                        <div>
+                                            <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.35rem' }}>{item.title}</h3>
+                                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.7 }}>{item.desc}</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Lightning-Fast Performance</h3>
-                                        <p className="text-gray-600">Built with Electron and React for native-like speed. Instant response times and real-time updates with zero lag—critical for live production environments.</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
-                                        <Gauge className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Incredibly Lightweight</h3>
-                                        <p className="text-gray-600">Minimal CPU and memory footprint means your production PC stays responsive and smooth - perfect for setups with mid-range to low tier gear.</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
-                                        <Tv className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Crystal-Clear Overlay</h3>
-                                        <p className="text-gray-600">No chroma keying, alpha channels, or video capture needed. Browser source integration delivers pixel-perfect clarity without the performance drain of traditional video sources.</p>
-                                    </div>
-                                </div>
-
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
-                                        <Play className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>True Real-Time Control</h3>
-                                        <p className="text-gray-600">Socket.io-powered synchronization ensures every display updates the instant you click. No refresh delays, no manual syncing—just seamless, professional control.</p>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </motion.div>
 
-                        {/* Laptop Image */}
+                        {/* Right: laptop image */}
                         <motion.div
-                            initial={{ opacity: 0, x: 100 }}
+                            initial={{ opacity: 0, x: 50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8 }}
-                            className="hidden lg:block absolute right-0 top-0 bottom-0 w-2/5"
+                            className="hidden lg:block"
                         >
-                            <img src={laptopCutout} alt="LyricDisplay Control Panel" className="w-full h-full object-cover object-left" />
+                            <div className="img-frame float">
+                                <img src={laptopCutout} alt="LyricDisplay Control Panel" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                            </div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
-            {/* Features Section */}
-            <section id="features" className="py-24 px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto">
-                    <motion.div {...fadeInUp} className="text-center mb-20">
-                        <h2 className="tracking-tight text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Everything you need for pro-grade presentations
+            {/* ── FEATURES ──────────────────────────────────────── */}
+            <section id="features" style={{ background: 'var(--ink)', padding: '96px 0' }}>
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                        <span className="section-label">Features</span>
+                        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
+                            Everything for pro-grade<br />presentations.
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                            Packed with powerful features designed specifically for live production environments, churches, and professional events.
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
+                            Packed with features designed specifically for live production environments, churches, and professional events.
                         </p>
                     </motion.div>
 
-                    <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <motion.div variants={stagger} initial="initial" whileInView="whileInView"
+                        className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
-                            { icon: <Monitor className="w-8 h-8" />, title: 'Scalable Multi-Output System', description: 'Run Output 1, Output 2, Stage, and custom outputs (3-6) with independent styling and positioning for every screen context.' },
-                            { icon: <Zap className="w-8 h-8" />, title: 'Real-Time Synchronization', description: 'Instant updates across all displays powered by Socket.io. Zero lag, zero delays—built for live production.' },
-                            { icon: <Palette className="w-8 h-8" />, title: 'Advanced Styling Engine', description: '13 professional fonts, full typography controls, colors, shadows, borders, precise positioning and much more.' },
-                            { icon: <FilePen className="w-8 h-8" />, title: 'Rich In-App Editor', description: 'Feature-packed in-app editor for formatting and arranging lyric content for polished pro presentations.' },
-                            { icon: <Smartphone className="w-8 h-8" />, title: 'Mobile Controllers', description: 'Authorize devices with 6-digit codes. Remote operators can trigger lines and submit drafts for approval.' },
-                            { icon: <Globe2 className="w-8 h-8" />, title: 'Online Lyrics Fetch', description: 'Enhance your workflow with lyrics provided and instantly loadable from some of the best free libraries online.' }
-                        ].map((feature, i) => (
-                            <motion.div key={i} variants={fadeInUp} className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-purple-200 hover:shadow-xl transition-all duration-300 group">
-                                <div className="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform duration-300">
-                                    {feature.icon}
+                            { icon: <Monitor size={20} />, title: 'Scalable Multi-Output', desc: 'Run Output 1, 2, Stage, and custom outputs 3–6 with independent styling and positioning for every screen context.' },
+                            { icon: <Zap size={20} />, title: 'Real-Time Sync', desc: 'Instant updates across all displays powered by Socket.io. Zero lag, built for live production.' },
+                            { icon: <Palette size={20} />, title: 'Advanced Styling', desc: '13 professional fonts, full typography controls, colors, shadows, borders, precise positioning and more.' },
+                            { icon: <FilePen size={20} />, title: 'Rich In-App Editor', desc: 'Feature-packed editor for formatting and arranging lyric content for polished presentations.' },
+                            { icon: <Smartphone size={20} />, title: 'Mobile Controllers', desc: 'Authorize devices with 6-digit codes. Remote operators can trigger lines and submit drafts for approval.' },
+                            { icon: <Globe2 size={20} />, title: 'Online Lyrics Fetch', desc: 'Instantly load lyrics from the best free online libraries to enhance your workflow.' },
+                        ].map((f, i) => (
+                            <motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <div className="icon-wrap">{f.icon}</div>
+                                <div>
+                                    <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.4rem' }}>{f.title}</h3>
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.65 }}>{f.desc}</p>
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{feature.title}</h3>
-                                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
                             </motion.div>
                         ))}
                     </motion.div>
                 </div>
             </section>
 
-            {/* Use Cases */}
-            <section id="use-cases" className="py-24 px-6 lg:px-8 bg-gray-50">
-                <div className="max-w-7xl mx-auto">
-                    <motion.div {...fadeInUp} className="text-center mb-20">
-                        <h2 className="tracking-tight text-4xl md:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            Trusted by communities worldwide
+            {/* ── NDI OUTPUTS SECTION ────────────────────────────– */}
+            <section id="ndi" style={{ background: 'var(--surface)', padding: '96px 0', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, var(--border), transparent)' }} />
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                        <span className="section-label">Advanced Distribution</span>
+                        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
+                            NDI output support<br />for enterprise workflows.
                         </h2>
-                        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 540, margin: '0 auto', lineHeight: 1.7 }}>
+                            Beyond browser sources, LyricDisplay now supports NDI (Network Device Interface) output, enabling seamless integration with professional broadcast equipment and workflow software without requiring additional capture solutions.
+                        </p>
+                    </motion.div>
+
+                    <motion.div {...fadeUp} className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                        <div className="card-dark" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div>
+                                <h3 style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1.15rem', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>Browser Source Method</h3>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.7 }}>Direct integration with OBS, vMix, Wirecast, and compatible software. Perfect for standard streaming and overlay workflows.</p>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <CheckCircle size={14} style={{ color: 'var(--teal)', flexShrink: 0 }} />
+                                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>Zero-latency overlay</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <CheckCircle size={14} style={{ color: 'var(--teal)', flexShrink: 0 }} />
+                                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>Hardware acceleration</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <CheckCircle size={14} style={{ color: 'var(--teal)', flexShrink: 0 }} />
+                                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>Transparent background</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card-dark" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                            <div>
+                                <h3 style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1.15rem', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>NDI Output Method</h3>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.7 }}>Professional network-based distribution for enterprise productions. Ideal for distributed systems and multi-site deployments.</p>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1 }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <CheckCircle size={14} style={{ color: 'var(--teal)', flexShrink: 0 }} />
+                                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>Network distribution</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <CheckCircle size={14} style={{ color: 'var(--teal)', flexShrink: 0 }} />
+                                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>Multi-destination broadcast</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                    <CheckCircle size={14} style={{ color: 'var(--teal)', flexShrink: 0 }} />
+                                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem' }}>Compatible with SDI workflows</span>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* ── USE CASES ─────────────────────────────────────── */}
+            <section id="use-cases" style={{ background: 'var(--surface)', padding: '96px 0' }}>
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <motion.div {...fadeUp} style={{ marginBottom: '4rem' }}>
+                        <span className="section-label">Use Cases</span>
+                        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
+                            Trusted by communities<br />worldwide.
+                        </h2>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 480, lineHeight: 1.7 }}>
                             From intimate worship gatherings to large-scale productions, LyricDisplay adapts to your unique needs.
                         </p>
                     </motion.div>
 
-                    <motion.div variants={staggerContainer} initial="initial" whileInView="whileInView" className="grid md:grid-cols-2 gap-8">
+                    <motion.div variants={stagger} initial="initial" whileInView="whileInView"
+                        className="grid md:grid-cols-2 gap-5">
                         {[
-                            { icon: <Church className="w-12 h-12" />, title: 'Church Worship Services', description: 'Synchronized lyrics for in-house and online viewing with multi-language support and mobile team control.', benefits: ['Multi-language support', 'Quick song switching', 'In-house & online sync', 'Mobile team control'] },
-                            { icon: <Video className="w-12 h-12" />, title: 'Live Streaming & Broadcasting', description: 'Professional-grade overlays for OBS, vMix, and Wirecast with custom branding and broadcast quality.', benefits: ['Transparent overlays', 'Brand customization', 'Multi-camera support', 'Broadcast quality'] },
-                            { icon: <Mic2 className="w-12 h-12" />, title: 'Concerts & Live Events', description: 'Multi-screen coordination with custom styling, zero-lag performance, and venue-wide scalability.', benefits: ['Multi-screen coordination', 'Custom branding', 'Zero-lag performance', 'Scalable solution'] },
-                            { icon: <Music className="w-12 h-12" />, title: 'Karaoke & Entertainment', description: 'Full LRC support for timed lyrics with easy queue management and crystal-clear display.', benefits: ['LRC file support', 'Timed synchronization', 'Song queue management', 'Crystal-clear display'] }
-                        ].map((useCase, i) => (
-                            <motion.div key={i} variants={fadeInUp} className="bg-white p-10 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300">
-                                <div className="w-20 h-20 bg-blue-500 rounded-2xl flex items-center justify-center text-white mb-6">
-                                    {useCase.icon}
+                            {
+                                icon: <Church size={22} />, title: 'Church Worship Services',
+                                desc: 'Synchronized lyrics for in-house and online viewing with multi-language support and mobile team control.',
+                                benefits: ['Multi-language support', 'Quick song switching', 'In-house & online sync', 'Mobile team control'],
+                            },
+                            {
+                                icon: <Video size={22} />, title: 'Live Streaming & Broadcasting',
+                                desc: 'Professional-grade overlays for OBS, vMix, and Wirecast with custom branding and broadcast quality.',
+                                benefits: ['Transparent overlays', 'Brand customization', 'Multi-camera support', 'Broadcast quality'],
+                            },
+                            {
+                                icon: <Mic2 size={22} />, title: 'Concerts & Live Events',
+                                desc: 'Multi-screen coordination with custom styling, zero-lag performance, and venue-wide scalability.',
+                                benefits: ['Multi-screen coordination', 'Custom branding', 'Zero-lag performance', 'Scalable solution'],
+                            },
+                            {
+                                icon: <Music size={22} />, title: 'Karaoke & Entertainment',
+                                desc: 'Full LRC support for timed lyrics with easy queue management and crystal-clear display.',
+                                benefits: ['LRC file support', 'Timed synchronization', 'Song queue management', 'Crystal-clear display'],
+                            },
+                        ].map((uc, i) => (
+                            <motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '2rem' }}>
+                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '1.25rem' }}>
+                                    <div className="icon-wrap" style={{ width: 52, height: 52 }}>{uc.icon}</div>
+                                    <div>
+                                        <h3 style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-primary)', marginBottom: '0.4rem' }}>{uc.title}</h3>
+                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65 }}>{uc.desc}</p>
+                                    </div>
                                 </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>{useCase.title}</h3>
-                                <p className="text-gray-600 leading-relaxed mb-6">{useCase.description}</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {useCase.benefits.map((benefit, j) => (
-                                        <span key={j} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">{benefit}</span>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                    {uc.benefits.map((b, j) => (
+                                        <span key={j} className="pill pill-teal">{b}</span>
                                     ))}
                                 </div>
                             </motion.div>
@@ -384,127 +529,111 @@ export default function LyricDisplayLanding() {
                 </div>
             </section>
 
-            {/* Mobile Controllers Section */}
-            <section className="py-24 px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white relative overflow-hidden min-h-[600px]">
-                {/* Phone Image */}
+            {/* ── MOBILE CONTROL ────────────────────────────────── */}
+            <section style={{ background: 'var(--ink)', padding: '96px 0', position: 'relative', overflow: 'hidden', minHeight: 580 }}>
+                {/* Ambient glow */}
+                <div style={{ position: 'absolute', top: '50%', left: '30%', transform: 'translate(-50%,-50%)', width: 600, height: 400, background: 'radial-gradient(ellipse, rgba(168,85,247,0.04), transparent 70%)', pointerEvents: 'none' }} />
+
+                {/* Phone mockup */}
                 <motion.div
-                    initial={{ opacity: 0, y: 100 }}
+                    initial={{ opacity: 0, y: 60 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="hidden xl:block absolute bottom-0 left-0 w-full h-full max-h-[600px]"
+                    transition={{ duration: 0.85 }}
+                    className="hidden lg:block"
+                    style={{ position: 'absolute', bottom: 0, left: 0, height: '90%', pointerEvents: 'none', transform: 'scale(0.85)' }}
                 >
-                    <img src={phoneHandMockup} alt="Mobile Controller" className="absolute bottom-0 left-0 h-full w-auto object-contain object-bottom-left" />
+                    <img src={phoneHandMockup} alt="Mobile Controller" style={{ height: '100%', width: 'auto', objectFit: 'contain', objectPosition: 'bottom left' }} />
                 </motion.div>
 
-                {/* Smaller phone image */}
-                <motion.div
-                    initial={{ opacity: 0, y: 100 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="hidden lg:block xl:hidden absolute bottom-0 left-0 w-full h-full max-h-[500px]"
-                >
-                    <img src={phoneHandMockup} alt="Mobile Controller" className="absolute bottom-0 left-0 h-[80%] w-auto object-contain object-bottom-left" />
-                </motion.div>
-
-                <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
-                        <div className="hidden md:block"></div>
-
-                        <motion.div {...fadeInUp}>
-                            <h2 className="text-4xl tracking-tight md:text-5xl font-bold mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                                Control from anywhere with mobile devices
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <div className="grid lg:grid-cols-2 gap-16">
+                        <div className="hidden lg:block" />
+                        <motion.div {...fadeUp}>
+                            <span className="section-label">Mobile Control</span>
+                            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1.25rem', lineHeight: 1.15 }}>
+                                Control from anywhere<br />in the room.
                             </h2>
-                            <p className="text-xl text-gray-300 mb-8">
-                                Empower your team with secure mobile and tablet controllers. Authorize any device with a simple 6-digit code and enable distributed control across your production team.
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7, marginBottom: '2rem', maxWidth: 420 }}>
+                                Empower your team with secure mobile and tablet controllers. Authorize any device with a simple 6-digit code and enable distributed control.
                             </p>
 
-                            <div className="space-y-4 mb-8">
-                                <div className="flex items-start gap-3">
-                                    <Check className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
-                                    <p className="text-gray-300">Trigger lyric lines remotely from anywhere in your venue</p>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <Check className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
-                                    <p className="text-gray-300">Toggle outputs on and off for seamless transitions</p>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <Check className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
-                                    <p className="text-gray-300">Submit lyric drafts for desktop approval workflow</p>
-                                </div>
-                                <div className="flex items-start gap-3">
-                                    <Check className="w-5 h-5 text-green-400 mt-1 flex-shrink-0" />
-                                    <p className="text-gray-300">Secure authentication with rotating join codes</p>
-                                </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                {[
+                                    'Trigger lyric lines remotely from anywhere in your venue',
+                                    'Toggle outputs on and off for seamless transitions',
+                                    'Submit lyric drafts for desktop approval workflow',
+                                    'Secure authentication with rotating join codes',
+                                ].map((item, i) => (
+                                    <div key={i} className="check-item">
+                                        <Check size={15} className="ci-icon" />
+                                        <span>{item}</span>
+                                    </div>
+                                ))}
                             </div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
-            {/* Reviews Section */}
-            {reviewsData.reviews.filter(r => r.approved).length >= 3 && (
-                <section id="reviews" className="py-24 px-6 lg:px-8 bg-white overflow-hidden">
-                    <div className="max-w-7xl mx-auto">
-                        <motion.div {...fadeInUp} className="text-center mb-12 md:mb-16">
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl tracking-tight font-bold text-gray-900 mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                                Loved by production teams worldwide
+            {/* ── REVIEWS ───────────────────────────────────────── */}
+            {approvedReviews.length >= 3 && (
+                <section id="reviews" style={{ background: 'var(--surface)', padding: '96px 0', overflow: 'hidden' }}>
+                    <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                        <motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                            <span className="section-label">Reviews</span>
+                            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
+                                Loved by production<br />teams worldwide.
                             </h2>
-                            <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto">
-                                See what users are saying about their experience with LyricDisplay
+                            <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 440, margin: '0 auto', lineHeight: 1.7 }}>
+                                See what users are saying about their experience with LyricDisplay.
                             </p>
                         </motion.div>
 
-                        <ReviewSlider reviews={reviewsData.reviews.filter(review => review.approved)} />
+                        <ReviewSlider reviews={approvedReviews} />
 
-                        <motion.div {...fadeInUp} className="text-center mt-12">
-                            <a
-                                href="/feedback"
-                                className="inline-flex items-center gap-2 bg-blue-500 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200"
-                            >
+                        <motion.div {...fadeUp} style={{ textAlign: 'center', marginTop: '3rem' }}>
+                            <a href="/feedback" className="btn-primary">
                                 Share Your Experience
-                                <ExternalLink className="w-5 h-5" />
+                                <ArrowRight size={15} />
                             </a>
                         </motion.div>
                     </div>
                 </section>
             )}
 
-            {/* CTA Section */}
-            <section id="download" className="py-24 px-6 lg:px-8 bg-gradient-to-br from-blue-500 to-purple-600">
-                <motion.div {...fadeInUp} className="max-w-4xl mx-auto text-center text-white">
-                    <h2 className="tracking-tight text-4xl md:text-6xl font-bold mb-6" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                        Ready to transform your presentations?
+            {/* ── CTA ───────────────────────────────────────────── */}
+            <section id="download" style={{ background: 'var(--ink)', padding: '120px 0', position: 'relative', overflow: 'hidden' }}>
+                {/* Dramatic spotlight */}
+                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '70%', height: 500, background: 'radial-gradient(ellipse 80% 100% at 50% 0%, rgba(168,85,247,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.35), transparent)' }} />
+
+                <motion.div {...fadeUp} style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+                    <span className="section-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Get Started</span>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--text-primary)', lineHeight: 1.08, marginBottom: '1.5rem' }}>
+                        Transform your<br />
+                        <em style={{ fontStyle: 'italic', color: 'var(--primary-bright)' }}>presentations</em><br />
+                        today.
                     </h2>
-                    <p className="text-md md:text-lg mb-10 text-blue-100 leading-relaxed">
-                        Join thousands of worship leaders, event producers, and content creators who trust LyricDisplay for their live productions. Download now and experience professional lyric display at its finest — completely free.
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.75, marginBottom: '2.5rem', maxWidth: 480, margin: '0 auto 2.5rem' }}>
+                        Join thousands of worship leaders, event producers, and content creators who trust LyricDisplay. Free, open source, and built for live.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <a
-                            href="/download"
-                            className="w-full sm:w-auto bg-white text-purple-600 px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
-                        >
-                            <Download className="w-5 h-5" />
-                            Download
+                    <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}>
+                        <a href="/download" className="btn-primary">
+                            <Download size={16} />
+                            Download Free
                         </a>
-                        <a
-                            href="https://github.com/PeterAlaks/lyric-display-app#readme"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full sm:w-auto bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold text-lg border-2 border-white/30 hover:bg-white/20 transition-all duration-200 flex items-center justify-center gap-2"
-                        >
-                            <ExternalLink className="w-5 h-5" />
-                            View Documentation
+                        <a href="/documentation" className="btn-ghost">
+                            <ExternalLink size={16} />
+                            Documentation
                         </a>
                     </div>
-                    <p className="text-sm text-blue-100 mt-8">
-                        Cross-Platform • Free & Open Source • MIT License
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                        Cross-Platform · Free & Open Source · GPL-2.0
                     </p>
                 </motion.div>
             </section>
 
-            {/* Footer */}
             <Footer />
             <BackToTopButton />
         </div>

@@ -8,164 +8,167 @@ import SEO from '../components/SEO';
 import { getAllPosts, getAllCategories } from '../utils/blogLoader';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
+const fadeUp = {
+    initial: { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: '-80px' },
+    transition: { duration: 0.6, ease: 'easeOut' },
+};
+const stagger = {
+    initial: {},
+    animate: { transition: { staggerChildren: 0.08 } },
+};
+
 export default function BlogPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
-
     const navbarHeight = useNavbarHeight();
+
+    const handleCategoryChange = (category) => {
+        setSelectedCategory(category);
+        window.scrollTo(0, 0);
+    };
 
     const blogPosts = useMemo(() => getAllPosts(), []);
     const categories = useMemo(() => getAllCategories(), []);
 
-    const fadeInUp = {
-        initial: { opacity: 0, y: 30 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-100px" },
-        transition: { duration: 0.6, ease: "easeOut" }
-    };
-
-    const staggerContainer = {
-        initial: {},
-        whileInView: { transition: { staggerChildren: 0.1 } },
-        viewport: { once: true, margin: "-100px" }
-    };
-
-    const filteredPosts = blogPosts.filter(post => {
-        const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-        return matchesSearch && matchesCategory;
+    const filtered = blogPosts.filter(p => {
+        const ms = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                   p.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+        const mc = selectedCategory === 'All' || p.category === selectedCategory;
+        return ms && mc;
     });
 
     return (
-        <div className="min-h-screen bg-white">
+        <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
             <SEO
                 title="Blog - Expert Guides & Tips for Lyric Display"
-                description="Expert insights, tips, and guides for mastering lyric presentation in live productions, church worship, and streaming. Learn about multi-output displays, OBS integration, and more."
-                keywords="lyric display blog, worship presentation tips, OBS lyrics guide, church tech blog, live streaming lyrics, worship software tutorials"
+                description="Expert insights, tips, and guides for mastering lyric presentation in live productions."
+                keywords="lyric display blog, worship presentation tips, OBS lyrics guide, church tech blog"
             />
             <Navbar />
 
-            {/* Hero Section */}
-            <section className="pb-16 px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-purple-50 to-white" style={{ paddingTop: `${navbarHeight + 90}px` }}>
-                <div className="max-w-7xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center max-w-4xl mx-auto"
-                    >
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 tracking-tight" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                            LyricDisplay <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">Blog</span>
+            {/* Hero */}
+            <section style={{ paddingTop: navbarHeight + 72, paddingBottom: 64, background: 'var(--surface)', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '70%', height: 300, background: 'radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.06), transparent 70%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.06), transparent)' }} />
+
+                <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center" style={{ position: 'relative', zIndex: 1 }}>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+                        <span className="section-label">The LyricDisplay Blog</span>
+                        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '1.25rem' }}>
+                            Insights for live<br />
+                            <em style={{ fontStyle: 'italic', color: 'var(--primary)' }}>production teams.</em>
                         </h1>
-                        <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                            Expert insights, tips, and guides for mastering lyric presentation in live productions and streaming
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: 480, margin: '0 auto 2.5rem' }}>
+                            Expert guides, tips, and tutorials for mastering lyric presentation in live productions and streaming.
                         </p>
 
-                        {/* Search Bar */}
-                        <div className="max-w-2xl mx-auto relative">
-                            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                        {/* Search */}
+                        <div style={{ position: 'relative', maxWidth: 480, margin: '0 auto' }}>
+                            <Search size={16} style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                             <input
                                 type="text"
                                 placeholder="Search articles..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-12 pr-4 py-4 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-gray-900"
+                                onChange={e => setSearchQuery(e.target.value)}
+                                style={{
+                                    width: '100%', paddingLeft: 44, paddingRight: 16,
+                                    paddingTop: 13, paddingBottom: 13,
+                                    background: 'var(--ink)', border: '1px solid var(--border)',
+                                    borderRadius: 10, color: 'var(--text-primary)',
+                                    fontFamily: 'var(--font-body)', fontSize: '0.92rem',
+                                    outline: 'none', transition: 'border-color 0.2s',
+                                }}
+                                onFocus={e => e.currentTarget.style.borderColor = 'rgba(168,85,247,0.06)'}
+                                onBlur={e => e.currentTarget.style.borderColor = 'var(--border)'}
                             />
                         </div>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Category Filter */}
-            <section
-                className="py-5 px-6 lg:px-8 bg-white border-b border-gray-100 sticky z-40"
-                style={{ top: `${navbarHeight}px` }}
-            >
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex flex-wrap gap-3 justify-center">
-                        {categories.map((category) => (
-                            <button
-                                key={category}
-                                onClick={() => setSelectedCategory(category)}
-                                className={`px-6 py-2 rounded-full font-medium transition-all duration-200 ${selectedCategory === category
-                                    ? 'bg-blue-500 text-white shadow-lg'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                            >
-                                {category}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Blog Posts Grid */}
-            <section className="py-16 px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto">
-                    {filteredPosts.length === 0 ? (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="text-center py-20"
+            {/* Category filter */}
+            <div style={{ background: 'var(--ink)', borderBottom: '1px solid var(--border)', padding: '16px 0', position: 'sticky', top: navbarHeight, zIndex: 40 }}>
+                <div className="max-w-7xl mx-auto px-6 lg:px-8" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {categories.map(cat => (
+                        <button key={cat} onClick={() => handleCategoryChange(cat)}
+                            className={selectedCategory === cat ? 'bg-primary-gradient' : ''}
+                            style={{
+                                padding: '6px 16px', borderRadius: 999, border: '1px solid',
+                                fontFamily: 'var(--font-mono)', fontSize: '0.7rem', letterSpacing: '0.09em',
+                                textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.2s',
+                                background: selectedCategory === cat ? 'var(--primary-gradient)' : 'transparent',
+                                borderColor: selectedCategory === cat ? 'var(--primary)' : 'var(--border)',
+                                color: selectedCategory === cat ? 'var(--ink)' : 'var(--text-secondary)',
+                            }}
                         >
-                            <p className="text-xl text-gray-500">No articles found matching your criteria.</p>
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Posts grid */}
+            <section style={{ padding: '64px 0 96px', background: 'var(--ink)' }}>
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    {filtered.length === 0 ? (
+                        <motion.div {...fadeUp} style={{ textAlign: 'center', padding: '80px 0', color: 'var(--text-muted)' }}>
+                            No articles found matching your criteria.
                         </motion.div>
                     ) : (
                         <motion.div
                             key={selectedCategory + searchQuery}
-                            initial="initial"
-                            animate="whileInView"
-                            variants={staggerContainer}
-                            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                            variants={stagger} initial="initial" animate="animate"
+                            className="grid md:grid-cols-2 lg:grid-cols-3 gap-5"
                         >
-                            {filteredPosts.map((post) => (
+                            {filtered.map(post => (
                                 <motion.article
                                     key={post.id}
-                                    variants={fadeInUp}
-                                    className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-purple-200 hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                                    variants={{ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+                                    className="card-dark"
+                                    style={{ overflow: 'hidden', cursor: 'pointer' }}
                                     onClick={() => window.location.href = `/blog/${post.slug}`}
                                 >
-                                    {/* Post Image */}
-                                    <div className="relative h-48 overflow-hidden bg-gray-100">
-                                        <img
-                                            src={post.image}
-                                            alt={post.title}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    {/* Image */}
+                                    <div style={{ height: 188, overflow: 'hidden', position: 'relative' }}>
+                                        <img src={post.image} alt={post.title}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                                            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.06)'}
+                                            onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
                                         />
-                                        <div className="absolute top-4 left-4">
-                                            <span className="bg-white/90 backdrop-blur-sm text-gray-900 px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-                                                <Tag className="w-3 h-3" />
-                                                {post.category}
+                                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.6), transparent 55%)' }} />
+                                        <div style={{ position: 'absolute', top: 12, left: 12 }}>
+                                            <span className="pill pill-primary">
+                                                <Tag size={10} /> {post.category}
                                             </span>
                                         </div>
                                     </div>
 
-                                    {/* Post Content */}
-                                    <div className="p-6">
-                                        <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                                            <span className="flex items-center gap-1">
-                                                <Calendar className="w-4 h-4" />
+                                    {/* Content */}
+                                    <div style={{ padding: '1.5rem' }}>
+                                        <div style={{ display: 'flex', gap: '1rem', marginBottom: '0.75rem' }}>
+                                            <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>
+                                                <Calendar size={11} />
                                                 {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                             </span>
-                                            <span className="flex items-center gap-1">
-                                                <Clock className="w-4 h-4" />
-                                                {post.readTime}
+                                            <span style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.06em', color: 'var(--text-muted)' }}>
+                                                <Clock size={11} /> {post.readTime}
                                             </span>
                                         </div>
 
-                                        <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+                                        <h2 style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-primary)', marginBottom: '0.6rem', lineHeight: 1.4, transition: 'color 0.2s' }}
+                                            onMouseEnter={e => e.currentTarget.style.color = 'var(--primary)'}
+                                            onMouseLeave={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                                        >
                                             {post.title}
                                         </h2>
-
-                                        <p className="text-gray-600 mb-4 line-clamp-3">
+                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.65, marginBottom: '1.25rem',
+                                            overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
                                             {post.excerpt}
                                         </p>
-
-                                        <span className="inline-flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all duration-200">
-                                            Read More
-                                            <ArrowRight className="w-4 h-4" />
+                                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--primary)', fontSize: '0.82rem', fontWeight: 600, fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>
+                                            Read More <ArrowRight size={13} />
                                         </span>
                                     </div>
                                 </motion.article>
@@ -175,37 +178,32 @@ export default function BlogPage() {
                 </div>
             </section>
 
-            {/* Newsletter CTA */}
-            <section className="py-20 px-6 lg:px-8 bg-gradient-to-br from-blue-500 to-purple-600">
-                <motion.div
-                    {...fadeInUp}
-                    className="max-w-4xl mx-auto text-center text-white"
-                >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                        Stay Updated
+            {/* Newsletter */}
+            <section style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', padding: '80px 0' }}>
+                <motion.div {...fadeUp} style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center', padding: '0 24px' }}>
+                    <span className="section-label">Stay Updated</span>
+                    <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '1rem', lineHeight: 1.15 }}>
+                        Get the latest<br />in your inbox.
                     </h2>
-                    <p className="text-lg mb-8 text-blue-100">
-                        Get the latest tips, guides, and updates delivered to your inbox
+                    <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', fontSize: '0.95rem', lineHeight: 1.7 }}>
+                        Tips, guides, and updates delivered occasionally. No spam.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                         <input
-    type="email"
-    placeholder="Enter your email"
-    className="flex-1 px-6 py-4 rounded-xl
-               bg-white/20 border border-white/50
-               text-gray-900 placeholder-white/70
-               focus:bg-white focus:text-gray-900
-               focus:border-white focus:outline-none
-               focus:ring-2 focus:ring-white
-               transition-all duration-200"
-/>
-                        <button className="bg-white text-purple-600 px-8 py-4 rounded-xl font-bold hover:shadow-2xl hover:scale-105 transition-all duration-200">
-                            Subscribe
-                        </button>
+                            type="email"
+                            placeholder="your@email.com"
+                            style={{
+                                flex: 1, minWidth: 200,
+                                padding: '13px 16px', borderRadius: 8,
+                                background: 'var(--ink)', border: '1px solid var(--border)',
+                                color: 'var(--text-primary)', fontFamily: 'var(--font-body)',
+                                fontSize: '0.9rem', outline: 'none', transition: 'border-color 0.2s',
+                            }}
+                            onFocus={e => e.currentTarget.style.borderColor = 'rgba(168,85,247,0.06)'}
+                            onBlur={e => e.currentTarget.style.borderColor = 'var(--border)'}
+                        />
+                        <button className="btn-primary">Subscribe</button>
                     </div>
-                    <p className="text-sm text-blue-100 mt-4">
-                        No spam. Unsubscribe anytime.
-                    </p>
                 </motion.div>
             </section>
 

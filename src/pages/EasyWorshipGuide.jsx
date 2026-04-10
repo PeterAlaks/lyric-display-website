@@ -8,38 +8,42 @@ import { useNavbarHeight } from '../hooks/useNavbarHeight';
 export default function EasyWorshipGuide() {
     const navbarHeight = useNavbarHeight();
     return (
-        <div className="min-h-screen bg-gray-50">
-            <Navbar isHomePage={false} />
+        <div style={{ background: "var(--ink)", minHeight: "100vh" }}>
+            <Navbar />
 
             {/* Header */}
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white" style={{ paddingTop: `${navbarHeight + 32}px` }}>
-                <div className="max-w-5xl mx-auto px-6 py-12">
-                    <a href="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Home
+            <section style={{ paddingTop: navbarHeight + 48, paddingBottom: 56, background: "var(--surface)", position: "relative", overflow: "hidden" }}>
+                <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: "70%", height: 280, background: "radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.06), transparent 70%)", pointerEvents: "none" }} />
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(168,85,247,0.3), transparent)" }} />
+                <div className="max-w-5xl mx-auto px-6 lg:px-8" style={{ position: "relative", zIndex: 1 }}>
+                    <a href="/" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--text-muted)", fontFamily: "var(--font-mono)", fontSize: "0.72rem", letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", marginBottom: "2rem", transition: "color 0.2s" }}
+                        onMouseEnter={e => e.currentTarget.style.color = "var(--text-primary)"}
+                        onMouseLeave={e => e.currentTarget.style.color = "var(--text-muted)"}>
+                        <ArrowLeft size={14} /> Back to Home
                     </a>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                        EasyWorship Import Guide
+                    <span className="section-label">EasyWorship</span>
+                    <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.5rem, 5vw, 3.5rem)", fontWeight: 600, color: "var(--text-primary)", letterSpacing: "-0.025em", lineHeight: 1.1, marginBottom: "0.75rem" }}>
+                        EasyWorship Import Guide.
                     </h1>
-                    <p className="text-md text-blue-100">
-                        Import your song library from EasyWorship into LyricDisplay
+                    <p style={{ color: "var(--text-secondary)", fontSize: "1rem" }}>
+                        Import your song library from EasyWorship into LyricDisplay.
                     </p>
                 </div>
-            </div>
+            </section>
 
             {/* Content */}
-            <div className="max-w-5xl mx-auto px-6 py-12">
-                <div className="space-y-12">
+            <div className="max-w-5xl mx-auto px-6 py-12" style={{ color: "var(--text-secondary)" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "3.5rem" }}>
                     {/* Overview */}
                     <Section title="Overview">
-                        <p className="text-gray-700 leading-relaxed">
+                        <p style={{ color: "var(--text-secondary)" }}>
                             This guide will help you import your song library from EasyWorship into LyricDisplay. The import process converts your EasyWorship songs into plain text files that work seamlessly with LyricDisplay.
                         </p>
                     </Section>
 
                     {/* Before You Begin */}
                     <Section title="Before You Begin">
-                        <p className="text-gray-700 mb-4">
+                        <p style={{ color: "var(--text-secondary)" }}>
                             Make sure you know which version of EasyWorship you're using:
                         </p>
                         <ul className="space-y-2">
@@ -222,7 +226,7 @@ export default function EasyWorshipGuide() {
 
                     {/* Using Imported Songs */}
                     <Section title="Using Your Imported Songs">
-                        <p className="text-gray-700 mb-6">
+                        <p style={{ color: "var(--text-secondary)" }}>
                             After importing, your songs are saved as .txt files in the destination folder you selected. To use them in LyricDisplay:
                         </p>
                         <Steps>
@@ -313,15 +317,9 @@ export default function EasyWorshipGuide() {
 function Section({ title, badge, children }) {
     return (
         <section>
-            <div className="flex items-center gap-3 mb-6">
-                <h2 className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
-                    {title}
-                </h2>
-                {badge && (
-                    <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
-                        {badge}
-                    </span>
-                )}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "1.5rem" }}>
+                <h2 style={{ fontFamily: "var(--font-display)", fontSize: "2rem", fontWeight: 600, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>{title}</h2>
+                {badge && <span className="pill pill-primary">{badge}</span>}
             </div>
             {children}
         </section>
@@ -343,87 +341,67 @@ function Steps({ children }) {
 
 function Step({ number, children }) {
     return (
-        <div className="flex gap-4">
-            <div className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+        <div style={{ display: "flex", gap: "1rem" }}>
+            <div style={{ flexShrink: 0, width: 30, height: 30, background: "var(--primary-dim)", border: "1px solid rgba(168,85,247,0.3)", color: "var(--primary-bright)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-mono)", fontSize: "0.78rem", fontWeight: 600 }}>
                 {number}
             </div>
-            <div className="flex-1 pt-1 text-gray-700">{children}</div>
+            <div style={{ flex: 1, paddingTop: 4, color: "var(--text-secondary)", fontSize: "0.95rem", lineHeight: 1.7 }}>{children}</div>
         </div>
     );
 }
 
 function PathBox({ label, path }) {
     return (
-        <div className="bg-gray-900 text-gray-100 p-4 rounded-lg">
-            <div className="text-xs font-semibold text-blue-400 mb-2">{label}</div>
-            <code className="text-sm break-all">{path}</code>
+        <div style={{ background: "var(--surface-up)", border: "1px solid var(--border)", borderRadius: 10, padding: "1rem 1.25rem", marginTop: "0.5rem" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--primary-bright)", marginBottom: 8 }}>{label}</div>
+            <code style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem", color: "var(--text-secondary)", wordBreak: "break-all" }}>{path}</code>
         </div>
     );
 }
 
 function OptionBox({ title, description }) {
     return (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <div className="font-semibold text-gray-900 text-sm">{title}</div>
-            <div className="text-sm text-gray-600 mt-1">{description}</div>
+        <div style={{ background: "var(--primary-dim)", border: "1px solid rgba(168,85,247,0.2)", borderRadius: 10, padding: "0.9rem 1.1rem" }}>
+            <div style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: "0.9rem", marginBottom: 4 }}>{title}</div>
+            <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>{description}</div>
         </div>
     );
 }
 
 function ResultBox({ type, label, description }) {
-    const styles = {
-        success: 'bg-green-50 border-green-200',
-        info: 'bg-blue-50 border-blue-200',
-        error: 'bg-red-50 border-red-200'
-    };
-
-    const icons = {
-        success: <CheckCircle className="w-5 h-5 text-green-600" />,
-        info: <Database className="w-5 h-5 text-blue-600" />,
-        error: <AlertCircle className="w-5 h-5 text-red-600" />
-    };
-
+    const clsMap = { success: "alert-success", info: "alert-info", error: "alert-error" };
+    const colorMap = { success: "var(--teal)", info: "var(--primary-bright)", error: "#fca5a5" };
     return (
-        <div className={`border rounded-lg p-3 flex items-start gap-3 ${styles[type]}`}>
-            {icons[type]}
+        <div className={`alert-box ${clsMap[type] || "alert-info"}`}>
+            <AlertCircle size={15} style={{ color: colorMap[type], flexShrink: 0, marginTop: 2 }} />
             <div>
-                <div className="font-semibold text-gray-900 text-sm">{label}</div>
-                <div className="text-sm text-gray-600 mt-1">{description}</div>
+                <div style={{ fontWeight: 700, color: "var(--text-primary)", fontSize: "0.88rem", marginBottom: 3 }}>{label}</div>
+                <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>{description}</div>
             </div>
         </div>
     );
 }
 
 function AlertBox({ type = 'info', children, className = '' }) {
-    const styles = {
-        info: 'bg-blue-50 border-blue-200 text-blue-800',
-        success: 'bg-green-50 border-green-200 text-green-800',
-        warning: 'bg-amber-50 border-amber-200 text-amber-800'
-    };
-
-    const icons = {
-        info: <AlertCircle className="w-5 h-5 flex-shrink-0" />,
-        success: <CheckCircle className="w-5 h-5 flex-shrink-0" />,
-        warning: <AlertCircle className="w-5 h-5 flex-shrink-0" />
-    };
-
+    const clsMap = { info: "alert-info", success: "alert-success", warning: "alert-warning" };
+    const colorMap = { info: "var(--primary-bright)", success: "var(--teal)", warning: "#f59e0b" };
     return (
-        <div className={`border rounded-lg p-4 flex gap-3 ${styles[type]} ${className}`}>
-            {icons[type]}
-            <div className="text-sm leading-relaxed">{children}</div>
+        <div className={`alert-box ${clsMap[type] || "alert-info"} ${className}`}>
+            <AlertCircle size={15} style={{ color: colorMap[type], flexShrink: 0, marginTop: 2 }} />
+            <div style={{ fontSize: "0.88rem", color: "var(--text-secondary)", lineHeight: 1.7 }}>{children}</div>
         </div>
     );
 }
 
 function TipsList({ children }) {
-    return <ul className="space-y-3">{children}</ul>;
+    return <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.75rem" }}>{children}</ul>;
 }
 
 function Tip({ children }) {
     return (
-        <li className="flex gap-3 bg-purple-50 border border-purple-200 rounded-lg p-4">
-            <span className="text-lg">💡</span>
-            <span className="text-sm text-gray-700 leading-relaxed">{children}</span>
+        <li style={{ display: "flex", gap: 12, background: "var(--primary-dim)", border: "1px solid rgba(168,85,247,0.2)", borderRadius: 10, padding: "1rem 1.25rem" }}>
+            <span style={{ fontSize: "1.1rem", flexShrink: 0 }}>💡</span>
+            <span style={{ fontSize: "0.88rem", color: "var(--text-secondary)", lineHeight: 1.7 }}>{children}</span>
         </li>
     );
 }
