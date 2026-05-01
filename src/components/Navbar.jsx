@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import logoWhite from '../assets/images/LyricDisplay logo-white.png';
 
+const MotionNav = motion.nav;
+const MotionDiv = motion.div;
+
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [bannerVisible, setBannerVisible] = useState(true);
@@ -41,7 +44,8 @@ export default function Navbar() {
     const navH    = 72;
 
     return (
-        <motion.nav
+        <MotionNav
+            className={`site-navbar ${bannerVisible ? 'site-navbar--banner' : ''}`}
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -50,7 +54,7 @@ export default function Navbar() {
             {/* Banner */}
             <AnimatePresence>
                 {bannerVisible && (
-                    <motion.div
+                    <MotionDiv
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 44, opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
@@ -70,12 +74,12 @@ export default function Navbar() {
                                 <X size={16} />
                             </button>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
                 )}
             </AnimatePresence>
 
             {/* Main bar */}
-            <div style={{
+            <div className="site-navbar-main" style={{
                 height: navH,
                 background: scrolled ? 'rgba(9,9,15,0.93)' : 'transparent',
                 borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
@@ -126,27 +130,27 @@ export default function Navbar() {
                 {mobileMenuOpen && (
                     <>
                         {/* Backdrop */}
-                        <motion.div
+                        <MotionDiv
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.28, ease: 'easeInOut' }}
                             onClick={() => setMobileMenuOpen(false)}
                             style={{
-                                position: 'fixed', top: bannerH + navH, left: 0, right: 0,
-                                height: `calc(100vh - ${bannerH + navH}px)`,
+                                position: 'fixed', top: `calc(${bannerH + navH}px + env(safe-area-inset-top, 0px))`, left: 0, right: 0,
+                                height: `calc(100dvh - ${bannerH + navH}px - env(safe-area-inset-top, 0px))`,
                                 background: 'transparent', zIndex: 48
                             }}
                         />
                         {/* Drawer */}
-                        <motion.div
+                        <MotionDiv
                             initial={{ opacity: 0, x: '100%' }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: '100%' }}
                             transition={{ duration: 0.28, ease: 'easeInOut' }}
                             style={{
-                                position: 'fixed', top: bannerH + navH, right: 0,
-                                width: 270, height: `calc(100vh - ${bannerH + navH}px)`,
+                                position: 'fixed', top: `calc(${bannerH + navH}px + env(safe-area-inset-top, 0px))`, right: 0,
+                                width: 270, height: `calc(100dvh - ${bannerH + navH}px - env(safe-area-inset-top, 0px))`,
                                 background: 'var(--surface)', borderLeft: '1px solid var(--border)',
                                 padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem',
                                 overflowY: 'auto', zIndex: 49
@@ -168,10 +172,10 @@ export default function Navbar() {
                             <a href="/download" className="btn-primary" style={{ justifyContent: 'center' }}>
                                 <Download size={15} /> Download
                             </a>
-                        </motion.div>
+                        </MotionDiv>
                     </>
                 )}
             </AnimatePresence>
-        </motion.nav>
+        </MotionNav>
     );
 }

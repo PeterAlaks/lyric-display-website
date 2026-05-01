@@ -7,6 +7,8 @@ import Footer from '../components/Footer';
 import SEO from '../components/SEO';
 import { useNavbarHeight } from '../hooks/useNavbarHeight';
 
+const MotionDiv = motion.div;
+
 const NAV_ITEMS = [
     { id: 'overview', label: 'Overview', icon: Book },
     { id: 'features', label: 'Key Features', icon: Zap },
@@ -19,6 +21,8 @@ const NAV_ITEMS = [
     { id: 'browsersources', label: 'Browser Source Setup', icon: Wifi },
     { id: 'network', label: 'Network Setup', icon: Wifi },
     { id: 'mobile-controllers', label: 'Mobile Controllers', icon: Users },
+    { id: 'external-control', label: 'External Control', icon: Settings },
+    { id: 'developer-api', label: 'Developer API', icon: Code },
     { id: 'keyboard-shortcuts', label: 'Keyboard Shortcuts', icon: Keyboard },
     { id: 'architecture', label: 'Architecture', icon: Code },
     { id: 'troubleshooting', label: 'Troubleshooting', icon: Shield },
@@ -204,7 +208,7 @@ export default function DocumentationPage() {
                         Complete guide to installation, configuration, and live operation.
                     </p>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', marginTop: '0.5rem', fontFamily: 'var(--font-mono)' }}>
-                        Last updated: April 10, 2026
+                        Last updated: May 1, 2026
                     </p>
                 </div>
             </section>
@@ -341,8 +345,8 @@ export default function DocumentationPage() {
                                     { href: 'https://github.com/PeterAlaks/lyric-display-app', label: 'GitHub Repository', icon: Github },
                                     { href: 'https://github.com/PeterAlaks/lyric-display-app/releases/latest', label: 'Latest Release', icon: ExternalLink },
                                     { href: 'https://github.com/PeterAlaks/lyric-display-app/issues', label: 'Report Issue', icon: ExternalLink },
-                                ].map(({ href, label, icon: Icon }) => (
-                                    <a key={href} href={href} target="_blank" rel="noopener noreferrer" style={{
+                                ].map((item) => (
+                                    <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" style={{
                                         display: 'flex', alignItems: 'center', gap: '0.5rem',
                                         padding: '0.5rem 0.75rem', fontSize: '0.875rem',
                                         color: 'var(--text-secondary)', textDecoration: 'none',
@@ -351,7 +355,7 @@ export default function DocumentationPage() {
                                     }}
                                         onClick={() => setDropdownOpen(false)}
                                     >
-                                        <Icon size={13} style={{ flexShrink: 0 }} /> {label}
+                                        {React.createElement(item.icon, { size: 13, style: { flexShrink: 0 } })} {item.label}
                                     </a>
                                 ))}
                             </div>
@@ -412,14 +416,14 @@ export default function DocumentationPage() {
                             { href: 'https://github.com/PeterAlaks/lyric-display-app', label: 'GitHub', icon: Github },
                             { href: 'https://github.com/PeterAlaks/lyric-display-app/releases/latest', label: 'Latest Release', icon: ExternalLink },
                             { href: 'https://github.com/PeterAlaks/lyric-display-app/issues', label: 'Report Issue', icon: ExternalLink },
-                        ].map(({ href, label, icon: Icon }) => (
-                            <a key={href} href={href} target="_blank" rel="noopener noreferrer" style={{
+                        ].map((item) => (
+                            <a key={item.href} href={item.href} target="_blank" rel="noopener noreferrer" style={{
                                 display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0.75rem', fontSize: '0.8125rem',
                                 color: 'var(--text-secondary)', textDecoration: 'none', borderRadius: '6px', transition: 'all 0.15s', marginBottom: '0.125rem',
                             }}
                                 onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.background = 'rgba(168,85,247,0.06)'; }}
                                 onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = 'transparent'; }}>
-                                <Icon size={12} /> {label}
+                                {React.createElement(item.icon, { size: 12 })} {item.label}
                             </a>
                         ))}
                     </div>
@@ -429,7 +433,7 @@ export default function DocumentationPage() {
                 <main ref={contentRef} style={{ flex: 1, minWidth: 0, maxWidth: '780px' }}>
 
                     {/* ── OVERVIEW ── */}
-                    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                    <MotionDiv initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                         <SectionHeading id="overview">Overview</SectionHeading>
                         <Prose>
                             LyricDisplay is a free, open-source Electron desktop application built for professional live production environments. It provides real-time, perfectly transparent lyric overlays for streaming software such as OBS Studio, vMix, and Wirecast — making it the go-to choice for church services, concerts, live streams, and multi-language presentations.
@@ -440,7 +444,7 @@ export default function DocumentationPage() {
                         <Note type="info">
                             <strong>License:</strong> GPL-2.0 &nbsp;·&nbsp; <strong>Authors:</strong> Peter Alakembi (Lead Developer), David Okaliwe (Co-Developer)
                         </Note>
-                    </motion.div>
+                    </MotionDiv>
 
                     {/* ── KEY FEATURES ── */}
                     <SectionHeading id="features">Key Features</SectionHeading>
@@ -804,6 +808,160 @@ http://192.168.1.100:4000/#/output2
                     <Note type="info">The join code is JWT-secured with rate limiting. Multiple controllers can be connected simultaneously.</Note>
 
                     {/* ── KEYBOARD SHORTCUTS ── */}
+                    <SubHeading>Controller authentication details</SubHeading>
+                    <DocList items={[
+                        <>The QR code uses <InlineCode>?client=mobile</InlineCode> and may include <InlineCode>joinCode</InlineCode> so the mobile controller can prefill the pairing code.</>,
+                        <>Controller tokens are requested from <InlineCode>/api/auth/token</InlineCode> with <InlineCode>clientType</InlineCode> set to <InlineCode>web</InlineCode> or <InlineCode>mobile</InlineCode>.</>,
+                        'A valid join code is required for web and mobile controllers. Invalid attempts are rate-limited and can temporarily lock out new attempts.',
+                        'Controller tokens are invalidated when the app restarts because the join code is regenerated.',
+                    ]} />
+
+                    {/* EXTERNAL CONTROL */}
+                    <SectionHeading id="external-control">External Control: MIDI & OSC</SectionHeading>
+                    <Prose>LyricDisplay can be controlled by external hardware and automation tools through MIDI and OSC. These controls are configured from <strong>User Preferences - External Control</strong> in the desktop app.</Prose>
+
+                    <SubHeading>MIDI control</SubHeading>
+                    <DocList ordered items={[
+                        'Open User Preferences, then choose External Control.',
+                        'Select or refresh the MIDI input device.',
+                        'Enable MIDI after a port is selected.',
+                        'Use Quick Assign to map a button, pad, foot switch, or knob to a control action. Learn mode waits for an unmapped MIDI note or control change for up to 10 seconds.',
+                    ]} />
+                    <Prose>Default MIDI mappings are available before custom mapping:</Prose>
+                    <DocList items={[
+                        <>Notes <InlineCode>36</InlineCode> through <InlineCode>42</InlineCode>: previous line, next line, toggle output, clear output, toggle autoplay, previous song, next song.</>,
+                        <>Notes <InlineCode>60</InlineCode> through <InlineCode>84</InlineCode>: direct line selection for lines 1-25.</>,
+                        <>Control changes <InlineCode>1</InlineCode> and <InlineCode>7</InlineCode>: scroll/select lyric lines by controller value.</>,
+                    ]} />
+                    <Note type="tip">MIDI mappings are stored locally and can be reset to defaults from the External Control preferences panel.</Note>
+
+                    <SubHeading>OSC control</SubHeading>
+                    <Prose>OSC is useful for show-control systems, Stream Deck plugins, Bitfocus Companion modules, DAWs, lighting consoles, or any tool that can send UDP OSC messages.</Prose>
+                    <DocList items={[
+                        <>Default OSC listen port: <InlineCode>8000</InlineCode></>,
+                        <>Default feedback port: <InlineCode>9000</InlineCode></>,
+                        <>Default address prefix: <InlineCode>/lyricdisplay</InlineCode></>,
+                        'Changing the OSC listen port requires restarting the app before the new port takes effect.',
+                        'When feedback is enabled, LyricDisplay sends state updates back to OSC clients it has heard from recently.',
+                    ]} />
+                    <CodeBlock>{`# Common OSC input addresses
+/lyricdisplay/line [int]          # Select a 0-based line index
+/lyricdisplay/line/next           # Next lyric line
+/lyricdisplay/line/prev           # Previous lyric line
+/lyricdisplay/output [0|1]        # Toggle or set main output
+/lyricdisplay/output/1 [0|1]      # Toggle or set Output 1
+/lyricdisplay/output/2 [0|1]      # Toggle or set Output 2
+/lyricdisplay/output/stage [0|1]  # Toggle or set stage output
+/lyricdisplay/autoplay [0|1]      # Toggle or set autoplay
+/lyricdisplay/autoplay/start
+/lyricdisplay/autoplay/stop
+/lyricdisplay/setlist/next
+/lyricdisplay/setlist/prev
+/lyricdisplay/setlist/load [int]  # Load a 0-based setlist item
+/lyricdisplay/clear               # Clear selected line
+/lyricdisplay/sync                # Force output sync`}</CodeBlock>
+                    <CodeBlock>{`# OSC feedback messages sent to known clients
+/lyricdisplay/state/line
+/lyricdisplay/state/output
+/lyricdisplay/state/output/1
+/lyricdisplay/state/output/2
+/lyricdisplay/state/stage
+/lyricdisplay/state/songname
+/lyricdisplay/state/linecount
+/lyricdisplay/state/autoplay`}</CodeBlock>
+
+                    {/* DEVELOPER API */}
+                    <SectionHeading id="developer-api">Developer API</SectionHeading>
+                    <Prose>The app exposes a local REST API and an authenticated Socket.IO API on port 4000. Use these APIs for custom controllers, automation panels, diagnostics, and integrations that need direct access to LyricDisplay state.</Prose>
+                    <Note type="warning">
+                        These APIs are intended for the local trusted network where LyricDisplay is running. Do not expose port 4000 directly to the public internet.
+                    </Note>
+
+                    <SubHeading>Specs in the source repository</SubHeading>
+                    <DocList items={[
+                        <><a href="https://github.com/PeterAlaks/lyric-display-app/blob/main/docs/openapi.yaml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>OpenAPI REST spec</a> documents HTTP endpoints, request bodies, and response shapes.</>,
+                        <><a href="https://github.com/PeterAlaks/lyric-display-app/blob/main/docs/asyncapi.yaml" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>AsyncAPI Socket.IO spec</a> documents real-time events, payloads, and server broadcasts.</>,
+                    ]} />
+
+                    <SubHeading>Client types and permissions</SubHeading>
+                    <Prose>Tokens are scoped by client type. The server enforces these permissions on REST and Socket.IO operations.</Prose>
+                    <DocList items={[
+                        <><InlineCode>desktop</InlineCode>: full read/write, setlist management, output control, settings write, and admin access.</>,
+                        <><InlineCode>web</InlineCode> and <InlineCode>mobile</InlineCode>: lyrics read/write, draft submission, setlist read, output control, settings read/write.</>,
+                        <><InlineCode>output1</InlineCode>, <InlineCode>output2</InlineCode>, and custom <InlineCode>outputN</InlineCode> clients: lyrics read and settings read.</>,
+                        <><InlineCode>stage</InlineCode>: lyrics read and settings read.</>,
+                    ]} />
+
+                    <SubHeading>Authentication flow</SubHeading>
+                    <DocList ordered items={[
+                        <>Request a token from <InlineCode>POST /api/auth/token</InlineCode>.</>,
+                        <>For web or mobile controllers, include the current 6-digit <InlineCode>joinCode</InlineCode>.</>,
+                        <>Connect Socket.IO with the token in <InlineCode>auth.token</InlineCode>. Query-string tokens are rejected.</>,
+                        <>Send <InlineCode>clientConnect</InlineCode> with the same client type after the socket connects.</>,
+                        <>Refresh long-running sessions with <InlineCode>POST /api/auth/refresh</InlineCode>.</>,
+                    ]} />
+                    <CodeBlock>{`// Browser/mobile controller token request
+const response = await fetch('http://192.168.1.100:4000/api/auth/token', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    clientType: 'mobile',
+    deviceId: 'my-controller-01',
+    sessionId: 'service-operator-a',
+    joinCode: '123456'
+  })
+});
+
+const { token } = await response.json();`}</CodeBlock>
+                    <CodeBlock>{`// Socket.IO connection
+import { io } from 'socket.io-client';
+
+const socket = io('http://192.168.1.100:4000', {
+  auth: { token }
+});
+
+socket.on('connect', () => {
+  socket.emit('clientConnect', { type: 'mobile' });
+  socket.emit('requestCurrentState');
+});
+
+socket.on('currentState', (state) => {
+  console.log(state.lyrics, state.selectedLine, state.isOutputOn);
+});`}</CodeBlock>
+
+                    <SubHeading>REST endpoint summary</SubHeading>
+                    <DocList items={[
+                        <><InlineCode>POST /api/auth/token</InlineCode> - mint a JWT for desktop, web, mobile, output, or stage clients.</>,
+                        <><InlineCode>GET /api/auth/join-code</InlineCode> - read the current join code for local pairing UI.</>,
+                        <><InlineCode>POST /api/auth/refresh</InlineCode> - refresh an existing JWT.</>,
+                        <><InlineCode>POST /api/auth/validate</InlineCode> - validate a JWT and inspect its permissions.</>,
+                        <><InlineCode>GET /api/connection/clients</InlineCode> - list connected client sessions. Requires <InlineCode>lyrics:read</InlineCode>.</>,
+                        <><InlineCode>GET /api/outputs</InlineCode> and <InlineCode>GET /api/outputs/:outputId</InlineCode> - inspect available output routes.</>,
+                        <><InlineCode>POST /api/media/backgrounds</InlineCode> - upload image/video backgrounds. Requires <InlineCode>settings:write</InlineCode>, accepts common image/video MIME types, max 200 MB.</>,
+                        <><InlineCode>GET /api/health</InlineCode> and <InlineCode>GET /api/health/ready</InlineCode> - health and readiness checks.</>,
+                    ]} />
+
+                    <SubHeading>Common Socket.IO client events</SubHeading>
+                    <DocList items={[
+                        <><InlineCode>requestCurrentState</InlineCode> - fetch full current app state.</>,
+                        <><InlineCode>requestSetlist</InlineCode>, <InlineCode>setlistAdd</InlineCode>, <InlineCode>setlistLoad</InlineCode>, <InlineCode>setlistRemove</InlineCode>, <InlineCode>setlistReorder</InlineCode> - manage queued setlist items.</>,
+                        <><InlineCode>lineUpdate</InlineCode> with <InlineCode>{'{ index }'}</InlineCode> - select or clear the active lyric line.</>,
+                        <><InlineCode>outputToggle</InlineCode> and <InlineCode>individualOutputToggle</InlineCode> - control global and per-output visibility.</>,
+                        <><InlineCode>lyricsLoad</InlineCode>, <InlineCode>lyricsTimestampsUpdate</InlineCode>, <InlineCode>fileNameUpdate</InlineCode> - load lyrics and related metadata.</>,
+                        <><InlineCode>styleUpdate</InlineCode> - update output or stage settings.</>,
+                        <><InlineCode>stageTimerUpdate</InlineCode> and <InlineCode>stageMessagesUpdate</InlineCode> - update stage display state.</>,
+                        <><InlineCode>lyricsDraftSubmit</InlineCode>, <InlineCode>lyricsDraftApprove</InlineCode>, <InlineCode>lyricsDraftReject</InlineCode> - controller draft workflow.</>,
+                        <><InlineCode>autoplayStateUpdate</InlineCode> and <InlineCode>heartbeat</InlineCode> - sync playback status and connection health.</>,
+                    ]} />
+
+                    <SubHeading>Important server broadcasts</SubHeading>
+                    <DocList items={[
+                        <><InlineCode>currentState</InlineCode> and <InlineCode>periodicStateSync</InlineCode> contain lyrics, selected line, timestamps, settings, setlist, permissions, and sync timestamps.</>,
+                        <><InlineCode>lyricsLoad</InlineCode>, <InlineCode>lyricsSectionsUpdate</InlineCode>, <InlineCode>lineUpdate</InlineCode>, <InlineCode>outputToggle</InlineCode>, <InlineCode>individualOutputToggle</InlineCode>, and <InlineCode>styleUpdate</InlineCode> mirror live state changes to all connected clients.</>,
+                        <><InlineCode>lyricsDraftReceived</InlineCode> is sent to desktop clients when a controller submits a draft for approval.</>,
+                        <><InlineCode>permissionError</InlineCode>, <InlineCode>setlistError</InlineCode>, <InlineCode>draftError</InlineCode>, and <InlineCode>authError</InlineCode> should be handled by custom clients.</>,
+                    ]} />
+
                     <SectionHeading id="keyboard-shortcuts">Keyboard Shortcuts</SectionHeading>
                     <Prose>LyricDisplay is designed for a keyboard-first workflow. All critical live operations can be performed without touching the mouse.</Prose>
 

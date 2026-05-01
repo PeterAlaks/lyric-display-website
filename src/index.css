@@ -42,6 +42,32 @@
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 body { background: var(--ink); color: var(--text-primary); font-family: var(--font-body); margin: 0; overflow-x: hidden; }
 
+/* iOS Safari safe-area cap for fixed mobile headers */
+.site-navbar {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.site-navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--ink);
+  pointer-events: none;
+}
+.site-navbar--banner::before {
+  background: var(--primary-gradient);
+}
+@media (max-width: 1023px) {
+  .site-navbar-main {
+    background: rgba(9,9,15,0.96) !important;
+    border-bottom: 1px solid var(--border) !important;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px) !important;
+  }
+}
+
 /* Grain */
 body::before {
   content: '';
@@ -86,6 +112,9 @@ body::before {
   box-shadow: 0 12px 48px rgba(0,0,0,0.45), 0 0 0 1px rgba(124,58,237,0.1);
   transform: translateY(-3px);
 }
+.use-case-image-card:hover > img {
+  transform: scale(1.05);
+}
 
 /* ── Pills ── */
 .pill {
@@ -97,6 +126,54 @@ body::before {
 .pill-primary { background: var(--primary-dim); border: 1px solid rgba(124,58,237,0.3); color: var(--primary-bright); }
 .pill-teal   { background: var(--teal-dim);   border: 1px solid rgba(94,234,212,0.25); color: var(--teal); }
 .pill-dim    { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-secondary); }
+.compatibility-badge {
+  position: relative;
+  border: 1px solid rgba(94,234,212,0.24);
+  color: var(--teal);
+  cursor: help;
+}
+.compatibility-badge:focus-visible {
+  outline: 2px solid rgba(94,234,212,0.55);
+  outline-offset: 3px;
+}
+.compatibility-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(220px, calc(100vw - 48px));
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(94,234,212,0.22);
+  border-radius: 8px;
+  background: rgba(9,9,15,0.96);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.42);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 5;
+}
+.compatibility-popover strong,
+.compatibility-popover span {
+  display: block;
+}
+.compatibility-popover strong {
+  color: var(--text-primary);
+  font-size: 0.84rem;
+  margin-bottom: 0.2rem;
+}
+.compatibility-badge:hover .compatibility-popover,
+.compatibility-badge:focus-visible .compatibility-popover,
+.compatibility-badge:active .compatibility-popover {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* ── Gradient backgrounds ── */
 .bg-primary-gradient { background: var(--primary-gradient); }
@@ -115,6 +192,17 @@ body::before {
   box-shadow: 0 0 32px rgba(59,130,246,0.4);
   transform: translateY(-1px);
 }
+.btn-primary:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+.btn-primary:disabled:hover {
+  background: var(--primary-gradient);
+  box-shadow: none;
+  transform: none;
+}
 
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 8px;
@@ -125,6 +213,10 @@ body::before {
   cursor: pointer; transition: all 0.22s ease; text-decoration: none; white-space: nowrap;
 }
 .btn-ghost:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+.btn-ghost:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
 
 .btn-donate {
   display: inline-flex; align-items: center; gap: 7px;
@@ -194,6 +286,12 @@ hr.dark-rule { border: none; border-top: 1px solid var(--border); }
 }
 .input-dark:focus { border-color: rgba(124,58,237,0.5); box-shadow: 0 0 0 3px rgba(124,58,237,0.08); }
 .input-dark::placeholder { color: var(--text-muted); }
+
+.download-modal-card:hover {
+  border-color: var(--border);
+  box-shadow: 0 28px 90px rgba(0,0,0,0.55);
+  transform: none;
+}
 
 .label-dark {
   display: block; font-family: var(--font-mono); font-size: 0.7rem;

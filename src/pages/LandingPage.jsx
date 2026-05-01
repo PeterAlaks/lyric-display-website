@@ -267,14 +267,20 @@ export default function LyricDisplayLanding() {
                     <motion.div variants={stagger} initial="initial" whileInView="whileInView"
                         className="grid md:grid-cols-3 gap-5" style={{ marginBottom: '2.5rem' }}>
                         {[
-                            { name: 'OBS Studio', tag: 'Free', desc: 'The world\'s most popular streaming software. Add as a browser source with transparent backgrounds for perfect overlay integration.' },
-                            { name: 'vMix', tag: 'Pro', desc: 'Professional live production trusted by broadcasters. Use LyricDisplay\'s web browser input for multi-camera worship productions.' },
-                            { name: 'Wirecast', tag: 'Broadcast', desc: 'Industry-standard live streaming platform. Integrate through web display sources for broadcast-quality lyric overlays.' },
+                            { name: 'OBS Studio', desc: 'The world\'s most popular streaming software. Add as a browser source with transparent backgrounds for perfect overlay integration.' },
+                            { name: 'vMix', desc: 'Professional live production trusted by broadcasters. Use LyricDisplay\'s web browser input for multi-camera worship productions.' },
+                            { name: 'Wirecast', desc: 'Industry-standard live streaming platform. Integrate through web display sources for broadcast-quality lyric overlays.' },
                         ].map((app, i) => (
                             <motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '2rem' }}>
                                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <h3 style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1.15rem', color: 'var(--text-primary)' }}>{app.name}</h3>
-                                    <span className="pill pill-dim">{app.tag}</span>
+                                    <button type="button" className="pill pill-dim compatibility-badge" aria-label={`${app.name} is 100% compatible`}>
+                                        100%
+                                        <span className="compatibility-popover" role="tooltip">
+                                            <strong>100% compatible</strong>
+                                            <span>Tested with LyricDisplay browser-source output.</span>
+                                        </span>
+                                    </button>
                                 </div>
                                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.7 }}>{app.desc}</p>
                             </motion.div>
@@ -495,35 +501,46 @@ export default function LyricDisplayLanding() {
                                 icon: <Church size={22} />, title: 'Church Worship Services',
                                 desc: 'Synchronized lyrics for in-house and online viewing with multi-language support and mobile team control.',
                                 benefits: ['Multi-language support', 'Quick song switching', 'In-house & online sync', 'Mobile team control'],
+                                img: 'https://images.pexels.com/photos/208315/pexels-photo-208315.jpeg?auto=compress&cs=tinysrgb&w=1200',
                             },
                             {
                                 icon: <Video size={22} />, title: 'Live Streaming & Broadcasting',
                                 desc: 'Professional-grade overlays for OBS, vMix, and Wirecast with custom branding and broadcast quality.',
                                 benefits: ['Transparent overlays', 'Brand customization', 'Multi-camera support', 'Broadcast quality'],
+                                img: 'https://images.pexels.com/photos/2774556/pexels-photo-2774556.jpeg?auto=compress&cs=tinysrgb&w=1200',
                             },
                             {
                                 icon: <Mic2 size={22} />, title: 'Concerts & Live Events',
                                 desc: 'Multi-screen coordination with custom styling, zero-lag performance, and venue-wide scalability.',
                                 benefits: ['Multi-screen coordination', 'Custom branding', 'Zero-lag performance', 'Scalable solution'],
+                                img: 'https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1200',
                             },
                             {
                                 icon: <Music size={22} />, title: 'Karaoke & Entertainment',
                                 desc: 'Full LRC support for timed lyrics with easy queue management and crystal-clear display.',
                                 benefits: ['LRC file support', 'Timed synchronization', 'Song queue management', 'Crystal-clear display'],
+                                img: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1200',
                             },
                         ].map((uc, i) => (
-                            <motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '2rem' }}>
-                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '1.25rem' }}>
-                                    <div className="icon-wrap" style={{ width: 52, height: 52 }}>{uc.icon}</div>
+                            <motion.div key={i} variants={fadeUp} className="card-dark use-case-image-card" style={{ minHeight: 360, overflow: 'hidden' }}>
+                                <img
+                                    src={uc.img}
+                                    alt={uc.title}
+                                    loading="lazy"
+                                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.55s ease' }}
+                                />
+                                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9,9,15,0.08) 0%, rgba(9,9,15,0.54) 42%, rgba(9,9,15,0.92) 100%)' }} />
+                                <div style={{ position: 'relative', zIndex: 2, minHeight: 360, padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '2rem' }}>
+                                    <div className="icon-wrap" style={{ width: 48, height: 48, background: 'rgba(9,9,15,0.62)', backdropFilter: 'blur(12px)', borderColor: 'rgba(255,255,255,0.18)' }}>{uc.icon}</div>
                                     <div>
-                                        <h3 style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-primary)', marginBottom: '0.4rem' }}>{uc.title}</h3>
-                                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65 }}>{uc.desc}</p>
+                                        <h3 style={{ fontWeight: 700, fontSize: '1.2rem', color: 'var(--text-primary)', marginBottom: '0.5rem', textShadow: '0 2px 16px rgba(0,0,0,0.55)' }}>{uc.title}</h3>
+                                        <p style={{ color: 'rgba(237,233,246,0.82)', fontSize: '0.92rem', lineHeight: 1.65, maxWidth: 520, marginBottom: '1.25rem' }}>{uc.desc}</p>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                            {uc.benefits.map((b, j) => (
+                                                <span key={j} className="pill pill-teal" style={{ background: 'rgba(9,9,15,0.5)', backdropFilter: 'blur(10px)' }}>{b}</span>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                    {uc.benefits.map((b, j) => (
-                                        <span key={j} className="pill pill-teal">{b}</span>
-                                    ))}
                                 </div>
                             </motion.div>
                         ))}
