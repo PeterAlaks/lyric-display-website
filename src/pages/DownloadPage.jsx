@@ -26,6 +26,58 @@ const initialDownloadForm = {
     contactConsent: false,
 };
 
+const DOWNLOAD_FORM_DRAFT_KEY = 'lyricDisplayDownloadFormDraft';
+const DOWNLOAD_UNLOCKS_KEY = 'lyricDisplayDownloadUnlocks';
+const DOWNLOAD_UNLOCK_DURATION = 30 * 24 * 60 * 60 * 1000;
+
+const getDownloadAccessKey = download => [
+    download?.platform,
+    download?.version,
+    download?.href,
+].filter(Boolean).join('::');
+
+const readDownloadUnlocks = () => {
+    if (typeof window === 'undefined') return [];
+    try {
+        const unlocks = JSON.parse(window.localStorage.getItem(DOWNLOAD_UNLOCKS_KEY) || '[]');
+        const now = Date.now();
+        return Array.isArray(unlocks)
+            ? unlocks.filter(unlock => unlock?.key && unlock?.createdAt && now - unlock.createdAt < DOWNLOAD_UNLOCK_DURATION)
+            : [];
+    } catch {
+        return [];
+    }
+};
+
+const rememberDownloadUnlock = download => {
+    if (typeof window === 'undefined') return;
+    const key = getDownloadAccessKey(download);
+    if (!key) return;
+
+    try {
+        const unlocks = readDownloadUnlocks().filter(unlock => unlock.key !== key);
+        const nextUnlocks = [
+            {
+                key,
+                href: download.href,
+                platform: download.platform,
+                version: download.version,
+                createdAt: Date.now(),
+            },
+            ...unlocks,
+        ].slice(0, 12);
+        window.localStorage.setItem(DOWNLOAD_UNLOCKS_KEY, JSON.stringify(nextUnlocks));
+    } catch {
+        // Local retry memory is a convenience; downloads should still work without it.
+    }
+};
+
+const findDownloadUnlock = download => {
+    const key = getDownloadAccessKey(download);
+    if (!key) return null;
+    return readDownloadUnlocks().find(unlock => unlock.key === key) || null;
+};
+
 export default function DownloadPage() {
     const [macOSDropdownOpen, setMacOSDropdownOpen] = useState(false);
     const [releaseData, setReleaseData] = useState(null);
@@ -34,6 +86,7 @@ export default function DownloadPage() {
     const [selectedDownload, setSelectedDownload] = useState(null);
     const [completedDownload, setCompletedDownload] = useState(null);
     const [downloadForm, setDownloadForm] = useState(initialDownloadForm);
+    const [downloadFormDraftReady, setDownloadFormDraftReady] = useState(false);
     const [submittingDownload, setSubmittingDownload] = useState(false);
     const [countries, setCountries] = useState([]);
     const [countriesLoading, setCountriesLoading] = useState(true);
@@ -45,6 +98,43 @@ export default function DownloadPage() {
     const countryDropdownRef = useRef(null);
     const countrySearchInputRef = useRef(null);
     const RELEASES_PAGE = 'https://github.com/PeterAlaks/lyric-display-app/releases/latest';
+
+    useEffect(() => {
+        try {
+            const cached = window.localStorage.getItem(DOWNLOAD_FORM_DRAFT_KEY);
+            if (cached) {
+                const { data } = JSON.parse(cached);
+                if (data && typeof data === 'object') {
+                    setDownloadForm(prev => ({ ...prev, ...data }));
+                }
+            }
+        } catch {
+            // Ignore stale or blocked storage; the form can still be filled manually.
+        } finally {
+            setDownloadFormDraftReady(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!downloadFormDraftReady) return;
+
+        try {
+            const hasDraft = Object.entries(downloadForm).some(([key, value]) => (
+                key === 'contactConsent' ? value : Boolean(String(value).trim())
+            ));
+
+            if (hasDraft) {
+                window.localStorage.setItem(DOWNLOAD_FORM_DRAFT_KEY, JSON.stringify({
+                    data: downloadForm,
+                    updatedAt: Date.now(),
+                }));
+            } else {
+                window.localStorage.removeItem(DOWNLOAD_FORM_DRAFT_KEY);
+            }
+        } catch {
+            // Local form memory is optional and should not affect the form itself.
+        }
+    }, [downloadForm, downloadFormDraftReady]);
 
     useEffect(() => {
         const CACHE_KEY = 'lyricDisplayReleaseData';
@@ -189,9 +279,21 @@ export default function DownloadPage() {
     }, [selectedDownload, completedDownload]);
 
     const openDownloadModal = ({ href, platform, label }) => {
+        const downloadDetails = { href, platform, label, version: modalVersion };
+        const existingUnlock = findDownloadUnlock(downloadDetails);
+
         setMacOSDropdownOpen(false);
         setCompletedDownload(null);
-        setSelectedDownload({ href, platform, label, version: modalVersion });
+
+        if (existingUnlock) {
+            const downloadStartedAt = new Date().toISOString();
+            setSelectedDownload(null);
+            setCompletedDownload({ ...downloadDetails, downloadStartedAt, isRetry: true });
+            window.setTimeout(() => startDownload(downloadDetails.href), 120);
+            return;
+        }
+
+        setSelectedDownload(downloadDetails);
     };
 
     const closeDownloadModal = () => {
@@ -234,6 +336,7 @@ export default function DownloadPage() {
         setSubmittingDownload(true);
         const downloadDetails = selectedDownload;
         const downloadStartedAt = new Date().toISOString();
+        const downloadAccessKey = getDownloadAccessKey(downloadDetails);
         const payload = {
             'form-name': 'downloads',
             name: downloadForm.name,
@@ -246,25 +349,28 @@ export default function DownloadPage() {
             platform: downloadDetails.platform,
             version: downloadDetails.version,
             downloadUrl: downloadDetails.href,
+            downloadAccessKey,
             downloadStartedAt,
             userAgent: window.navigator.userAgent,
             sourcePage: window.location.href,
             'bot-field': '',
         };
 
+        let formSubmitted = false;
         try {
-            await fetch('/', {
+            const response = await fetch('/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams(payload).toString(),
             });
+            formSubmitted = response.ok;
         } catch {
             // Do not block the download if the notification form fails.
         } finally {
+            if (formSubmitted) rememberDownloadUnlock(downloadDetails);
             setSubmittingDownload(false);
             setSelectedDownload(null);
             setCompletedDownload({ ...downloadDetails, downloadStartedAt });
-            setDownloadForm(initialDownloadForm);
             setCountryDropdownOpen(false);
             setCountrySearch('');
             window.setTimeout(() => startDownload(downloadDetails.href), 120);
@@ -510,6 +616,7 @@ export default function DownloadPage() {
                                 <input type="hidden" name="platform" value={selectedDownload.platform} />
                                 <input type="hidden" name="version" value={selectedDownload.version} />
                                 <input type="hidden" name="downloadUrl" value={selectedDownload.href} />
+                                <input type="hidden" name="downloadAccessKey" value={getDownloadAccessKey(selectedDownload)} />
                                 <input type="hidden" name="country" value={downloadForm.country} />
 
                                 <div ref={downloadFormBodyRef} style={{ display: 'grid', gap: '0.9rem', padding: '1rem 1.25rem', overflowY: 'auto', minHeight: 0, flex: 1 }}>
@@ -671,10 +778,12 @@ export default function DownloadPage() {
                             </div>
 
                             <h2 id="download-confirmation-title" style={{ fontFamily: 'var(--font-display)', fontSize: '1.65rem', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '0.55rem' }}>
-                                Your download is starting
+                                {completedDownload.isRetry ? 'Retrying your download' : 'Your download is starting'}
                             </h2>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.65, marginBottom: '1rem' }}>
-                                The {completedDownload.platform} download should start automatically. If it does not, start it manually below.
+                                {completedDownload.isRetry
+                                    ? `The ${completedDownload.platform} download is starting again without another form submission. If it does not start, retry it manually below.`
+                                    : `The ${completedDownload.platform} download should start automatically. If it does not, start it manually below.`}
                             </p>
                             <div style={{ border: '1px solid var(--border)', borderRadius: 10, padding: '0.75rem 0.9rem', background: 'rgba(255,255,255,0.025)', marginBottom: '1.15rem' }}>
                                 <p style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.15rem' }}>{completedDownload.platform}</p>
@@ -682,7 +791,7 @@ export default function DownloadPage() {
                             </div>
                             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                                 <a href={completedDownload.href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ flex: 1, justifyContent: 'center', minWidth: 180 }}>
-                                    <Download size={16} /> Start manually
+                                    <Download size={16} /> {completedDownload.isRetry ? 'Retry manually' : 'Start manually'}
                                 </a>
                                 <button type="button" className="btn-ghost" onClick={closeCompletedDownloadModal} style={{ justifyContent: 'center' }}>
                                     Close
