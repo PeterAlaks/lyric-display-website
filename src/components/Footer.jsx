@@ -18,6 +18,7 @@ export default function Footer() {
             { label: 'Documentation',      href: "/documentation" },
             { label: 'Integration Guide',  href: '/integration-guide' },
             { label: 'EasyWorship Import', href: '/easyworship-import' },
+            { label: 'Code of Conduct',    href: 'https://github.com/PeterAlaks/lyric-display-app/blob/master/CODE_OF_CONDUCT.md', ext: true },
         ],
         Help: [
             { label: 'Create Issue',        href: 'https://github.com/PeterAlaks/lyric-display-app/issues', ext: true },
@@ -84,13 +85,19 @@ export default function Footer() {
 
             {/* Bottom bar */}
             <div style={{ borderTop: '1px solid var(--border)', padding: '1.25rem 0' }}>
-                <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
                         © {year} LyricDisplay · All Rights Reserved
                     </p>
                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
                         GPL-2.0 License · Built by Peter Alakembi &amp; David Okaliwe
                     </p>
+                    <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer"
+                        style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.04em', textDecoration: 'none', transition: 'color 0.2s' }}
+                        onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}>
+                        This site is powered by Netlify
+                    </a>
                 </div>
             </div>
         </footer>
