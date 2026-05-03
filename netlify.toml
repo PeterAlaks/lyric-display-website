@@ -2,6 +2,9 @@
   publish = "dist"
   command = "npm run build"
 
+[functions]
+  directory = "netlify/functions"
+
 # Serve pre-rendered pages directly
 # This must come BEFORE the SPA catch-all redirect
 [[redirects]]
@@ -17,6 +20,11 @@
 [[redirects]]
   from = "/download"
   to = "/download.html"
+  status = 200
+
+[[redirects]]
+  from = "/donate"
+  to = "/donate.html"
   status = 200
 
 [[redirects]]

@@ -8,6 +8,7 @@ import EasyWorshipGuide from './pages/EasyWorshipGuide';
 import DocumentationPage from './pages/DocumentationPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
+import DonatePage from './pages/DonatePage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/integration-guide" element={<IntegrationGuide />} />
         <Route path="/documentation" element={<DocumentationPage />} />
         <Route path="/download" element={<DownloadPage />} />
+        <Route path="/donate" element={<DonatePage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/easyworship-import" element={<EasyWorshipGuide />} />
         <Route path="/blog" element={<BlogPage />} />

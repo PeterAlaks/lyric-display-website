@@ -27,6 +27,13 @@ const PAGE_METADATA = {
     image: 'https://lyricdisplay.app/social-preview.png',
     type: 'website'
   },
+  '/donate': {
+    title: 'Donate - Support LyricDisplay Development',
+    description: 'Support LyricDisplay with one-time donations or recurring subscription plans',
+    keywords: 'LyricDisplay donate, support LyricDisplay, Paystack donation, open source worship software',
+    image: 'https://lyricdisplay.app/social-preview.png',
+    type: 'website'
+  },
   '/documentation': {
     title: 'Documentation - Complete Guide to LyricDisplay Features',
     description: 'Comprehensive documentation covering installation, setup, quick start, file formats, browser sources, network configuration, and troubleshooting guide.',

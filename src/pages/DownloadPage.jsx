@@ -782,7 +782,7 @@ export default function DownloadPage() {
                             </h2>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.65, marginBottom: '1rem' }}>
                                 {completedDownload.isRetry
-                                    ? `The ${completedDownload.platform} download is starting again without another form submission. If it does not start, retry it manually below.`
+                                    ? `The ${completedDownload.platform} download is starting again. If it does not start, retry it manually below.`
                                     : `The ${completedDownload.platform} download should start automatically. If it does not, start it manually below.`}
                             </p>
                             <div style={{ border: '1px solid var(--border)', borderRadius: 10, padding: '0.75rem 0.9rem', background: 'rgba(255,255,255,0.025)', marginBottom: '1.15rem' }}>

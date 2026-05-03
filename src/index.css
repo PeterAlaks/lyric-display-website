@@ -293,6 +293,58 @@ hr.dark-rule { border: none; border-top: 1px solid var(--border); }
   transform: none;
 }
 
+.donation-plan-carousel {
+  display: grid;
+  gap: 1rem;
+}
+.donation-plan-carousel__controls {
+  display: none;
+}
+.donation-plan-carousel__track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  padding: 4px 0;
+}
+.donation-plan-card {
+  width: 100%;
+}
+.donation-plan-carousel__count {
+  min-width: 52px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.donation-plan-carousel__nav {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s, opacity 0.2s;
+}
+.donation-plan-carousel__nav:hover {
+  border-color: rgba(124,58,237,0.42);
+  background: var(--primary-dim);
+  color: var(--primary-bright);
+}
+.donation-plan-carousel__nav:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+.donation-plan-carousel__nav:disabled:hover {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
 .label-dark {
   display: block; font-family: var(--font-mono); font-size: 0.7rem;
   letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary);
@@ -346,4 +398,32 @@ hr.dark-rule { border: none; border-top: 1px solid var(--border); }
 @media(max-width:768px){
   .blog-content h1{font-size:1.9rem}
   .blog-content h2{font-size:1.5rem}
+}
+
+@media(max-width:1023px){
+  .donation-plan-carousel__controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.65rem;
+  }
+  .donation-plan-carousel__track {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .donation-plan-carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+  .donation-plan-card {
+    flex: 0 0 100%;
+    min-width: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
 }
