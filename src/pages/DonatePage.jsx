@@ -30,7 +30,7 @@ const subscriptionPlans = [
         frequency: 'monthly',
         label: 'Monthly',
         summary: 'For individuals who want to keep LyricDisplay moving.',
-        impact: ['Release testing', 'Small hosting bills', 'Documentation updates'],
+        impact: ['Release testing', 'Hosting costs', 'Documentation updates'],
         featured: false,
     },
     {
@@ -40,7 +40,7 @@ const subscriptionPlans = [
         frequency: 'monthly',
         label: 'Monthly',
         summary: 'For churches and teams actively using LyricDisplay.',
-        impact: ['Code signing fund', 'Integration work', 'Priority bug investigation'],
+        impact: ['Code signing fund', 'Integration work', 'Priority bug fixes'],
         featured: true,
     },
     {
@@ -195,12 +195,12 @@ export default function DonatePage() {
                     const amount = data.amount ? formatCurrency(data.amount / 100) : 'your donation';
                     setStatus({
                         type: 'success',
-                        message: `Thank you. Paystack confirmed ${amount}. Reference: ${data.reference || reference}`,
+                        message: `Thank you. Your donation of ${amount} has been confirmed. Reference: ${data.reference || reference}`,
                     });
                 } else {
                     setStatus({
                         type: 'error',
-                        message: `Paystack returned "${data.status || 'unknown'}" for this payment. Reference: ${data.reference || reference}`,
+                        message: `We could not confirm this payment yet. Reference: ${data.reference || reference}`,
                     });
                 }
 
@@ -240,16 +240,16 @@ export default function DonatePage() {
             body: JSON.stringify(payload),
         });
 
-        if (!response.ok) throw new Error('Donation initializer failed.');
+        if (!response.ok) throw new Error('Unable to start checkout.');
         const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-            throw new Error(data.message || 'Donation initializer failed.');
+            throw new Error(data.message || 'Unable to start checkout.');
         }
 
         const authorizationUrl = data.authorization_url || data.data?.authorization_url;
 
-        if (!authorizationUrl) throw new Error('No Paystack authorization URL was returned.');
+        if (!authorizationUrl) throw new Error('Unable to start checkout.');
         window.location.href = authorizationUrl;
     };
 
@@ -290,7 +290,7 @@ export default function DonatePage() {
         <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
             <SEO
                 title="Donate - Support LyricDisplay Development"
-                description="Support LyricDisplay with one-time donations or recurring subscription plans through a Paystack-ready donation page."
+                description="Support LyricDisplay with one-time donations or recurring subscription plans."
                 keywords="LyricDisplay donate, support LyricDisplay, Paystack donation, open source worship software"
             />
             <Navbar />
@@ -309,7 +309,7 @@ export default function DonatePage() {
                         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }}>
                             <span className="section-label">Support development</span>
                             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.025em', lineHeight: 1.1, maxWidth: 700, marginBottom: '1.25rem' }}>
-                                Keep LyricDisplay free for production teams.
+                                Keep LyricDisplay free for church production teams.
                             </h1>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '1.04rem', lineHeight: 1.75, maxWidth: 640 }}>
                                 Donations help cover code signing, compatibility testing, documentation, and the development time needed to make live lyric display dependable.
@@ -403,7 +403,7 @@ export default function DonatePage() {
                                         <MotionDiv key="once" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}
                                             className="card-dark" style={{ padding: '1.5rem' }}>
                                             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--text-primary)', fontWeight: 600, marginBottom: '0.45rem' }}>Make a one-time donation</h2>
-                                            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '1.3rem' }}>A once-off gift helps with immediate project costs like packaging, testing, and infrastructure.</p>
+                                            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '1.3rem' }}>A one-time gift helps with immediate project costs like packaging, testing, and infrastructure.</p>
                                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 10, marginBottom: '1rem' }}>
                                                 {oneTimeAmounts.map(amount => (
                                                     <button key={amount} type="button" onClick={() => setOneTimeAmount(amount)}
@@ -430,7 +430,7 @@ export default function DonatePage() {
                                         <MotionDiv key="custom" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}
                                             className="card-dark" style={{ padding: '1.5rem' }}>
                                             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--text-primary)', fontWeight: 600, marginBottom: '0.45rem' }}>Create a custom subscription</h2>
-                                            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '1.3rem' }}>Set the recurring amount and cadence that matches your team. Live custom recurring setup should be initialized from a secure backend.</p>
+                                            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '1.3rem' }}>Set the recurring amount and cadence that matches your team.</p>
                                             <div className="grid sm:grid-cols-2 gap-4">
                                                 <Field label="Amount">
                                                     <input className="input-dark" type="number" min="1" step="1" value={customAmount} onChange={e => setCustomAmount(e.target.value)} />
@@ -445,12 +445,6 @@ export default function DonatePage() {
                                                         <ChevronDown size={16} style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                                                     </div>
                                                 </Field>
-                                            </div>
-                                            <div className="alert-box alert-info" style={{ marginTop: '1.15rem' }}>
-                                                <Info size={16} style={{ color: 'var(--primary-bright)', flexShrink: 0, marginTop: 2 }} />
-                                                <span style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.55 }}>
-                                                    Paystack custom recurring plans require a secret-key backend to create or select a plan before checkout.
-                                                </span>
                                             </div>
                                         </MotionDiv>
                                     )}
