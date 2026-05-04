@@ -223,10 +223,12 @@ export default function DonatePage() {
         if (window.matchMedia('(min-width: 1024px)').matches) return;
 
         const carousel = planCarouselRef.current;
-        const activeCard = carousel?.children[selectedPlanIndex];
-        if (!activeCard) return;
+        if (!carousel) return;
 
-        activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        carousel.scrollTo({
+            left: carousel.clientWidth * selectedPlanIndex,
+            behavior: 'smooth',
+        });
     }, [mode, selectedPlanIndex]);
 
     useEffect(() => () => window.clearTimeout(planScrollTimeoutRef.current), []);
