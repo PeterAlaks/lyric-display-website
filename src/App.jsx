@@ -9,6 +9,7 @@ import DocumentationPage from './pages/DocumentationPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import DonatePage from './pages/DonatePage';
+import CodeOfConductPage from './pages/CodeOfConductPage';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/documentation" element={<DocumentationPage />} />
         <Route path="/download" element={<DownloadPage />} />
         <Route path="/donate" element={<DonatePage />} />
+        <Route path="/code-of-conduct" element={<CodeOfConductPage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/easyworship-import" element={<EasyWorshipGuide />} />
         <Route path="/blog" element={<BlogPage />} />

@@ -116,7 +116,7 @@ export default function SEO({
       scriptTag.textContent = JSON.stringify(structuredData);
     }
 
-  }, [finalTitle, finalDescription, finalImage, fullUrl, type, keywords, author, publishedTime, modifiedTime, category]);
+  }, [finalTitle, finalDescription, finalImage, fullUrl, type, title, keywords, author, publishedTime, modifiedTime, category]);
 
   return null;
 }

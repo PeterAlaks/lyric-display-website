@@ -37,6 +37,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://lyricdisplay.app/code-of-conduct</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://lyricdisplay.app/easyworship-import</loc>
     <lastmod>2025-01-18</lastmod>
     <changefreq>monthly</changefreq>

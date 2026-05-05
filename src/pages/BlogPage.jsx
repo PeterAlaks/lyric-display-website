@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { Search, Calendar, Clock, ArrowRight, Tag } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -54,7 +54,7 @@ export default function BlogPage() {
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.06), transparent)' }} />
 
                 <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center" style={{ position: 'relative', zIndex: 1 }}>
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+                    <Motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
                         <span className="section-label">The LyricDisplay Blog</span>
                         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '1.25rem' }}>
                             Insights for live<br />
@@ -84,7 +84,7 @@ export default function BlogPage() {
                                 onBlur={e => e.currentTarget.style.borderColor = 'var(--border)'}
                             />
                         </div>
-                    </motion.div>
+                    </Motion.div>
                 </div>
             </section>
 
@@ -113,17 +113,17 @@ export default function BlogPage() {
             <section style={{ padding: '64px 0 96px', background: 'var(--ink)' }}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     {filtered.length === 0 ? (
-                        <motion.div {...fadeUp} style={{ textAlign: 'center', padding: '80px 0', color: 'var(--text-muted)' }}>
+                        <Motion.div {...fadeUp} style={{ textAlign: 'center', padding: '80px 0', color: 'var(--text-muted)' }}>
                             No articles found matching your criteria.
-                        </motion.div>
+                        </Motion.div>
                     ) : (
-                        <motion.div
+                        <Motion.div
                             key={selectedCategory + searchQuery}
                             variants={stagger} initial="initial" animate="animate"
                             className="grid md:grid-cols-2 lg:grid-cols-3 gap-5"
                         >
                             {filtered.map(post => (
-                                <motion.article
+                                <Motion.article
                                     key={post.id}
                                     variants={{ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
                                     className="card-dark"
@@ -171,16 +171,16 @@ export default function BlogPage() {
                                             Read More <ArrowRight size={13} />
                                         </span>
                                     </div>
-                                </motion.article>
+                                </Motion.article>
                             ))}
-                        </motion.div>
+                        </Motion.div>
                     )}
                 </div>
             </section>
 
             {/* Newsletter */}
             <section style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', padding: '80px 0' }}>
-                <motion.div {...fadeUp} style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center', padding: '0 24px' }}>
+                <Motion.div {...fadeUp} style={{ maxWidth: 480, margin: '0 auto', textAlign: 'center', padding: '0 24px' }}>
                     <span className="section-label">Stay Updated</span>
                     <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2.4rem', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '1rem', lineHeight: 1.15 }}>
                         Get the latest<br />in your inbox.
@@ -204,7 +204,7 @@ export default function BlogPage() {
                         />
                         <button className="btn-primary">Subscribe</button>
                     </div>
-                </motion.div>
+                </Motion.div>
             </section>
 
             <Footer />

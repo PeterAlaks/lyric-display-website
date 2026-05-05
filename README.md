@@ -1,29 +1,32 @@
 # LyricDisplay Website
 
-The official marketing and landing website for **LyricDisplay** — a lyric projection and control software designed for worship environments, built for modern church media systems.
+The official website and documentation site for LyricDisplay, a free and open-source lyric presentation app for worship environments, live events, and multimedia production.
 
----
+## Project Status
 
-## 🚀 Overview
-This project contains the public-facing landing page for LyricDisplay, showcasing its features, visuals, and sign-up links.  
-Built with **React** and styled using **Tailwind CSS** for a modern, responsive experience.
+LyricDisplay is a free, open-source, non-commercial project. Donations are voluntary and do not purchase support, hosting, premium features, or commercial services.
 
----
+## Links
 
-## 🛠️ Tech Stack
-- **React (Vite)** – front-end framework  
-- **Tailwind CSS** – utility-first styling  
-- **Framer Motion** – animations 
-- **Netlify** – hosting and continuous deployment  
+- Website: https://lyricdisplay.app
+- App source: https://github.com/PeterAlaks/lyric-display-app
+- Website source: https://github.com/PeterAlaks/lyric-display-website
+- Code of Conduct: https://lyricdisplay.app/code-of-conduct
+- License: GPL-3.0-or-later
+- Hosting: This site is powered by Netlify.
 
----
+## Tech Stack
 
-## 💻 Local Development
+- React and Vite
+- Tailwind CSS
+- Framer Motion
+- Netlify
 
-Clone the repository and install dependencies:
+## Local Development
 
 ```bash
 git clone https://github.com/PeterAlaks/lyric-display-website.git
-cd lyricdisplay-landing
+cd lyric-display-website
 npm install
-npm start
+npm run dev
+```

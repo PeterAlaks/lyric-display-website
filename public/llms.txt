@@ -6,12 +6,16 @@ LyricDisplay lets operators load lyric files and instantly push selected lines t
 
 - Website: https://lyricdisplay.app
 - GitHub: https://github.com/PeterAlaks/lyric-display-app
+- Website source: https://github.com/PeterAlaks/lyric-display-website
 - Latest release: https://github.com/PeterAlaks/lyric-display-app/releases/latest
 - Video tutorial: https://drive.google.com/file/d/1fP4fSSWSNvSocI8fK7hktdJ7dY6xnCM-/view
-- Support the developers: https://buymeacoffee.com/lyricdisplay
+- Voluntary donations: https://buymeacoffee.com/lyricdisplay
 - Developer contact: https://linktr.ee/peteralaks
-- License: GPL-2.0-only
+- License: GPL-3.0-or-later
+- Code of Conduct: https://lyricdisplay.app/code-of-conduct
 - Authors: Peter Alakembi (Lead), David Okaliwe (Co-Developer)
+- Trademark: The LyricDisplay name and logo are trademarks; the GPL license does not grant trademark use.
+- Project status: Free, open-source, and non-commercial. Donations do not purchase support, hosting, premium features, or commercial services.
 
 
 ## Core Concepts

@@ -442,7 +442,9 @@ export default function DocumentationPage() {
                             The app runs a local Express + Socket.IO server that drives browser-source outputs over WebSocket in real time. A single control panel manages all lyric content, styling, and output visibility — while secondary controllers on mobile or web browsers can assist from anywhere on the same network.
                         </Prose>
                         <Note type="info">
-                            <strong>License:</strong> GPL-2.0 &nbsp;·&nbsp; <strong>Authors:</strong> Peter Alakembi (Lead Developer), David Okaliwe (Co-Developer)
+                            <strong>License:</strong> GPL-3.0-or-later &nbsp;·&nbsp; <strong>Authors:</strong> Peter Alakembi (Lead Developer), David Okaliwe (Co-Developer)
+                            <br />
+                            <strong>Trademark:</strong> The LyricDisplay name and logo are trademarks; the GPL license does not grant trademark use.
                         </Note>
                     </MotionDiv>
 
@@ -1094,7 +1096,7 @@ socket.on('currentState', (state) => {
                     ]} />
 
                     <SubHeading>Need more help?</SubHeading>
-                    <Prose>For bug reports, feature requests, or technical support:</Prose>
+                    <Prose>For bug reports, feature requests, or maintainer contact:</Prose>
                     <DocList items={[
                         <><a href="https://github.com/PeterAlaks/lyric-display-app/issues" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>Open an issue on GitHub</a></>,
                         <><a href="https://linktr.ee/peteralaks" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'none' }}>Contact the developer directly</a></>,

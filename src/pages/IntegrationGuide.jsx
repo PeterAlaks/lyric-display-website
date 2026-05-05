@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Monitor, Video, Cast, Check, Copy, AlertCircle, BookOpen, ExternalLink } from 'lucide-react';
-import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
@@ -94,14 +93,14 @@ export default function IntegrationGuide() {
                         Need more help?
                     </h2>
                     <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-                        Check out our video tutorial or reach out for technical support.
+                        Check out our video tutorial or reach out to the maintainers.
                     </p>
                     <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                         <a href="https://drive.google.com/file/d/1fP4fSSWSNvSocI8fK7hktdJ7dY6xnCM-/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="btn-primary">
                             <BookOpen size={15} /> Watch Video Tutorial
                         </a>
                         <a href="https://linktr.ee/peteralaks" target="_blank" rel="noopener noreferrer" className="btn-ghost">
-                            <ExternalLink size={15} /> Contact Support
+                            <ExternalLink size={15} /> Contact Maintainers
                         </a>
                     </div>
                 </div>

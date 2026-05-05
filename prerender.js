@@ -29,8 +29,15 @@ const PAGE_METADATA = {
   },
   '/donate': {
     title: 'Donate - Support LyricDisplay Development',
-    description: 'Support LyricDisplay with one-time donations or recurring subscription plans',
+    description: 'Support LyricDisplay with voluntary one-time or recurring donations.',
     keywords: 'LyricDisplay donate, support LyricDisplay, Paystack donation, open source worship software',
+    image: 'https://lyricdisplay.app/social-preview.png',
+    type: 'website'
+  },
+  '/code-of-conduct': {
+    title: 'Code of Conduct | LyricDisplay',
+    description: 'LyricDisplay project Code of Conduct for contributors, users, maintainers, and community discussions.',
+    keywords: 'LyricDisplay code of conduct, open source community guidelines, contributor guidelines',
     image: 'https://lyricdisplay.app/social-preview.png',
     type: 'website'
   },
@@ -244,6 +251,6 @@ function escapeHtml(text) {
 }
 
 // Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (path.resolve(fileURLToPath(import.meta.url)) === path.resolve(process.argv[1])) {
   await prerenderPages();
 }

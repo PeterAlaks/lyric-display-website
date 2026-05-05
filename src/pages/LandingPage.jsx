@@ -4,7 +4,7 @@ import {
     Globe2, Smartphone, Check, Tv, Play, Gauge, BookOpen,
     Church, Video, Mic2, Music, ArrowRight, CheckCircle
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
 import Footer from '../components/Footer';
@@ -82,17 +82,17 @@ export default function LyricDisplayLanding() {
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="text-center max-w-4xl mx-auto relative z-10" style={{ paddingBottom: 0 }}>
                         {/* Label */}
-                        <motion.div
+                        <Motion.div
                             initial={{ opacity: 0, y: 12 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6 }}
                             style={{ marginBottom: '1.5rem' }}
                         >
-                            <span className="pill pill-primary">Free & Open Source · GPL-2.0</span>
-                        </motion.div>
+                            <span className="pill pill-primary">Free & Open Source · GPL-3.0-or-later</span>
+                        </Motion.div>
 
                         {/* Headline */}
-                        <motion.h1
+                        <Motion.h1
                             initial={{ opacity: 0, y: 24 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.75, delay: 0.1 }}
@@ -109,10 +109,10 @@ export default function LyricDisplayLanding() {
                             Lyrics that move{' '}
                             <em style={{ fontStyle: 'italic', color: 'var(--primary-bright)' }}>with</em>
                             <br />your production.
-                        </motion.h1>
+                        </Motion.h1>
 
                         {/* Sub */}
-                        <motion.p
+                        <Motion.p
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.7, delay: 0.25 }}
@@ -126,10 +126,10 @@ export default function LyricDisplayLanding() {
                         >
                             Crystal-clear, real-time lyric overlays across unlimited displays.
                             Seamlessly integrated with OBS, vMix, Wirecast, and any browser-source software.
-                        </motion.p>
+                        </Motion.p>
 
                         {/* CTA row */}
-                        <motion.div
+                        <Motion.div
                             initial={{ opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.7, delay: 0.4 }}
@@ -143,10 +143,10 @@ export default function LyricDisplayLanding() {
                                 <Github size={16} />
                                 View on GitHub
                             </a>
-                        </motion.div>
+                        </Motion.div>
 
                         {/* Trust badges */}
-                        <motion.div
+                        <Motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.8, delay: 0.6 }}
@@ -158,13 +158,13 @@ export default function LyricDisplayLanding() {
                                     {badge}
                                 </span>
                             ))}
-                        </motion.div>
+                        </Motion.div>
                     </div>
 
                     {/* Hero images */}
                     <div className="relative" style={{ marginTop: '3rem', height: 320, overflow: 'hidden' }}>
                         {/* Mobile hero image */}
-                        <motion.div
+                        <Motion.div
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.9, delay: 0.5 }}
@@ -181,10 +181,10 @@ export default function LyricDisplayLanding() {
                         >
                             <img src={heroRight} alt="Live performance" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
                             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.3), transparent 60%)' }} />
-                        </motion.div>
+                        </Motion.div>
 
                         {/* Desktop left hero image */}
-                        <motion.div
+                        <Motion.div
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.9, delay: 0.5 }}
@@ -201,10 +201,10 @@ export default function LyricDisplayLanding() {
                         >
                             <img src={heroLeft} alt="Live worship service" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
                             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.3), transparent 60%)' }} />
-                        </motion.div>
+                        </Motion.div>
 
                         {/* Desktop right hero image */}
-                        <motion.div
+                        <Motion.div
                             initial={{ opacity: 0, y: 40 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.9, delay: 0.65 }}
@@ -221,7 +221,7 @@ export default function LyricDisplayLanding() {
                         >
                             <img src={heroRight} alt="Live performance" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
                             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,11,0.3), transparent 60%)' }} />
-                        </motion.div>
+                        </Motion.div>
 
                         {/* Center separator */}
                         <div className="hidden md:block" style={{ position: 'absolute', left: '50%', top: '10%', bottom: 0, width: 2, background: 'linear-gradient(to bottom, transparent, var(--primary-bright), transparent)', opacity: 0.6, transform: 'translateX(-50%)' }} />
@@ -254,7 +254,7 @@ export default function LyricDisplayLanding() {
             {/* ── INTEGRATION SECTION ───────────────────────────── */}
             <section id="integration" style={{ background: 'var(--surface)', padding: '96px 0' }}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <motion.div {...fadeUp} style={{ marginBottom: '4rem' }}>
+                    <Motion.div {...fadeUp} style={{ marginBottom: '4rem' }}>
                         <span className="section-label">Integration</span>
                         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
                             Plays well with your<br />existing setup.
@@ -262,16 +262,16 @@ export default function LyricDisplayLanding() {
                         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 480, lineHeight: 1.7 }}>
                             LyricDisplay plugs straight into industry-leading streaming and production software via browser source — no plugins, no capture cards.
                         </p>
-                    </motion.div>
+                    </Motion.div>
 
-                    <motion.div variants={stagger} initial="initial" whileInView="whileInView"
+                    <Motion.div variants={stagger} initial="initial" whileInView="whileInView"
                         className="grid md:grid-cols-3 gap-5" style={{ marginBottom: '2.5rem' }}>
                         {[
                             { name: 'OBS Studio', desc: 'The world\'s most popular streaming software. Add as a browser source with transparent backgrounds for perfect overlay integration.' },
                             { name: 'vMix', desc: 'Professional live production trusted by broadcasters. Use LyricDisplay\'s web browser input for multi-camera worship productions.' },
                             { name: 'Wirecast', desc: 'Industry-standard live streaming platform. Integrate through web display sources for broadcast-quality lyric overlays.' },
                         ].map((app, i) => (
-                            <motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '2rem' }}>
+                            <Motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '2rem' }}>
                                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1rem' }}>
                                     <h3 style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1.15rem', color: 'var(--text-primary)' }}>{app.name}</h3>
                                     <button type="button" className="pill pill-dim compatibility-badge" aria-label={`${app.name} is 100% compatible`}>
@@ -283,11 +283,11 @@ export default function LyricDisplayLanding() {
                                     </button>
                                 </div>
                                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.7 }}>{app.desc}</p>
-                            </motion.div>
+                            </Motion.div>
                         ))}
-                    </motion.div>
+                    </Motion.div>
 
-                    <motion.div {...fadeUp} style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                    <Motion.div {...fadeUp} style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                         <a href="/integration-guide" className="btn-primary">
                             <BookOpen size={15} />
                             Integration Guide
@@ -295,7 +295,7 @@ export default function LyricDisplayLanding() {
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontStyle: 'italic' }}>
                             + any browser-source compatible software
                         </p>
-                    </motion.div>
+                    </Motion.div>
                 </div>
             </section>
 
@@ -304,7 +304,7 @@ export default function LyricDisplayLanding() {
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, var(--border), transparent)' }} />
 
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                    <Motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
                         <span className="section-label">Outputs</span>
                         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
                             Six independent outputs,<br />one control surface.
@@ -312,16 +312,16 @@ export default function LyricDisplayLanding() {
                         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
                             Run up to six completely independent display outputs simultaneously — all synchronized in perfect real-time from a single interface.
                         </p>
-                    </motion.div>
+                    </Motion.div>
 
-                    <motion.div variants={stagger} initial="initial" whileInView="whileInView"
+                    <Motion.div variants={stagger} initial="initial" whileInView="whileInView"
                         className="grid md:grid-cols-3 gap-5">
                         {[
                             { name: 'Output 1', label: 'Broadcast Overlay', img: streamDisplay, desc: 'Transparent browser source overlay for OBS, vMix, or Wirecast with custom branding.' },
                             { name: 'Output 2', label: 'In-House Projection', img: auditoriumDisplay, desc: 'Configured for auditorium display with independent font sizing and positioning.' },
                             { name: 'Stage Monitor', label: 'Performer Display', img: stageDisplay, desc: 'High-contrast, optimized readability for stage confidence monitoring.' },
                         ].map((output, i) => (
-                            <motion.div key={i} variants={fadeUp} className="card-dark" style={{ overflow: 'hidden' }}>
+                            <Motion.div key={i} variants={fadeUp} className="card-dark" style={{ overflow: 'hidden' }}>
                                 <div style={{ height: 180, overflow: 'hidden', position: 'relative' }}>
                                     <img src={output.img} alt={output.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
                                         onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.06)'}
@@ -336,9 +336,9 @@ export default function LyricDisplayLanding() {
                                     <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{output.name}</h3>
                                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.65 }}>{output.desc}</p>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         ))}
-                    </motion.div>
+                    </Motion.div>
                 </div>
             </section>
 
@@ -347,7 +347,7 @@ export default function LyricDisplayLanding() {
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         {/* Left: text */}
-                        <motion.div {...fadeUp}>
+                        <Motion.div {...fadeUp}>
                             <span className="section-label">Advantages</span>
                             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '2rem', lineHeight: 1.15 }}>
                                 Built for the demands<br />of live production.
@@ -368,10 +368,10 @@ export default function LyricDisplayLanding() {
                                     </div>
                                 ))}
                             </div>
-                        </motion.div>
+                        </Motion.div>
 
                         {/* Right: laptop image */}
-                        <motion.div
+                        <Motion.div
                             initial={{ opacity: 0, x: 50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
@@ -381,7 +381,7 @@ export default function LyricDisplayLanding() {
                             <div className="img-frame float">
                                 <img src={laptopCutout} alt="LyricDisplay Control Panel" style={{ width: '100%', height: 'auto', display: 'block' }} />
                             </div>
-                        </motion.div>
+                        </Motion.div>
                     </div>
                 </div>
             </section>
@@ -389,7 +389,7 @@ export default function LyricDisplayLanding() {
             {/* ── FEATURES ──────────────────────────────────────── */}
             <section id="features" style={{ background: 'var(--ink)', padding: '96px 0' }}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                    <Motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
                         <span className="section-label">Features</span>
                         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
                             Everything for pro-grade<br />presentations.
@@ -397,9 +397,9 @@ export default function LyricDisplayLanding() {
                         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
                             Packed with features designed specifically for live production environments, churches, and professional events.
                         </p>
-                    </motion.div>
+                    </Motion.div>
 
-                    <motion.div variants={stagger} initial="initial" whileInView="whileInView"
+                    <Motion.div variants={stagger} initial="initial" whileInView="whileInView"
                         className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                         {[
                             { icon: <Monitor size={20} />, title: 'Scalable Multi-Output', desc: 'Run Output 1, 2, Stage, and custom outputs 3–6 with independent styling and positioning for every screen context.' },
@@ -409,15 +409,15 @@ export default function LyricDisplayLanding() {
                             { icon: <Smartphone size={20} />, title: 'Mobile Controllers', desc: 'Authorize devices with 6-digit codes. Remote operators can trigger lines and submit drafts for approval.' },
                             { icon: <Globe2 size={20} />, title: 'Online Lyrics Fetch', desc: 'Instantly load lyrics from the best free online libraries to enhance your workflow.' },
                         ].map((f, i) => (
-                            <motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            <Motion.div key={i} variants={fadeUp} className="card-dark" style={{ padding: '1.75rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                 <div className="icon-wrap">{f.icon}</div>
                                 <div>
                                     <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: '0.4rem' }}>{f.title}</h3>
                                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.65 }}>{f.desc}</p>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         ))}
-                    </motion.div>
+                    </Motion.div>
                 </div>
             </section>
 
@@ -425,17 +425,17 @@ export default function LyricDisplayLanding() {
             <section id="ndi" style={{ background: 'var(--surface)', padding: '96px 0', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, var(--border), transparent)' }} />
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                    <Motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '4rem' }}>
                         <span className="section-label">Advanced Distribution</span>
                         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
-                            NDI output support<br />for enterprise workflows.
+                            NDI output support<br />for advanced workflows.
                         </h2>
                         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 540, margin: '0 auto', lineHeight: 1.7 }}>
                             Beyond browser sources, LyricDisplay now supports NDI (Network Device Interface) output, enabling seamless integration with professional broadcast equipment and workflow software without requiring additional capture solutions.
                         </p>
-                    </motion.div>
+                    </Motion.div>
 
-                    <motion.div {...fadeUp} className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                    <Motion.div {...fadeUp} className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
                         <div className="card-dark" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                             <div>
                                 <h3 style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1.15rem', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>Browser Source Method</h3>
@@ -460,7 +460,7 @@ export default function LyricDisplayLanding() {
                         <div className="card-dark" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                             <div>
                                 <h3 style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '1.15rem', color: 'var(--text-primary)', marginBottom: '0.75rem' }}>NDI Output Method</h3>
-                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.7 }}>Professional network-based distribution for enterprise productions. Ideal for distributed systems and multi-site deployments.</p>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.7 }}>Professional network-based distribution for larger productions. Ideal for distributed systems and multi-site deployments.</p>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', flex: 1 }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -477,14 +477,14 @@ export default function LyricDisplayLanding() {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </Motion.div>
                 </div>
             </section>
 
             {/* ── USE CASES ─────────────────────────────────────── */}
             <section id="use-cases" style={{ background: 'var(--surface)', padding: '96px 0' }}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <motion.div {...fadeUp} style={{ marginBottom: '4rem' }}>
+                    <Motion.div {...fadeUp} style={{ marginBottom: '4rem' }}>
                         <span className="section-label">Use Cases</span>
                         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
                             Trusted by communities<br />worldwide.
@@ -492,9 +492,9 @@ export default function LyricDisplayLanding() {
                         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 480, lineHeight: 1.7 }}>
                             From intimate worship gatherings to large-scale productions, LyricDisplay adapts to your unique needs.
                         </p>
-                    </motion.div>
+                    </Motion.div>
 
-                    <motion.div variants={stagger} initial="initial" whileInView="whileInView"
+                    <Motion.div variants={stagger} initial="initial" whileInView="whileInView"
                         className="grid md:grid-cols-2 gap-5">
                         {[
                             {
@@ -522,7 +522,7 @@ export default function LyricDisplayLanding() {
                                 img: 'https://images.pexels.com/photos/164829/pexels-photo-164829.jpeg?auto=compress&cs=tinysrgb&w=1200',
                             },
                         ].map((uc, i) => (
-                            <motion.div key={i} variants={fadeUp} className="card-dark use-case-image-card" style={{ minHeight: 360, overflow: 'hidden' }}>
+                            <Motion.div key={i} variants={fadeUp} className="card-dark use-case-image-card" style={{ minHeight: 360, overflow: 'hidden' }}>
                                 <img
                                     src={uc.img}
                                     alt={uc.title}
@@ -542,9 +542,9 @@ export default function LyricDisplayLanding() {
                                         </div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         ))}
-                    </motion.div>
+                    </Motion.div>
                 </div>
             </section>
 
@@ -554,7 +554,7 @@ export default function LyricDisplayLanding() {
                 <div style={{ position: 'absolute', top: '50%', left: '30%', transform: 'translate(-50%,-50%)', width: 600, height: 400, background: 'radial-gradient(ellipse, rgba(168,85,247,0.04), transparent 70%)', pointerEvents: 'none' }} />
 
                 {/* Phone mockup */}
-                <motion.div
+                <Motion.div
                     initial={{ opacity: 0, y: 60 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -563,12 +563,12 @@ export default function LyricDisplayLanding() {
                     style={{ position: 'absolute', bottom: 0, left: 0, height: '90%', pointerEvents: 'none', transform: 'scale(0.85)' }}
                 >
                     <img src={phoneHandMockup} alt="Mobile Controller" style={{ height: '100%', width: 'auto', objectFit: 'contain', objectPosition: 'bottom left' }} />
-                </motion.div>
+                </Motion.div>
 
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-16">
                         <div className="hidden lg:block" />
-                        <motion.div {...fadeUp}>
+                        <Motion.div {...fadeUp}>
                             <span className="section-label">Mobile Control</span>
                             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1.25rem', lineHeight: 1.15 }}>
                                 Control from anywhere<br />in the room.
@@ -590,7 +590,7 @@ export default function LyricDisplayLanding() {
                                     </div>
                                 ))}
                             </div>
-                        </motion.div>
+                        </Motion.div>
                     </div>
                 </div>
             </section>
@@ -599,7 +599,7 @@ export default function LyricDisplayLanding() {
             {approvedReviews.length >= 3 && (
                 <section id="reviews" style={{ background: 'var(--surface)', padding: '96px 0', overflow: 'hidden' }}>
                     <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                        <motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                        <Motion.div {...fadeUp} style={{ textAlign: 'center', marginBottom: '3rem' }}>
                             <span className="section-label">Reviews</span>
                             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--text-primary)', marginBottom: '1rem', lineHeight: 1.15 }}>
                                 Loved by production<br />teams worldwide.
@@ -607,16 +607,16 @@ export default function LyricDisplayLanding() {
                             <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', maxWidth: 440, margin: '0 auto', lineHeight: 1.7 }}>
                                 See what users are saying about their experience with LyricDisplay.
                             </p>
-                        </motion.div>
+                        </Motion.div>
 
                         <ReviewSlider reviews={approvedReviews} />
 
-                        <motion.div {...fadeUp} style={{ textAlign: 'center', marginTop: '3rem' }}>
+                        <Motion.div {...fadeUp} style={{ textAlign: 'center', marginTop: '3rem' }}>
                             <a href="/feedback" className="btn-primary">
                                 Share Your Experience
                                 <ArrowRight size={15} />
                             </a>
-                        </motion.div>
+                        </Motion.div>
                     </div>
                 </section>
             )}
@@ -627,7 +627,7 @@ export default function LyricDisplayLanding() {
                 <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '70%', height: 500, background: 'radial-gradient(ellipse 80% 100% at 50% 0%, rgba(168,85,247,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.35), transparent)' }} />
 
-                <motion.div {...fadeUp} style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center', padding: '0 24px', position: 'relative', zIndex: 1 }}>
+                <Motion.div {...fadeUp} style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center', padding: '0 24px', position: 'relative', zIndex: 1 }}>
                     <span className="section-label" style={{ display: 'block', marginBottom: '1.5rem' }}>Get Started</span>
                     <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--text-primary)', lineHeight: 1.08, marginBottom: '1.5rem' }}>
                         Transform your<br />
@@ -648,9 +648,9 @@ export default function LyricDisplayLanding() {
                         </a>
                     </div>
                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
-                        Cross-Platform · Free & Open Source · GPL-2.0
+                        Cross-Platform · Free & Open Source · GPL-3.0-or-later
                     </p>
-                </motion.div>
+                </Motion.div>
             </section>
 
             <Footer />

@@ -516,7 +516,7 @@ export default function DownloadPage() {
                                 <li><strong style={{ color: 'var(--text-primary)' }}>Browsers:</strong> Click "Keep" or "Keep anyway" if warned about uncommon downloads.</li>
                             </ul>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '0.75rem' }}>
-                                LyricDisplay is open source and safe. <a href="https://buymeacoffee.com/lyricdisplay" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-bright)' }}>Support development</a> to help purchase code signing certificates.
+                                LyricDisplay is open source. <a href="https://buymeacoffee.com/lyricdisplay" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-bright)' }}>Voluntary donations</a> help fund code signing certificates.
                             </p>
                         </div>
                     </div>
@@ -558,14 +558,14 @@ export default function DownloadPage() {
                         Need help getting started?
                     </h2>
                     <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: 1.7 }}>
-                        Check out our video tutorial or reach out for technical support.
+                        Check out our video tutorial or reach out to the maintainers.
                     </p>
                     <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                         <a href="https://drive.google.com/file/d/1fP4fSSWSNvSocI8fK7hktdJ7dY6xnCM-/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="btn-primary">
                             <BookOpen size={15} /> Watch Tutorial
                         </a>
                         <a href="https://linktr.ee/peteralaks" target="_blank" rel="noopener noreferrer" className="btn-ghost">
-                            <ExternalLink size={15} /> Contact Support
+                            <ExternalLink size={15} /> Contact Maintainers
                         </a>
                     </div>
                 </MotionDiv>
@@ -727,7 +727,7 @@ export default function DownloadPage() {
                                     <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.55 }}>
                                         <input name="contactConsent" type="checkbox" checked={downloadForm.contactConsent} onChange={updateDownloadForm}
                                             style={{ marginTop: 3, accentColor: 'var(--primary)' }} />
-                                        <span>You may contact me about LyricDisplay updates, support, and release news.</span>
+                                        <span>You may contact me about LyricDisplay updates and release news.</span>
                                     </label>
                                 </div>
 

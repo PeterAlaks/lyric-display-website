@@ -298,7 +298,7 @@ export default function EasyWorshipGuide() {
                         Need More Help?
                     </h2>
                     <p className="text-gray-400 mb-8">
-                        Check out our video tutorial or reach out for technical support
+                        Check out our video tutorial or reach out to the maintainers
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <a href="https://drive.google.com/file/d/1fP4fSSWSNvSocI8fK7hktdJ7dY6xnCM-/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all">
@@ -307,7 +307,7 @@ export default function EasyWorshipGuide() {
                         </a>
                         <a href="https://linktr.ee/peteralaks" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-6 py-3 rounded-xl font-semibold border-2 border-white/30 hover:bg-white/20 transition-all">
                             <ExternalLink className="w-5 h-5" />
-                            Contact Support
+                            Contact Maintainers
                         </a>
                     </div>
                 </div>

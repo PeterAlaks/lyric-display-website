@@ -40,7 +40,7 @@ const subscriptionPlans = [
         frequency: 'monthly',
         label: 'Monthly',
         summary: 'For churches and teams actively using LyricDisplay.',
-        impact: ['Code signing fund', 'Integration work', 'Priority bug fixes'],
+        impact: ['Code signing fund', 'Integration work', 'Bug triage'],
         featured: true,
     },
     {
@@ -125,7 +125,7 @@ export default function DonatePage() {
 
         if (mode === 'custom') {
             return {
-                title: 'Custom subscription',
+                title: 'Custom recurring donation',
                 amount: Number(customAmount) || 0,
                 frequency: customFrequency,
                 paymentType: 'custom_subscription',
@@ -134,7 +134,7 @@ export default function DonatePage() {
         }
 
         return {
-            title: `${selectedPlan.name} plan`,
+            title: `${selectedPlan.name} donation`,
             amount: selectedPlan.amount,
             frequency: selectedPlan.frequency,
             paymentType: 'subscription',
@@ -290,7 +290,7 @@ export default function DonatePage() {
         <div style={{ background: 'var(--ink)', minHeight: '100vh' }}>
             <SEO
                 title="Donate - Support LyricDisplay Development"
-                description="Support LyricDisplay with one-time donations or recurring subscription plans."
+                description="Support LyricDisplay with voluntary one-time or recurring donations."
                 keywords="LyricDisplay donate, support LyricDisplay, Paystack donation, open source worship software"
             />
             <Navbar />
@@ -309,10 +309,10 @@ export default function DonatePage() {
                         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }}>
                             <span className="section-label">Support development</span>
                             <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.025em', lineHeight: 1.1, maxWidth: 700, marginBottom: '1.25rem' }}>
-                                Keep LyricDisplay free for church production teams.
+                                Keep LyricDisplay free for production teams.
                             </h1>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '1.04rem', lineHeight: 1.75, maxWidth: 640 }}>
-                                Donations help cover code signing, compatibility testing, documentation, and the development time needed to make live lyric display dependable.
+                                Donations are voluntary and help cover code signing, compatibility testing, documentation, and development time. They do not purchase support, hosting, premium features, or commercial services.
                             </p>
                         </motion.div>
                     </div>
@@ -326,7 +326,7 @@ export default function DonatePage() {
                             <MotionDiv {...fadeUp}>
                                 <div style={{ display: 'inline-grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, padding: 6, border: '1px solid var(--border)', borderRadius: 12, background: 'var(--surface)', width: 'min(100%, 620px)', marginBottom: 22 }}>
                                     {[
-                                        { id: 'subscription', label: 'Plans' },
+                                        { id: 'subscription', label: 'Recurring' },
                                         { id: 'one-time', label: 'One-time' },
                                         { id: 'custom', label: 'Custom' },
                                     ].map(option => (
@@ -350,7 +350,7 @@ export default function DonatePage() {
                                 <AnimatePresence mode="wait">
                                     {mode === 'subscription' && (
                                         <MotionDiv key="plans" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}
-                                            className="donation-plan-carousel" role="region" aria-label="Donation subscription plans">
+                                            className="donation-plan-carousel" role="region" aria-label="Recurring donation options">
                                             <div className="donation-plan-carousel__controls" aria-label="Plan carousel controls">
                                                 <button type="button" className="donation-plan-carousel__nav" onClick={() => showPlan(selectedPlanIndex - 1)} disabled={selectedPlanIndex === 0} aria-label="Previous plan">
                                                     <ArrowLeft size={17} />
@@ -429,7 +429,7 @@ export default function DonatePage() {
                                     {mode === 'custom' && (
                                         <MotionDiv key="custom" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}
                                             className="card-dark" style={{ padding: '1.5rem' }}>
-                                            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--text-primary)', fontWeight: 600, marginBottom: '0.45rem' }}>Create a custom subscription</h2>
+                                            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--text-primary)', fontWeight: 600, marginBottom: '0.45rem' }}>Create a custom recurring donation</h2>
                                             <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '1.3rem' }}>Set the recurring amount and cadence that matches your team.</p>
                                             <div className="grid sm:grid-cols-2 gap-4">
                                                 <Field label="Amount">

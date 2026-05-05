@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Calendar, Clock, ArrowLeft, Tag, Download, ExternalLink } from 'lucide-react';
@@ -39,7 +39,7 @@ export default function BlogPostPage() {
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.06), transparent)' }} />
 
                 <div className="max-w-3xl mx-auto px-6 lg:px-8">
-                    <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+                    <Motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
                         {/* Back */}
                         <button
                             onClick={() => navigate('/blog')}
@@ -82,13 +82,13 @@ export default function BlogPostPage() {
                                 <img src={post.image} alt={post.title} style={{ width: '100%', height: 'auto', display: 'block' }} />
                             </div>
                         )}
-                    </motion.div>
+                    </Motion.div>
                 </div>
             </section>
 
             {/* Article */}
             <article style={{ padding: '64px 0 80px', background: 'var(--ink)' }}>
-                <motion.div
+                <Motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.2 }}
@@ -97,7 +97,7 @@ export default function BlogPostPage() {
                     <div className="blog-content">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
                     </div>
-                </motion.div>
+                </Motion.div>
             </article>
 
             {/* Share */}
@@ -127,7 +127,7 @@ export default function BlogPostPage() {
                 <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '70%', height: 400, background: 'radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.06), transparent 70%)', pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.06), transparent)' }} />
 
-                <motion.div
+                <Motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -147,7 +147,7 @@ export default function BlogPostPage() {
                             <ExternalLink size={15} /> Documentation
                         </a>
                     </div>
-                </motion.div>
+                </Motion.div>
             </section>
 
             <Footer />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Star, Send, ExternalLink, AlertCircle, MessageSquare, Bug } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BackToTopButton from '../components/BackToTopButton';
@@ -109,7 +109,7 @@ export default function FeedbackPage() {
             <section style={{ paddingTop: navbarHeight + 64, paddingBottom: 64, background: 'var(--surface)', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '70%', height: 300, background: 'radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.06), transparent 70%)', pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.3), transparent)' }} />
-                <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
+                <Motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}
                     style={{ maxWidth: 640, margin: '0 auto', padding: '0 24px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
                     <span className="section-label">Feedback</span>
                     <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.025em', lineHeight: 1.1, marginBottom: '1rem' }}>
@@ -118,7 +118,7 @@ export default function FeedbackPage() {
                     <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', lineHeight: 1.7 }}>
                         Share your experience or report any issues you've encountered.
                     </p>
-                </motion.div>
+                </Motion.div>
             </section>
 
             <section style={{ padding: '56px 0 96px', background: 'var(--ink)' }}>
@@ -143,18 +143,18 @@ export default function FeedbackPage() {
                     {/* Status */}
                     <AnimatePresence>
                         {submitStatus.message && (
-                            <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                            <Motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                                 className={`alert-box ${submitStatus.type === 'success' ? 'alert-success' : submitStatus.type === 'error' ? 'alert-error' : 'alert-info'}`}
                                 style={{ marginBottom: '1.5rem' }}>
                                 <AlertCircle size={16} style={{ flexShrink: 0, marginTop: 2 }} />
                                 <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{submitStatus.message}</span>
-                            </motion.div>
+                            </Motion.div>
                         )}
                     </AnimatePresence>
 
                     <AnimatePresence mode="wait">
                         {activeTab === 'review' && (
-                            <motion.div key="review" initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}
+                            <Motion.div key="review" initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.25 }}
                                 className="card-dark" style={{ padding: '2rem' }}>
                                 <form onSubmit={e => handleSubmit(e, 'reviews')} name="reviews" method="POST" data-netlify="true" netlify-honeypot="bot-field">
                                     <input type="hidden" name="form-name" value="reviews" />
@@ -214,11 +214,11 @@ export default function FeedbackPage() {
                                         </div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         )}
 
                         {activeTab === 'issues' && (
-                            <motion.div key="issues" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 16 }} transition={{ duration: 0.25 }}
+                            <Motion.div key="issues" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 16 }} transition={{ duration: 0.25 }}
                                 className="card-dark" style={{ padding: '2rem' }}>
                                 <form onSubmit={e => handleSubmit(e, 'issues')} name="issues" method="POST" data-netlify="true" netlify-honeypot="bot-field">
                                     <input type="hidden" name="form-name" value="issues" />
@@ -273,7 +273,7 @@ export default function FeedbackPage() {
                                         </div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         )}
                     </AnimatePresence>
                 </div>

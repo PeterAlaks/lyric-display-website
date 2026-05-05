@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
 
 export default function BackToTopButton() {
     const [isVisible, setIsVisible] = useState(false);
@@ -14,7 +14,7 @@ export default function BackToTopButton() {
     return (
         <AnimatePresence>
             {isVisible && (
-                <motion.button
+                <Motion.button
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
@@ -48,7 +48,7 @@ export default function BackToTopButton() {
                     }}
                 >
                     <ArrowUp size={18} />
-                </motion.button>
+                </Motion.button>
             )}
         </AnimatePresence>
     );
