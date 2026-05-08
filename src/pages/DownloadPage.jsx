@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Download, ArrowLeft, CheckCircle, ArrowRight, BookOpen, ExternalLink, GitBranch, AlertTriangle, ChevronDown, X } from 'lucide-react';
+import { Download, ArrowLeft, CheckCircle, ArrowRight, BookOpen, ExternalLink, GitBranch, AlertTriangle, ChevronDown, X, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import BackToTopButton from '../components/BackToTopButton';
@@ -29,6 +29,7 @@ const initialDownloadForm = {
 const DOWNLOAD_FORM_DRAFT_KEY = 'lyricDisplayDownloadFormDraft';
 const DOWNLOAD_UNLOCKS_KEY = 'lyricDisplayDownloadUnlocks';
 const DOWNLOAD_UNLOCK_DURATION = 30 * 24 * 60 * 60 * 1000;
+const MACOS_SECURITY_COMMAND = 'xattr -cr /Applications/LyricDisplay.app';
 
 const getDownloadAccessKey = download => [
     download?.platform,
@@ -92,6 +93,7 @@ export default function DownloadPage() {
     const [countriesLoading, setCountriesLoading] = useState(true);
     const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
     const [countrySearch, setCountrySearch] = useState('');
+    const [copiedCommandSource, setCopiedCommandSource] = useState(null);
     const navbarHeight = useNavbarHeight();
     const dropdownRef = useRef(null);
     const downloadFormBodyRef = useRef(null);
@@ -267,6 +269,7 @@ export default function DownloadPage() {
         downloadForm.useCase &&
         downloadForm.country
     );
+    const completedDownloadIsMacOS = completedDownload?.platform?.toLowerCase().includes('macos');
 
     useEffect(() => {
         if (!selectedDownload && !completedDownload) return undefined;
@@ -327,6 +330,29 @@ export default function DownloadPage() {
         document.body.appendChild(link);
         link.click();
         link.remove();
+    };
+
+    const copyMacOSCommand = async source => {
+        try {
+            if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(MACOS_SECURITY_COMMAND);
+            } else {
+                const textArea = document.createElement('textarea');
+                textArea.value = MACOS_SECURITY_COMMAND;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                textArea.remove();
+            }
+            setCopiedCommandSource(source);
+            window.setTimeout(() => {
+                setCopiedCommandSource(current => current === source ? null : current);
+            }, 1600);
+        } catch {
+            setCopiedCommandSource(null);
+        }
     };
 
     const handleDownloadSubmit = async e => {
@@ -429,7 +455,7 @@ export default function DownloadPage() {
                         Get LyricDisplay.
                     </h1>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
-                        Latest stable release for your platform
+                        Latest stable release for your platform, completely free forever. No signup or payment details required.
                     </p>
                 </div>
             </section>
@@ -502,22 +528,58 @@ export default function DownloadPage() {
                     </div>
 
                     {/* Security notice */}
-                    <div className="alert-box alert-warning" style={{ marginTop: '1.5rem' }}>
-                        <AlertTriangle size={18} style={{ color: '#f59e0b', flexShrink: 0, marginTop: 2 }} />
-                        <div>
-                            <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem', fontSize: '0.95rem' }}>Security Warning Notice</p>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.7, marginBottom: '0.75rem' }}>
-                                Installers are not yet code-signed. Security warnings on download are expected and safe to proceed through.
+                    <div style={{ marginTop: '1.5rem', border: '1px solid rgba(245,158,11,0.24)', borderRadius: 14, background: 'linear-gradient(135deg, rgba(245,158,11,0.10), rgba(124,58,237,0.05))', boxShadow: '0 18px 48px rgba(0,0,0,0.18)', overflow: 'hidden' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.95rem', padding: '1.1rem 1.2rem', borderBottom: '1px solid rgba(245,158,11,0.16)' }}>
+                            <div style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(245,158,11,0.13)', border: '1px solid rgba(245,158,11,0.24)', color: '#f59e0b', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                <AlertTriangle size={18} />
+                            </div>
+                            <div>
+                                <p style={{ fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem', fontSize: '0.98rem' }}>Installer security notice</p>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.65 }}>
+                                    LyricDisplay is open source, but the installers are not code-signed yet. Your browser or operating system may show an extra confirmation before opening the app.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="grid md:grid-cols-3 gap-3" style={{ padding: '1rem 1.2rem' }}>
+                            {[
+                                { label: 'Windows', body: 'Choose More info, then Run anyway if SmartScreen appears.' },
+                                { label: 'macOS', body: 'Gatekeeper may require approval the first time you open the app.' },
+                                { label: 'Linux', body: 'Mark the AppImage as executable before opening it.' },
+                            ].map(item => (
+                                <div key={item.label} style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '0.85rem', background: 'rgba(9,9,15,0.22)' }}>
+                                    <p style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.82rem', marginBottom: '0.25rem' }}>{item.label}</p>
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', lineHeight: 1.55 }}>{item.body}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <div style={{ margin: '0 1.2rem 1rem', border: '1px solid rgba(245,158,11,0.20)', borderRadius: 12, background: 'rgba(9,9,15,0.18)', padding: '0.95rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.65rem' }}>
+                                <AlertTriangle size={15} style={{ color: '#f59e0b', flexShrink: 0 }} />
+                                <p style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.88rem' }}>macOS first-open steps</p>
+                            </div>
+                            <ol style={{ color: 'var(--text-secondary)', fontSize: '0.83rem', lineHeight: 1.7, paddingLeft: '1.1rem', marginBottom: '0.75rem' }}>
+                                <li>Open the DMG and drag LyricDisplay into Applications.</li>
+                                <li>If macOS blocks the app, open System Settings &gt; Privacy &amp; Security and allow LyricDisplay.</li>
+                                <li>If macOS says the app is damaged, open the Terminal app and run the command below once.</li>
+                            </ol>
+                            <div style={{ display: 'flex', alignItems: 'stretch', gap: '0.5rem', background: 'rgba(9,9,15,0.55)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '0.35rem' }}>
+                                <code style={{ flex: 1, color: 'var(--primary-bright)', padding: '0.35rem 0.4rem', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                    {MACOS_SECURITY_COMMAND}
+                                </code>
+                                <button type="button" onClick={() => copyMacOSCommand('notice')} aria-label="Copy macOS Terminal command"
+                                    style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, background: copiedCommandSource === 'notice' ? 'var(--teal-dim)' : 'rgba(255,255,255,0.04)', color: copiedCommandSource === 'notice' ? 'var(--teal)' : 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '0 0.65rem', fontSize: '0.76rem', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                                    {copiedCommandSource === 'notice' ? <CheckCircle size={14} /> : <Copy size={14} />}
+                                    {copiedCommandSource === 'notice' ? 'Copied' : 'Copy'}
+                                </button>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', flexWrap: 'wrap', padding: '0 1.2rem 1rem' }}>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+                                Browser warnings for uncommon downloads are expected. Choose Keep or Keep anyway to continue.
                             </p>
-                            <ul style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.8, paddingLeft: '1.25rem' }}>
-                                <li><strong style={{ color: 'var(--text-primary)' }}>Windows:</strong> Click "More info" → "Run anyway" in SmartScreen.</li>
-                                <li><strong style={{ color: 'var(--text-primary)' }}>macOS:</strong> Run <code style={{ background: 'var(--primary-dim)', color: 'var(--primary-bright)', padding: '1px 6px', borderRadius: 4, fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>xattr -cr /Applications/LyricDisplay.app</code> if blocked, or allow in System Settings → Privacy & Security.</li>
-                                <li><strong style={{ color: 'var(--text-primary)' }}>Linux:</strong> <code style={{ background: 'var(--primary-dim)', color: 'var(--primary-bright)', padding: '1px 6px', borderRadius: 4, fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>chmod +x</code> before running.</li>
-                                <li><strong style={{ color: 'var(--text-primary)' }}>Browsers:</strong> Click "Keep" or "Keep anyway" if warned about uncommon downloads.</li>
-                            </ul>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '0.82rem', marginTop: '0.75rem' }}>
-                                LyricDisplay is open source. <a href="https://buymeacoffee.com/lyricdisplay" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-bright)' }}>Voluntary donations</a> help fund code signing certificates.
-                            </p>
+                            <a href="https://buymeacoffee.com/lyricdisplay" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-bright)', fontSize: '0.82rem', textDecoration: 'none', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                                Help fund code signing <ExternalLink size={12} style={{ display: 'inline', verticalAlign: '-1px', marginLeft: 3 }} />
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -761,7 +823,7 @@ export default function DownloadPage() {
                             exit={{ opacity: 0, y: 14, scale: 0.96 }}
                             transition={{ duration: 0.2, ease: 'easeOut' }}
                             className="card-dark download-modal-card"
-                            style={{ width: 'min(100%, 420px)', padding: '1.35rem', boxShadow: '0 24px 72px rgba(0,0,0,0.55)' }}
+                            style={{ width: `min(100%, ${completedDownloadIsMacOS ? '520px' : '420px'})`, padding: '1.35rem', boxShadow: '0 24px 72px rgba(0,0,0,0.55)', maxHeight: 'calc(100vh - 2rem)', overflowY: 'auto' }}
                             onMouseDown={e => e.stopPropagation()}
                             role="dialog"
                             aria-modal="true"
@@ -789,6 +851,29 @@ export default function DownloadPage() {
                                 <p style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.15rem' }}>{completedDownload.platform}</p>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.76rem', fontFamily: 'var(--font-mono)' }}>{completedDownload.version}</p>
                             </div>
+                            {completedDownloadIsMacOS && (
+                                <div style={{ border: '1px solid rgba(245,158,11,0.24)', borderRadius: 12, background: 'rgba(245,158,11,0.07)', padding: '0.95rem', marginBottom: '1.15rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.65rem' }}>
+                                        <AlertTriangle size={16} style={{ color: '#f59e0b', flexShrink: 0 }} />
+                                        <p style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.9rem' }}>Opening on macOS</p>
+                                    </div>
+                                    <ol style={{ color: 'var(--text-secondary)', fontSize: '0.84rem', lineHeight: 1.7, paddingLeft: '1.1rem', marginBottom: '0.75rem' }}>
+                                        <li>Open the DMG and drag LyricDisplay into Applications.</li>
+                                        <li>If macOS blocks the app, open System Settings &gt; Privacy &amp; Security and allow LyricDisplay.</li>
+                                        <li>If macOS says the app is damaged, open the Terminal app and run the command below once.</li>
+                                    </ol>
+                                    <div style={{ display: 'flex', alignItems: 'stretch', gap: '0.5rem', background: 'rgba(9,9,15,0.55)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '0.35rem' }}>
+                                        <code style={{ flex: 1, color: 'var(--primary-bright)', padding: '0.35rem 0.4rem', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', overflowX: 'auto', whiteSpace: 'nowrap' }}>
+                                            {MACOS_SECURITY_COMMAND}
+                                        </code>
+                                        <button type="button" onClick={() => copyMacOSCommand('modal')} aria-label="Copy macOS Terminal command"
+                                            style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7, background: copiedCommandSource === 'modal' ? 'var(--teal-dim)' : 'rgba(255,255,255,0.04)', color: copiedCommandSource === 'modal' ? 'var(--teal)' : 'var(--text-secondary)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '0 0.65rem', fontSize: '0.76rem', fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                                            {copiedCommandSource === 'modal' ? <CheckCircle size={14} /> : <Copy size={14} />}
+                                            {copiedCommandSource === 'modal' ? 'Copied' : 'Copy'}
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                                 <a href={completedDownload.href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ flex: 1, justifyContent: 'center', minWidth: 180 }}>
                                     <Download size={16} /> {completedDownload.isRetry ? 'Retry manually' : 'Start manually'}

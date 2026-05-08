@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Download, Github, ExternalLink, Monitor, Zap, Palette, FilePen,
+    Download, Github, Monitor, Zap, Palette, FilePen,
     Globe2, Smartphone, Check, Tv, Play, Gauge, BookOpen,
     Church, Video, Mic2, Music, ArrowRight, CheckCircle
 } from 'lucide-react';
@@ -88,7 +88,7 @@ export default function LyricDisplayLanding() {
                             transition={{ duration: 0.6 }}
                             style={{ marginBottom: '1.5rem' }}
                         >
-                            <span className="pill pill-primary">Free & Open Source · GPL-3.0-or-later</span>
+                            <span className="pill pill-primary">Free & Open Source · GPL-3.0</span>
                         </Motion.div>
 
                         {/* Headline */}
@@ -124,8 +124,8 @@ export default function LyricDisplayLanding() {
                                 margin: '0 auto 2.5rem',
                             }}
                         >
-                            Crystal-clear, real-time lyric overlays across unlimited displays.
-                            Seamlessly integrated with OBS, vMix, Wirecast, and any browser-source software.
+                            Crystal-clear, real-time lyric overlays across multiple displays.
+                            Seamlessly integrated with OBS, vMix, Wirecast and any browser-source software.
                         </Motion.p>
 
                         {/* CTA row */}
@@ -318,7 +318,7 @@ export default function LyricDisplayLanding() {
                         className="grid md:grid-cols-3 gap-5">
                         {[
                             { name: 'Output 1', label: 'Broadcast Overlay', img: streamDisplay, desc: 'Transparent browser source overlay for OBS, vMix, or Wirecast with custom branding.' },
-                            { name: 'Output 2', label: 'In-House Projection', img: auditoriumDisplay, desc: 'Configured for auditorium display with independent font sizing and positioning.' },
+                            { name: 'Output 2', label: 'In-House Projection', img: auditoriumDisplay, desc: 'Configurable for auditorium display with independent font sizing and positioning.' },
                             { name: 'Stage Monitor', label: 'Performer Display', img: stageDisplay, desc: 'High-contrast, optimized readability for stage confidence monitoring.' },
                         ].map((output, i) => (
                             <Motion.div key={i} variants={fadeUp} className="card-dark" style={{ overflow: 'hidden' }}>
@@ -643,7 +643,7 @@ export default function LyricDisplayLanding() {
                             Download Free
                         </a>
                         <a href="/documentation" className="btn-ghost">
-                            <ExternalLink size={16} />
+                            <BookOpen size={16} />
                             Documentation
                         </a>
                     </div>

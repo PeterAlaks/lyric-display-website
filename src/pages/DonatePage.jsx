@@ -312,7 +312,7 @@ export default function DonatePage() {
                                 Keep LyricDisplay free for production teams.
                             </h1>
                             <p style={{ color: 'var(--text-secondary)', fontSize: '1.04rem', lineHeight: 1.75, maxWidth: 640 }}>
-                                Donations are voluntary and help cover code signing, compatibility testing, documentation, and development time. They do not purchase support, hosting, premium features, or commercial services.
+                                Donations are voluntary and help cover code signing, compatibility testing, documentation and development time.
                             </p>
                         </motion.div>
                     </div>
@@ -403,7 +403,7 @@ export default function DonatePage() {
                                         <MotionDiv key="once" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}
                                             className="card-dark" style={{ padding: '1.5rem' }}>
                                             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--text-primary)', fontWeight: 600, marginBottom: '0.45rem' }}>Make a one-time donation</h2>
-                                            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '1.3rem' }}>A one-time gift helps with immediate project costs like packaging, testing, and infrastructure.</p>
+                                            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: '1.3rem' }}>A one-time gift helps with immediate project costs like packaging, testing and infrastructure.</p>
                                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 10, marginBottom: '1rem' }}>
                                                 {oneTimeAmounts.map(amount => (
                                                     <button key={amount} type="button" onClick={() => setOneTimeAmount(amount)}
@@ -493,7 +493,7 @@ export default function DonatePage() {
 
                                 <button type="submit" className="btn-primary" disabled={submitting || verifying || !canPay} style={{ justifyContent: 'center', width: '100%' }}>
                                     {submitting || verifying ? <RefreshCw size={16} /> : <CreditCard size={16} />}
-                                    {verifying ? 'Confirming payment...' : submitting ? 'Starting checkout...' : 'Continue to Paystack'}
+                                    {verifying ? 'Confirming payment...' : submitting ? 'Starting checkout...' : 'Continue to Payment'}
                                     {!submitting && !verifying && <ArrowRight size={15} />}
                                 </button>
 

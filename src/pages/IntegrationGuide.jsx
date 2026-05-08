@@ -129,6 +129,40 @@ function TabButton({ active, onClick, icon, label }) {
     );
 }
 
+function FirstLaunchNotice() {
+    return (
+        <Section title="Before You Add the Browser Source">
+            <div style={{ border: '1px solid rgba(245,158,11,0.24)', borderRadius: 12, background: 'rgba(245,158,11,0.07)', padding: '1rem 1.1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.9rem' }}>
+                    <AlertCircle size={18} style={{ color: '#f59e0b', flexShrink: 0, marginTop: 2 }} />
+                    <div>
+                        <p style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.25rem' }}>
+                            First launch prompts are important
+                        </p>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: 1.7 }}>
+                            Open LyricDisplay once before configuring your production software. Some operating system prompts only appear the first time the app starts.
+                        </p>
+                    </div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-3">
+                    <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, background: 'rgba(9,9,15,0.24)', padding: '0.9rem' }}>
+                        <p style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.84rem', marginBottom: '0.35rem' }}>Windows Firewall</p>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.65 }}>
+                            If Windows Defender Firewall asks whether to allow LyricDisplay network access, click <strong>Allow access</strong>. Keep <strong>Private networks</strong> enabled so OBS, vMix, Wirecast, and browser outputs can connect to LyricDisplay.
+                        </p>
+                    </div>
+                    <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, background: 'rgba(9,9,15,0.24)', padding: '0.9rem' }}>
+                        <p style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.84rem', marginBottom: '0.35rem' }}>macOS Keychain</p>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.65 }}>
+                            On macOS, especially on Apple Silicon Macs, the system may ask for your Mac password or Keychain permission when LyricDisplay stores secure credentials. This is expected and should usually happen once.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </Section>
+    );
+}
+
 function OBSGuide({ copyToClipboard, copied }) {
     return (
         <div className="space-y-12">
@@ -137,6 +171,8 @@ function OBSGuide({ copyToClipboard, copied }) {
                     LyricDisplay integrates with OBS Studio through a browser source. This creates a transparent overlay layer that displays lyrics over your video feed. You can choose between same-computer setup (easiest) or network setup (for different computers).
                 </p>
             </Section>
+
+            <FirstLaunchNotice />
 
             <Section title="Option 1: Same Computer Setup" badge="Recommended">
                 <p className="text-gray-600 mb-6">
@@ -270,6 +306,7 @@ function OBSGuide({ copyToClipboard, copied }) {
                             <div className="mt-3 space-y-4">
                                 <PlatformBlock platform="Windows">
                                     <ul className="space-y-2 text-sm">
+                                        <li>• If Windows asks on first launch, click <strong>Allow access</strong> and keep <strong>Private networks</strong> enabled</li>
                                         <li>• Search "Windows Defender Firewall" in Start menu</li>
                                         <li>• Click "Allow an app through firewall"</li>
                                         <li>• Click "Change settings" then "Allow another app"</li>
@@ -444,6 +481,8 @@ function VmixGuide({ copyToClipboard, copied }) {
                 </p>
             </Section>
 
+            <FirstLaunchNotice />
+
             <Section title="Option 1: Same Computer Setup" badge="Recommended">
                 <p className="text-gray-600 mb-6">
                     Both LyricDisplay and vMix on the same computer. Great for single-computer production setups.
@@ -565,6 +604,8 @@ function WirecastGuide({ copyToClipboard, copied }) {
                     LyricDisplay integrates with Wirecast using a Web Page source. This adds lyrics as a transparent layer that can appear across all shots or specific ones. Always enable the "Transparent Background" option.
                 </p>
             </Section>
+
+            <FirstLaunchNotice />
 
             <Section title="Option 1: Same Computer Setup" badge="Recommended">
                 <p className="text-gray-600 mb-6">

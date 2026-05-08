@@ -24,7 +24,7 @@ export default function Footer() {
             { label: 'Create Issue',        href: 'https://github.com/PeterAlaks/lyric-display-app/issues', ext: true },
             { label: 'Feedback',            href: '/feedback' },
             { label: 'Contact',             href: 'https://linktr.ee/peteralaks', ext: true },
-            { label: 'Voluntary Donations', href: 'https://buymeacoffee.com/lyricdisplay', ext: true },
+            { label: 'Support Development', href: 'https://buymeacoffee.com/lyricdisplay', ext: true },
         ],
     };
 
@@ -40,7 +40,10 @@ export default function Footer() {
                             <img src={logoWhite} alt="LyricDisplay" style={{ height: 28 }} />
                         </div>
                         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', maxWidth: 340, lineHeight: 1.7 }}>
-                            Professional real-time lyric display for live events, church services, and multimedia productions. Built with passion by Peter Alakembi and David Okaliwe.
+                            Professional real-time lyric display for live events, church services, and multimedia productions. Built and maintained with passion by Peter Alakembi and David Okaliwe.{' '}
+                            <a href="https://github.com/PeterAlaks/lyric-display-app/graphs/contributors" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-muted)', textDecoration: 'underline' }}>
+                                See all contributors
+                            </a>
                         </p>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
@@ -87,7 +90,7 @@ export default function Footer() {
             <div style={{ borderTop: '1px solid var(--border)', padding: '1.25rem 0' }}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
-                        © {year} LyricDisplay contributors · Trademarks reserved
+                        © {year} LyricDisplay · Trademarks reserved
                     </p>
                     <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.04em' }}>
                         GPL-3.0-or-later · Built by Peter Alakembi &amp; David Okaliwe
